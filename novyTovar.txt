@@ -1,0 +1,4 @@
+Hlava 22///Joseph Heller///ISBN-832-321-3213///100///452///19.99///SVETOVA_LIT
+Hlava 22///Joseph Heller///ISBN-832-321-3213///200///452///19.99///SVETOVA_LIT
+Hlava 21///Joseph Heller///ISBN-832-321-3222///100///452///19.99///SVETOVA_LIT
+Bitunok čislo 5///Kurt Vonnegut///ISBN-832-321-3231///100///150///9.99///SVETOVA_LIT
