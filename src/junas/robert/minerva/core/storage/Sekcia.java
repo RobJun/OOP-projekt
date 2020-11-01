@@ -57,4 +57,24 @@ public class Sekcia {
         System.out.println();
     }
 
+    public int najdiMiesto(int pocet){
+        for(int j = 0; j < regale.length;j++){
+            if(pocet <= regale[j].getMiesto()){
+               return j;
+            }
+        }
+        return -1;
+    }
+
+    public int najdiNajvacsieMiesto() {
+        int max = 0;
+        int index = -1;
+        for(int i = 0; i < regale.length;i++){
+         if(max < regale[i].getMiesto()){
+             max = regale[i].getMiesto();
+             index = i;
+         }
+        }
+        return index;
+    }
 }

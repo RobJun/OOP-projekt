@@ -26,8 +26,11 @@ public class Regal {
         volneMiesto -= p;
     }
 
-    public void odoberKnihy(Kniha k, int p){
-        //removebooks(k,p);
+    public int odoberKnihy(Kniha k, int p){
+        int v = removeBooks(k,p);
+        volneMiesto += v;
+        return v;
+
     }
 
     public int getMiesto(){
@@ -37,6 +40,7 @@ public class Regal {
     public ArrayList<Kniha> getZoznamKnih(){ return zoznamKnih; }
     public HashMap<String,Integer>getPocetKnih() {return  pocetKnih;}
     public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
+
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){
             zoznamKnih.get(i).printContent();
@@ -44,7 +48,7 @@ public class Regal {
         }
     }
 
-    private boolean doesBookExist(Kniha k){
+    public boolean doesBookExist(Kniha k){
         for(int i = 0 ; i < zoznamKnih.size();i++){
             if(zoznamKnih.get(i).getISBN().equals(k.getISBN())) {
                 return true;
@@ -62,5 +66,22 @@ public class Regal {
         }else{
             pocetKnih.replace(k.getISBN(),pocetKnih.get(k.getISBN()) + p);
         }
+    }
+
+    protected int removeBooks(Kniha k, int p){
+        if(doesBookExist(k)){
+            int pocet = getPocetKnih(k.getISBN());
+            int vymazanych = p;
+            if(pocet - p <1){
+                vymazanych = pocet;
+                zoznamKnih.remove(k);
+                pocetKnih.remove(k.getISBN());
+            }else{
+                pocetKnih.replace(k.getISBN(),pocet-p);
+            }
+
+            return vymazanych;
+        }
+        return -1;
     }
 }

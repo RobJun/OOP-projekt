@@ -5,10 +5,13 @@ import junas.robert.minerva.core.storage.NoveKnihy;
 import junas.robert.minerva.core.storage.Regal;
 import junas.robert.minerva.core.storage.Sekcia;
 
+import java.util.ArrayList;
+
 public class Sklad  extends Miestnost {
 
         Sekcia[] sekcie;
         private NoveKnihy novyTovar;
+        private ArrayList<Kniha> katalog;
 
         public Sklad(){
             super();
@@ -28,18 +31,20 @@ public class Sklad  extends Miestnost {
             }
         }
 
-        public void objednajAUmiestni(String path){
-            objednatKnihy(path);
+        public void UmiestniNovyTovar(){
+            if(novyTovar == null) {
+                System.out.println("Novy tovar nebol objednany");
+                return;
+            }
             for(int i = 0; i < novyTovar.getZoznamKnih().size(); i++){
                 Kniha k = novyTovar.getZoznamKnih().get(i);
                 int pocet = novyTovar.getPocetKnih(k.getISBN());
                 if(umiestniKnihy(k, pocet,najdiMiestoKniham(pocet))) {
-                    novyTovar.setExhaust(i,true);
+                    novyTovar.odoberKnihy(k,pocet);
+                    i--;
                 }
             }
-            if(novyTovar.isExhausted()){
-                    novyTovar.VyhodPaletu();
-            }
+            novyTovar.VyhodPaletu();
 
         }
 
@@ -51,14 +56,20 @@ public class Sklad  extends Miestnost {
             }
         }
 
-        private void objednatKnihy(String path){
+        public void objednatKnihy(String path){
              novyTovar = new NoveKnihy(path);
+             System.out.println("Novy tovar obsahuje: ");
+             for(Kniha K : novyTovar.getZoznamKnih()){
+                 katalog.add(K);
+             }
+             novyTovar.printContent();
+             System.out.println();
         }
 
         public boolean umiestniKnihy(Kniha k, int pocet, int[]pozicia){
             if(pozicia != null){
                 sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet);
-                System.out.println("Knihy su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
+                System.out.println("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
                 System.out.println();
                 return true;
             }
@@ -68,13 +79,37 @@ public class Sklad  extends Miestnost {
         public int[] najdiMiestoKniham(int pocet){
 
             for(int i = 0; i < sekcie.length;i++){
-                Regal[] reg = sekcie[i].getRegale();
-                for(int j = 0; j < reg.length;j++){
-                    if(pocet <= reg[j].getMiesto()){
-                        return new int[] {i,j};
-                    }
+                int m = sekcie[i].najdiMiesto(pocet);
+                if(m > -1){
+                    return new int[] {i, m};
                 }
             }
             return null;
         }
+
+        public int[] najdiNajvacsieMiesto() {
+            int max = 0;
+            int indexS = -1;
+            int indexM = -1;
+            for(int i = 0; i < sekcie.length;i++){
+                int m = sekcie[i].najdiNajvacsieMiesto();
+                if(max < sekcie[i].getRegal(m).getMiesto()){
+                    System.out.println(m);
+                    max = sekcie[i].getRegal(m).getMiesto();
+                    indexM = m;
+                    indexS = i;
+                }
+            }
+            if(indexM == -1|| indexS == -1) {
+                return null;
+            }
+            return new int[]{indexS,indexM, max};
+        }
+
+        public NoveKnihy getNovyTovar(){
+            return novyTovar;
+        }
+        public Sekcia[] getSekcie() {return sekcie;}
+        public Sekcia getSekcie(int i) {return sekcie[i];}
+        public ArrayList<Kniha> getKatalog() {return katalog;}
 }

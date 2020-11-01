@@ -1,4 +1,10 @@
-Hlava 22///Joseph Heller///ISBN-832-321-3213///100///452///19.99///SVETOVA_LIT
-Hlava 22///Joseph Heller///ISBN-832-321-3213///200///452///19.99///SVETOVA_LIT
-Hlava 21///Joseph Heller///ISBN-832-321-3222///100///452///19.99///SVETOVA_LIT
-Bitunok čislo 5///Kurt Vonnegut///ISBN-832-321-3231///100///150///9.99///SVETOVA_LIT
+Hlava 22///Joseph Heller///ISBN-978-80-556-4294-9///455///406///19.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2019
+Dnešok nie je naposledy///Elan Mastai///ISBN-978-80-551-5360-5///200///421///19.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///ikar///2017
+Mengeleho Dievča///Viola Stern Fischerová; Veronika Homolová Tothová///ISBN-978-80-551-5188-5///200///367///19.99///HISTORIA///Slovensky jazyk///PEVNA///ikar///2016
+Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016
+Breakfast of Champions///Kurt Vonnegut///ISBN-978-0-099-84260-6///50///295///12.50///SVETOVA_LIT///Anglicky jazyk///BROZOVANA///penguin///2019
+Fahrenheit 451///Ray Bradbury///ISBN-978-0-00-654606-1///100///227///12.50///SVETOVA_LIT///Anglicky jazyk///BROZOVANA///HarperVoyager///2008
+Treasure island///Robert Louis Stevenson///ISBN-978-1-784-87175-8///30///323///9.99///PRE_MLADEZ///Anglicky jazyk///BROZOVANA///penguin///2016
+Great Tales of Horror///Howard Phillips Lovecraft///ISBN-978-1-4351-4037-0///60///600///17.49///SVETOVA_LIT///Anglicky jazyk///PEVNA///fall river///2012
+Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016
+Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016

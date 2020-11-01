@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Predajna extends Miestnost{
     private HashMap<String, OrganizovanaSekcia> sekcie;
-
+    private boolean otvorene;
 
     public Predajna(){
         super();
@@ -24,5 +24,18 @@ public class Predajna extends Miestnost{
             sekcie.put(v[i].toString(), new OrganizovanaSekcia(v[i]));
         }
     }
+
+    public void setOtvorene(boolean b) {
+        otvorene = b;
+    }
+
+    public boolean isOtvorene(){
+        return otvorene;
+    }
+
+    public void vypisPredajnu(){
+
+    }
+
 
 }

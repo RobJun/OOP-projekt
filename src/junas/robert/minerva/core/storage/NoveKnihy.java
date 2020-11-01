@@ -9,16 +9,11 @@ import java.util.Scanner;
 
 public class NoveKnihy extends Regal{
     private boolean exhausted;
-    private boolean[] exhaust;
 
     public NoveKnihy(String path){
         super();
         if(nacitajTovar(path)) {
             exhausted = false;
-            exhaust = new boolean[zoznamKnih.size()];
-            for(boolean b : exhaust){
-                b = false;
-            }
         }else {
             exhausted = true;
         }
@@ -26,11 +21,6 @@ public class NoveKnihy extends Regal{
 
     public boolean isExhausted() {
         return exhausted;
-    }
-
-    public void setExhaust(int index, boolean b) {
-        this.exhaust[index] = b;
-        if(checkExhaust()) exhausted = true;
     }
 
     public void VyhodPaletu(){
@@ -41,17 +31,15 @@ public class NoveKnihy extends Regal{
                 System.out.println();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                System.out.println("Paletu sa nepodarilo vyhodit");
                 System.out.println();
             }
+        }else{
+            System.out.println("Na palete su stale knihy");
         }
     }
 
-    private boolean checkExhaust(){
-        for(boolean b : exhaust){
-            if(b == false) return false;
-        }
-        return true;
+    private void checkExhaust(){
+        exhausted = (zoznamKnih.size() == 0);
     }
 
     @Override
@@ -65,10 +53,9 @@ public class NoveKnihy extends Regal{
             Scanner reader = new Scanner(zoznam);
             while(reader.hasNextLine()){
                 String kh = reader.nextLine();
-                System.out.println(kh);
                 // vo vstupnom subore su informacie o knihe rozdelene tromi /
                String[] kniha = kh.split("/{3}");
-               Kniha k = new Kniha(kniha[0], kniha[1],kniha[2], Integer.parseInt(kniha[4]), Float.parseFloat(kniha[5]), Kategoria.valueOf(kniha[6]));
+               Kniha k = new Kniha(kniha);
                 this.addBooks(k,Integer.parseInt(kniha[3]));
             }
             System.out.println();
@@ -80,4 +67,19 @@ public class NoveKnihy extends Regal{
             return false;
         }
     }
+
+    public void printContent(){
+        for(int i = 0; i < zoznamKnih.size(); i++){
+                zoznamKnih.get(i).printContent();
+                System.out.print(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
+        }
+    }
+
+    @Override
+    public int odoberKnihy(Kniha k, int p){
+        int v = removeBooks(k,p);
+        return v;
+
+    }
+
 }
