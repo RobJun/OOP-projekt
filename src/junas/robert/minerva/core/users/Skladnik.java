@@ -18,7 +18,7 @@ public class Skladnik extends Pouzivatel{
 
     }
 
-    public void objednajtovar(@NotNull Sklad s, String path){
+    public void objednajtovar(@NotNull Sklad s,@NotNull String path){
         s.objednatKnihy(path);
     }
 
