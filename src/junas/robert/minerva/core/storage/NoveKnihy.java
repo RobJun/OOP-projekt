@@ -69,7 +69,7 @@ public class NoveKnihy extends Regal{
 
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){
-            
+
                 zoznamKnih.get(i).printContent();
                 System.out.print(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
         }

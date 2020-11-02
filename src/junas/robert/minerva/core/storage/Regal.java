@@ -40,6 +40,7 @@ public class Regal {
     public ArrayList<Kniha> getZoznamKnih(){ return zoznamKnih; }
     public HashMap<String,Integer>getPocetKnih() {return  pocetKnih;}
     public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
+    public int getPocetKnih(Kniha k){ return pocetKnih.get(k.getISBN());}
 
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){

@@ -1,6 +1,7 @@
 package junas.robert.minerva.core.users;
 
 import junas.robert.minerva.core.items.Kniha;
+import junas.robert.minerva.core.rooms.Predajna;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,5 +17,10 @@ public class Zakaznik extends Pouzivatel{
         kosik = new ArrayList<Kniha>();
         polozkyVKosiku = 0;
         pocetKnih = new HashMap<String,Integer>();
+    }
+
+
+    public boolean isOtvorene(Predajna p){
+        return  p.isOtvorene();
     }
 }
