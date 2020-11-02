@@ -40,7 +40,7 @@ public class Kniha {
         return isbn;
     }
 
-    public String[] getBasicInfo() { return new String[] {nazov,autor,isbn};}
+    public String[] getBasicInfo() { return new String[] {nazov,autor,isbn,vydavatelstvo};}
 
     public String getVydavatel() {return vydavatelstvo;}
 

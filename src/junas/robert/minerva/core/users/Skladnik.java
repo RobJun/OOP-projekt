@@ -4,6 +4,7 @@ import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.storage.NoveKnihy;
 import junas.robert.minerva.core.storage.Regal;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class Skladnik extends Pouzivatel{
 
     }
 
-    public void objednajtovar(Sklad s, String path){
+    public void objednajtovar(@NotNull Sklad s, String path){
         s.objednatKnihy(path);
     }
 
@@ -41,6 +42,19 @@ public class Skladnik extends Pouzivatel{
                  pridajKnihy(k,pocet);
              }
          }
+    }
+
+    private Kniha najdReferenciuNaKnihu(Sklad s, int i){
+        return s.getKatalog().get(i);
+    }
+
+    private Kniha najdReferenciuNaKnihu(Sklad s, String id){
+        for(Kniha kp : s.getKatalog()){
+            if(kp.getISBN().equals(id) || kp.getBasicInfo()[0].equals(id)){
+                return kp;
+                }
+        }
+        return null;
     }
 
     private void pridajKnihy(Kniha k,int pocet){

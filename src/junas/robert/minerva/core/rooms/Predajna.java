@@ -7,7 +7,7 @@ import junas.robert.minerva.core.utils.Kategoria;
 import java.util.HashMap;
 
 public class Predajna extends Miestnost{
-    private HashMap<String, OrganizovanaSekcia> sekcie;
+    private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
     private boolean otvorene;
 
     public Predajna(){
@@ -18,10 +18,10 @@ public class Predajna extends Miestnost{
 
     @Override
     protected void init(int velkost){
-        sekcie = new HashMap<String, OrganizovanaSekcia>();
+        sekcie = new HashMap<Kategoria, OrganizovanaSekcia>();
         Kategoria[] v = Kategoria.values();
         for(int i = 1; i < v.length;i++){
-            sekcie.put(v[i].toString(), new OrganizovanaSekcia(v[i]));
+            sekcie.put(v[i], new OrganizovanaSekcia(v[i]));
         }
     }
 

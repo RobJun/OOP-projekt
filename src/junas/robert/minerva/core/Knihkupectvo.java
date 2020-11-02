@@ -64,6 +64,7 @@ public class Knihkupectvo {
                         System.out.println("info-n - informacie o novom tovare");
                         System.out.println("info-me - informacie o mne");
                         System.out.println("sklad - vypis cely sklad");
+                        System.out.println("katalog - vypise vsetky knihy ktore sa nachadzaju/li v sklade");
                         System.out.println("logout - odhlasit sa");
                         System.out.println("help - vypis pomocky");
                         System.out.println("exit - vypni system");
@@ -83,9 +84,8 @@ public class Knihkupectvo {
                         if(knihkupectvo.sklad.getNovyTovar() != null) {
                             knihkupectvo.sklad.getNovyTovar().printContent();
                         }
-                        int[] s = knihkupectvo.sklad.najdiNajvacsieMiesto();
-                        System.out.println(s[0]+"-"+s[1]);
-
+                    }else if(command.equals("katalog")){
+                        knihkupectvo.sklad.printKatalog();
                     }
                     break;
                 case NOONE:

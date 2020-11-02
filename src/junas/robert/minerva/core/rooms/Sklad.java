@@ -24,6 +24,7 @@ public class Sklad  extends Miestnost {
 
         @Override
         protected void init(int velkost){
+            katalog = new ArrayList<Kniha>();
             this.velkost = velkost;
             sekcie = new Sekcia[velkost];
             for(int i = 0; i < velkost;i++){
@@ -112,4 +113,14 @@ public class Sklad  extends Miestnost {
         public Sekcia[] getSekcie() {return sekcie;}
         public Sekcia getSekcie(int i) {return sekcie[i];}
         public ArrayList<Kniha> getKatalog() {return katalog;}
+
+
+        public void printKatalog() {
+            int i = 0;
+            for(Kniha k : katalog){
+                String[] s = k.getBasicInfo();
+                System.out.println(i++ + ": " + s[0] + " - " + s[1] + " - { " +s[2] + " - " +s[3] + " }");
+
+            }
+        }
 }

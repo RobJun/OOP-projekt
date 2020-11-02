@@ -9,7 +9,7 @@ public class Sekcia {
     public static final int defaultSize = 5;
 
 
-    Sekcia(){}
+    public Sekcia(){}
 
     public Sekcia(String nazov){
         init(Kategoria.valueOf(nazov), defaultSize);

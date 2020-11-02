@@ -1,6 +1,5 @@
 package junas.robert.minerva.core.storage;
 
-import junas.robert.minerva.core.utils.Kategoria;
 import junas.robert.minerva.core.items.Kniha;
 
 import java.io.File;
@@ -12,7 +11,7 @@ public class NoveKnihy extends Regal{
 
     public NoveKnihy(String path){
         super();
-        if(nacitajTovar(path)) {
+        if(nacitajKnihy(path)) {
             exhausted = false;
         }else {
             exhausted = true;
@@ -34,7 +33,7 @@ public class NoveKnihy extends Regal{
                 System.out.println();
             }
         }else{
-            System.out.println("Na palete su stale knihy");
+            System.out.println("Na palete su stale knihy\n");
         }
     }
 
@@ -47,7 +46,7 @@ public class NoveKnihy extends Regal{
         return -1;
     }
 
-    public boolean nacitajTovar(String path){
+    public boolean nacitajKnihy(String path){
         try {
             File zoznam = new File(path);
             Scanner reader = new Scanner(zoznam);
