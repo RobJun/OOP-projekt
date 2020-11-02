@@ -6,10 +6,10 @@ public class Sekcia {
     private Kategoria nazov;
     private Regal[] regale;
 
-    public static final int defaultSize = 5;
+    public static final int defaultSize = 3;
 
 
-    public Sekcia(){}
+    public Sekcia(){init(Kategoria.UNDEFINED,defaultSize);}
 
     public Sekcia(String nazov){
         init(Kategoria.valueOf(nazov), defaultSize);

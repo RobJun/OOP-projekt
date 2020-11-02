@@ -72,7 +72,7 @@ public class Regal {
         if(doesBookExist(k)){
             int pocet = getPocetKnih(k.getISBN());
             int vymazanych = p;
-            if(pocet - p <1){
+            if(pocet <= p){
                 vymazanych = pocet;
                 zoznamKnih.remove(k);
                 pocetKnih.remove(k.getISBN());

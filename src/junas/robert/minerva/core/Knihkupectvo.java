@@ -1,5 +1,6 @@
 package junas.robert.minerva.core;
 
+import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.users.Pouzivatel;
@@ -22,6 +23,44 @@ public class Knihkupectvo {
 
 
     public static void main(String[] args) {
+        Knihkupectvo knihk = new Knihkupectvo();
+        Skladnik user =new Skladnik("Jozo", 21312321);
+        user.objednajtovar(knihk.sklad, "./novyTovar.txt");
+
+        knihk.sklad.getNovyTovar().printContent();
+        user.umiestniNovyT(knihk.sklad);
+
+        knihk.sklad.getNovyTovar().printContent();
+
+       while(knihk.sklad.getNovyTovar().getZoznamKnih().size() != 0){
+
+            Kniha k = knihk.sklad.getNovyTovar().getZoznamKnih().get(0);
+            user.odoberKnihyZRegalu(knihk.sklad,k,knihk.sklad.getNovyTovar().getPocetKnih(k.getISBN()),null);
+
+            System.out.println();
+            knihk.sklad.getNovyTovar().printContent();
+
+            while(user.getPocetNosenych() > 0) {
+                int[] miesto = knihk.sklad.najdiNajvacsieMiesto();
+                user.umiestniKnihyDoRegalu(knihk.sklad, miesto, miesto[2]);
+            }
+        }
+        knihk.sklad.getNovyTovar().VyhodPaletu();
+
+        knihk.sklad.printSklad();
+
+        knihk.sklad.printKatalog();
+
+
+
+        Kniha ref = user.najdReferenciuNaKnihu(knihk.sklad,"ISBN-978-80-556-0637-8");
+        user.odoberKnihyZRegalu(knihk.sklad, ref,100,new int[]{3,1});
+        user.umiestniKnihyDoRegalu(knihk.sklad,new int[]{2,2},100);
+
+        knihk.sklad.printSklad();
+    }
+
+    private static void mainloop(){
         Pouzivatel p = new Zakaznik();
 
         Scanner scanner = new Scanner(System.in);

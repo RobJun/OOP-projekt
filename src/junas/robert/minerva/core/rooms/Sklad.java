@@ -28,7 +28,7 @@ public class Sklad  extends Miestnost {
             this.velkost = velkost;
             sekcie = new Sekcia[velkost];
             for(int i = 0; i < velkost;i++){
-                sekcie[i] = new Sekcia(5);
+                sekcie[i] = new Sekcia();
             }
         }
 
@@ -94,8 +94,8 @@ public class Sklad  extends Miestnost {
             int indexM = -1;
             for(int i = 0; i < sekcie.length;i++){
                 int m = sekcie[i].najdiNajvacsieMiesto();
+                if(m == -1) continue;
                 if(max < sekcie[i].getRegal(m).getMiesto()){
-                    System.out.println(m);
                     max = sekcie[i].getRegal(m).getMiesto();
                     indexM = m;
                     indexS = i;

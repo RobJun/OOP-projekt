@@ -7,6 +7,7 @@ public enum Kategoria {
     POEZIA,
     PRE_MLADEZ,
     PRE_DOSPELYCH,
-    BESTSELLER,
-    HISTORIA
+    HISTORIA,
+    FANTASY,
+    BESTSELLER
 }

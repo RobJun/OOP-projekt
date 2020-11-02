@@ -9,14 +9,16 @@ public abstract class Pouzivatel {
         this.id =id;
     };
 
+    ///funkcia ktora povie programu nech hlavny loop programu ukonci
     public void exit(){
         close = true;
     }
 
+    ///funckia ktora zistuje ci sa hlavny loop konci
     public boolean closeCallback(){
         return close;
     }
-
+    ///vypise meno a id uzivatela
     public void vypisInfo(){
         System.out.println(meno + " ["+ id+"]");
     }

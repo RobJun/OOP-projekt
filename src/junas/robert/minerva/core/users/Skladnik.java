@@ -31,24 +31,40 @@ public class Skladnik extends Pouzivatel{
         if(kniha != null) return;
          if(pozicia == null){
              NoveKnihy r = s.getNovyTovar();
-             if(r.doesBookExist(k)) {
-                 r.odoberKnihy(k, pocet);
-                 pridajKnihy(k, pocet);
+             if(r != null && r.doesBookExist(k)) {
+                 int p = r.odoberKnihy(k, pocet);
+                 pridajKnihy(k, p);
              }
          }else{
              Regal r = s.getSekcie(pozicia[0]).getRegal(pozicia[1]);
              if(r.doesBookExist(k)){
-                 r.odoberKnihy(k,pocet);
-                 pridajKnihy(k,pocet);
+                 int p = r.odoberKnihy(k,pocet);
+                 pridajKnihy(k,p);
              }
          }
     }
 
-    private Kniha najdReferenciuNaKnihu(Sklad s, int i){
+    public void umiestniKnihyDoRegalu(Sklad s, int[] pozicia, int pocet){
+        if(pozicia == null) {
+            System.out.println("Neplatna pozicia");
+            return;
+        }
+        if(kniha == null){
+            System.out.println("Nemas knihy u seba");
+            return;
+        }
+        if(this.pocet < pocet) pocet = this.pocet;
+        this.pocet -= pocet;
+        s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(kniha,pocet);
+        if(this.pocet == 0) kniha = null;
+    }
+
+
+    public Kniha najdReferenciuNaKnihu(Sklad s, int i){
         return s.getKatalog().get(i);
     }
 
-    private Kniha najdReferenciuNaKnihu(Sklad s, String id){
+    public Kniha najdReferenciuNaKnihu(Sklad s, String id){
         for(Kniha kp : s.getKatalog()){
             if(kp.getISBN().equals(id) || kp.getBasicInfo()[0].equals(id)){
                 return kp;
@@ -60,5 +76,13 @@ public class Skladnik extends Pouzivatel{
     private void pridajKnihy(Kniha k,int pocet){
         kniha = k;
         this.pocet = pocet;
+    }
+
+
+    public int getPocetNosenych() {
+        return pocet;
+    }
+    public Kniha getKniha(){
+        return kniha;
     }
 }

@@ -77,6 +77,7 @@ public class NoveKnihy extends Regal{
     @Override
     public int odoberKnihy(Kniha k, int p){
         int v = removeBooks(k,p);
+        checkExhaust();
         return v;
 
     }
