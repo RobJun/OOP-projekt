@@ -58,11 +58,20 @@ public class Knihkupectvo {
         user.umiestniKnihyDoRegalu(knihk.sklad,new int[]{2,2},100);
 
         knihk.sklad.printSklad();
+
+        user.pridajHodinu();
+        user.pridajHodinu();
+        user.pridajHodinu();
+        user.pridajHodinu();
+
+        System.out.println(user.vypocitajPlat());
+
+
+       // mainloop();
     }
 
     private static void mainloop(){
         Pouzivatel p = new Zakaznik();
-
         Scanner scanner = new Scanner(System.in);
         Knihkupectvo knihkupectvo = new Knihkupectvo();
 

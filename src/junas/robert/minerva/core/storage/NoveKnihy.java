@@ -7,23 +7,23 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class NoveKnihy extends Regal{
-    private boolean exhausted;
+    private boolean minute;
 
     public NoveKnihy(String path){
         super();
         if(nacitajKnihy(path)) {
-            exhausted = false;
+            minute = false;
         }else {
-            exhausted = true;
+            minute = true;
         }
     }
 
-    public boolean isExhausted() {
-        return exhausted;
+    public boolean isMinute() {
+        return minute;
     }
 
     public void VyhodPaletu(){
-        if(isExhausted()){
+        if(isMinute()){
             try {
                 finalize();
                 System.out.println("Paletu sme vyhodili");
@@ -37,8 +37,8 @@ public class NoveKnihy extends Regal{
         }
     }
 
-    private void checkExhaust(){
-        exhausted = (zoznamKnih.size() == 0);
+    private void skontrolujMinutie(){
+        minute = (zoznamKnih.size() == 0);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class NoveKnihy extends Regal{
                 // vo vstupnom subore su informacie o knihe rozdelene tromi /
                String[] kniha = kh.split("/{3}");
                Kniha k = new Kniha(kniha);
-                this.addBooks(k,Integer.parseInt(kniha[3]));
+                this.pridajKnihyP(k,Integer.parseInt(kniha[3]));
             }
             System.out.println();
             reader.close();
@@ -77,8 +77,8 @@ public class NoveKnihy extends Regal{
 
     @Override
     public int odoberKnihy(Kniha k, int p){
-        int v = removeBooks(k,p);
-        checkExhaust();
+        int v = odoberKnihyP(k,p);
+        skontrolujMinutie();
         return v;
 
     }

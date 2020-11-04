@@ -22,12 +22,12 @@ public class Regal {
     }
 
     public void pridajKnihy(Kniha k, int p){
-        addBooks(k,p);
+        pridajKnihyP(k,p);
         volneMiesto -= p;
     }
 
     public int odoberKnihy(Kniha k, int p){
-        int v = removeBooks(k,p);
+        int v = odoberKnihyP(k,p);
         volneMiesto += v;
         return v;
 
@@ -49,7 +49,7 @@ public class Regal {
         }
     }
 
-    public boolean doesBookExist(Kniha k){
+    public boolean existujeKniha(Kniha k){
         for(int i = 0 ; i < zoznamKnih.size();i++){
             if(zoznamKnih.get(i).getISBN().equals(k.getISBN())) {
                 return true;
@@ -60,8 +60,8 @@ public class Regal {
 
 
 
-    protected void addBooks(Kniha k, int p){
-        if(!doesBookExist(k)){
+    protected void pridajKnihyP(Kniha k, int p){
+        if(!existujeKniha(k)){
             zoznamKnih.add(k);
             pocetKnih.put(k.getISBN(),p);
         }else{
@@ -69,8 +69,8 @@ public class Regal {
         }
     }
 
-    protected int removeBooks(Kniha k, int p){
-        if(doesBookExist(k)){
+    protected int odoberKnihyP(Kniha k, int p){
+        if(existujeKniha(k)){
             int pocet = getPocetKnih(k.getISBN());
             int vymazanych = p;
             if(pocet <= p){

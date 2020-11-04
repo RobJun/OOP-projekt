@@ -22,4 +22,5 @@ public abstract class Pouzivatel {
     public void vypisInfo(){
         System.out.println(meno + " ["+ id+"]");
     }
+
 }

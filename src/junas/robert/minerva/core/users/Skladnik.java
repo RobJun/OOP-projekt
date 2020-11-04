@@ -6,15 +6,13 @@ import junas.robert.minerva.core.storage.NoveKnihy;
 import junas.robert.minerva.core.storage.Regal;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-public class Skladnik extends Pouzivatel{
+public class Skladnik extends Zamestnanec{
     private Kniha kniha;
     private int pocet;
 
 
     public Skladnik(String meno, long id){
-        super(meno, id);
+        super(meno, id,"heslo", 4.5);
 
     }
 
@@ -31,13 +29,13 @@ public class Skladnik extends Pouzivatel{
         if(kniha != null) return;
          if(pozicia == null){
              NoveKnihy r = s.getNovyTovar();
-             if(r != null && r.doesBookExist(k)) {
+             if(r != null && r.existujeKniha(k)) {
                  int p = r.odoberKnihy(k, pocet);
                  pridajKnihy(k, p);
              }
          }else{
              Regal r = s.getSekcie(pozicia[0]).getRegal(pozicia[1]);
-             if(r.doesBookExist(k)){
+             if(r.existujeKniha(k)){
                  int p = r.odoberKnihy(k,pocet);
                  pridajKnihy(k,p);
              }
