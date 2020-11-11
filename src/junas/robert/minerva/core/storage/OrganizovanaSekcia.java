@@ -18,10 +18,6 @@ public class OrganizovanaSekcia extends Sekcia{
         init(k,pocet);
     }
 
-    public void zorad() {
-
-    }
-
     public int najdiMiesto(String nazov) {
         return 0;
     }

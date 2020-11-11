@@ -9,6 +9,7 @@ import junas.robert.minerva.core.users.Skladnik;
 import junas.robert.minerva.core.users.Zakaznik;
 import junas.robert.minerva.core.utils.LoggedIn;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Knihkupectvo {
@@ -49,6 +50,10 @@ public class Knihkupectvo {
                         Zakaznik user1 = new Zakaznik();
                         p = user1;
                         changedUser = false;
+                        if(!knihkupectvo.predajna.isOtvorene()){
+                            System.out.println("Predajna je zavreta");
+                            setPrihlaseny(LoggedIn.NOONE);
+                        }
                         break;
                     case SKLADNIK:
                         Skladnik user2 = new Skladnik("Peter", 232132131);
@@ -69,7 +74,7 @@ public class Knihkupectvo {
             }else {
                 System.out.println("Ste prihlaseny ["+prihlaseny+"] - \"help\" pre viac info");
                 command = scanner.nextLine().toLowerCase();
-                p.commands(command, knihkupectvo.sklad, knihkupectvo.predajna);
+                p.spracuj(command, knihkupectvo.sklad, knihkupectvo.predajna);
             }
         }
         System.out.println("System sa vypina");

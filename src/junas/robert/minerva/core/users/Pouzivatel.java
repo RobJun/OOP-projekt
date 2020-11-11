@@ -34,7 +34,7 @@ public abstract class Pouzivatel {
     }
 
 
-    public void commands(String s, Sklad sklad, Predajna predajna){
+    public void spracuj(String s, Sklad sklad, Predajna predajna){
         if(s.equals("help")){
             System.out.println("---Vseobecne prikazy---");
             System.out.println("info-me - informacie o mne");

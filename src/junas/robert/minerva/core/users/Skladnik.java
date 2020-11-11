@@ -1,12 +1,10 @@
 package junas.robert.minerva.core.users;
 
-import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.storage.NoveKnihy;
 import junas.robert.minerva.core.storage.Regal;
-import junas.robert.minerva.core.utils.LoggedIn;
 import org.jetbrains.annotations.NotNull;
 
 public class Skladnik extends Zamestnanec{
@@ -96,8 +94,8 @@ public class Skladnik extends Zamestnanec{
 
 
     @Override
-    public void commands(String s, Sklad sklad, Predajna predajna){
-        super.commands(s, null, null);
+    public void spracuj(String s, Sklad sklad, Predajna predajna){
+        super.spracuj(s, null, null);
         if(s.equals("help")){
             System.out.println("---prikazy skladu---");
             System.out.println("objednaj \"path\" - informacie o mne");
@@ -108,8 +106,8 @@ public class Skladnik extends Zamestnanec{
             System.out.println("premiestni n/ref /pocet //zX-X //uX-X  - s/ref = nazov/isbn/katalogove cislo knihy\n " +
                                 "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
                                 "\t\t\t\t\t\t\t\t\t\t\t moze byt null ak mas knihu v inventari] \n" +
-                                "\t\t\t\t\t\t\t\t\t\t- zX-X = pozicia z ktorej beriem [moze byt nezadane]\n"+
-                                "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme [musi byt zadane]\n" +
+                                "\t\t\t\t\t\t\t\t\t\t- zX-X = pozicia z ktorej beriem \n"+
+                                "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme \n" +
                                 "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
             System.out.println("");
 

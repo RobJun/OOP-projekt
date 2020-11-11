@@ -1,7 +1,10 @@
 package junas.robert.minerva.core.users;
 
+import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Predajna;
+import junas.robert.minerva.core.rooms.Sklad;
+import junas.robert.minerva.core.utils.LoggedIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -21,7 +24,14 @@ public class Zakaznik extends Pouzivatel{
     }
 
 
-    public boolean isOtvorene(Predajna p){
-        return  p.isOtvorene();
+    @Override
+    public void spracuj(String s, Sklad sklad, Predajna predajna){
+        super.spracuj(s,null,null);
+
+        if(s.equals("help")){
+            System.out.println("---Zakaznicke prikazy---");
+            System.out.println("kosik - vypise knihy v kosiku");
+            System.out.println("dostupnost n/s - zisti ci je kniha dostupna []");
+        }
     }
 }

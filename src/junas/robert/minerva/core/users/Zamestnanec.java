@@ -1,9 +1,7 @@
 package junas.robert.minerva.core.users;
 
-import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
-import junas.robert.minerva.core.utils.LoggedIn;
 
 abstract class Zamestnanec extends Pouzivatel{
     private double plat;
@@ -38,8 +36,8 @@ abstract class Zamestnanec extends Pouzivatel{
     }
 
     @Override
-    public void commands(String s, Sklad sklad, Predajna predajna){
-        super.commands(s,sklad,predajna);
+    public void spracuj(String s, Sklad sklad, Predajna predajna){
+        super.spracuj(s,sklad,predajna);
         pridajHodinu();
         if(s.equals("help")){
             System.out.println("---Zamestnanecke prikazy---");
