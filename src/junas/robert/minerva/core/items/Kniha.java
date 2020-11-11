@@ -30,21 +30,17 @@ public class Kniha {
         vazba = v;
         this.vydavatelstvo = vydavatelstvo;
         this.rok = rok;
+        this.predaneKusy =0;
     }
 
     public Kategoria getKategoria() {
         return kategoria;
     }
-
     public String getISBN(){
         return isbn;
     }
-
     public String[] getBasicInfo() { return new String[] {nazov,autor,isbn,vydavatelstvo};}
-
     public String getVydavatel() {return vydavatelstvo;}
-
-
     public boolean isBestseller(){
         return kategoria == Kategoria.BESTSELLER;
     }
@@ -54,7 +50,7 @@ public class Kniha {
     }
 
     public void printContent() {
-        System.out.print("\t"+ kategoria.toString() +": "+ autor + ": " +
+        System.out.print("\t"+ kategoria.toString() +": ("+jazyk+") "+ autor + ": " +
                 nazov +" ("+ isbn + ") - cena: " + cena + "€ - " + pocetStran +
                 " stran - " + vazba.toString() + " vazba - vydavatel: " + vydavatelstvo + " " + rok);
     }

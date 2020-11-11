@@ -36,7 +36,6 @@ public class Regal {
     public int getMiesto(){
         return volneMiesto;
     }
-
     public ArrayList<Kniha> getZoznamKnih(){ return zoznamKnih; }
     public HashMap<String,Integer>getPocetKnih() {return  pocetKnih;}
     public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
