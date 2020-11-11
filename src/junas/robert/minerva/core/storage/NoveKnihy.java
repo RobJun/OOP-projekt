@@ -21,8 +21,15 @@ public class NoveKnihy extends Regal{
     public boolean isMinute() {
         return minute;
     }
+    private void skontrolujMinutie(){
+        minute = (zoznamKnih.size() == 0);
+    }
+    @Override
+    public int getMiesto() {
+        return -1;
+    }
 
-    public void VyhodPaletu(){
+    public void vyhodPaletu(){
         if(isMinute()){
             try {
                 finalize();
@@ -37,14 +44,6 @@ public class NoveKnihy extends Regal{
         }
     }
 
-    private void skontrolujMinutie(){
-        minute = (zoznamKnih.size() == 0);
-    }
-
-    @Override
-    public int getMiesto() {
-        return -1;
-    }
 
     public boolean nacitajKnihy(String path){
         try {

@@ -21,19 +21,19 @@ abstract class Zamestnanec extends Pouzivatel{
         return heslo.equals(h);
     }
 
-    public double vypocitajPlat(){
-        return odrobene*plat;
-    }
-
-    public void pridajHodinu(){ odrobene++; }
-
     public double getPlat(){
         return plat;
     }
-
     public double getOdrobene(){
         return odrobene;
     }
+    public void setPlat(double p){ plat = p;}
+
+    public double vypocitajPlat(){
+        return odrobene*plat;
+    }
+    public void pridajHodinu(){ odrobene++; }
+
 
     @Override
     public void spracuj(String s, Sklad sklad, Predajna predajna){

@@ -15,23 +15,16 @@ import java.util.Scanner;
 public class Knihkupectvo {
     private Sklad sklad;
     private Predajna predajna;
-    private static LoggedIn prihlaseny = LoggedIn.NOONE;
-    private static boolean changedUser = false;
+    public static LoggedIn prihlaseny = LoggedIn.NOONE;
+    public static boolean changedUser = false;
 
     public Knihkupectvo(){
         sklad = new Sklad();
         predajna = new Predajna();
     }
 
-    public static void setPrihlaseny(LoggedIn prihlaseny) {
-        Knihkupectvo.prihlaseny = prihlaseny;
-        changedUser = true;
-    }
-
-
-    public Sklad getSklad() {
-        return sklad;
-    }
+    public Sklad getSklad() { return sklad; }
+    public Predajna getPredajna() {return predajna;}
 
     public static void main(String[] args) {
         Pouzivatel p = new Zakaznik();
@@ -52,7 +45,7 @@ public class Knihkupectvo {
                         changedUser = false;
                         if(!knihkupectvo.predajna.isOtvorene()){
                             System.out.println("Predajna je zavreta");
-                            setPrihlaseny(LoggedIn.NOONE);
+                            prihlaseny = LoggedIn.NOONE ;
                         }
                         break;
                     case SKLADNIK:
@@ -68,7 +61,7 @@ public class Knihkupectvo {
                 String s = command.toUpperCase();
                 for (LoggedIn k : LoggedIn.values()) {
                     if (s.equals(k.toString())) {
-                        setPrihlaseny(LoggedIn.valueOf(s));
+                        prihlaseny = LoggedIn.valueOf(s);
                     }
                 }
             }else {

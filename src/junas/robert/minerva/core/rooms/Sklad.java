@@ -2,7 +2,6 @@ package junas.robert.minerva.core.rooms;
 
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.storage.NoveKnihy;
-import junas.robert.minerva.core.storage.Regal;
 import junas.robert.minerva.core.storage.Sekcia;
 
 import java.util.ArrayList;
@@ -32,7 +31,17 @@ public class Sklad  extends Miestnost {
             }
         }
 
-        public void UmiestniNovyTovar(){
+        public void objednatKnihy(String path){
+            novyTovar = new NoveKnihy(path);
+            System.out.println("Novy tovar obsahuje: ");
+            for(Kniha K : novyTovar.getZoznamKnih()){
+                katalog.add(K);
+            }
+            novyTovar.printContent();
+            System.out.println();
+        }
+
+        public void umiestniNovyTovar(){
             if(novyTovar == null) {
                 System.out.println("Novy tovar nebol objednany");
                 return;
@@ -45,26 +54,8 @@ public class Sklad  extends Miestnost {
                     i--;
                 }
             }
-            novyTovar.VyhodPaletu();
+            novyTovar.vyhodPaletu();
 
-        }
-
-
-        public void printSklad(){
-            for(int i = 0; i < sekcie.length;i++){
-                System.out.println("Sekcia: " + i);
-                sekcie[i].printSekcia();
-            }
-        }
-
-        public void objednatKnihy(String path){
-             novyTovar = new NoveKnihy(path);
-             System.out.println("Novy tovar obsahuje: ");
-             for(Kniha K : novyTovar.getZoznamKnih()){
-                 katalog.add(K);
-             }
-             novyTovar.printContent();
-             System.out.println();
         }
 
         private boolean umiestniKnihy(Kniha k, int pocet, int[]pozicia){
@@ -121,6 +112,13 @@ public class Sklad  extends Miestnost {
                 String[] s = k.getBasicInfo();
                 System.out.println(i++ + ": " + s[0] + " - " + s[1] + " - { " +s[2] + " - " +s[3] + " }");
 
+            }
+        }
+
+        public void printSklad(){
+            for(int i = 0; i < sekcie.length;i++){
+                System.out.println("Sekcia: " + i);
+                sekcie[i].printSekcia();
             }
         }
 }

@@ -33,7 +33,7 @@ public class TestMain {
                 user.umiestniKnihyDoRegalu(knihk.getSklad(), miesto, miesto[2]);
             }
         }
-        knihk.getSklad().getNovyTovar().VyhodPaletu();
+        knihk.getSklad().getNovyTovar().vyhodPaletu();
 
         knihk.getSklad().printSklad();
 

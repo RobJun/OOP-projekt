@@ -3,36 +3,19 @@ package junas.robert.minerva.core.storage;
 import junas.robert.minerva.core.utils.Kategoria;
 
 public class Sekcia {
-    private Kategoria nazov;
-    private Regal[] regale;
+    protected Regal[] regale;
 
     public static final int defaultSize = 3;
 
 
-    public Sekcia(){init(Kategoria.UNDEFINED,defaultSize);}
-
-    public Sekcia(String nazov){
-        init(Kategoria.valueOf(nazov), defaultSize);
-    }
-    public Sekcia(Kategoria nazov){
-        init(nazov, defaultSize);
-    }
-
+    public Sekcia(){init(defaultSize);}
     public Sekcia(int pocetRegalov){
-        init(Kategoria.UNDEFINED, pocetRegalov);
-    }
-
-    public Sekcia(int pocetRegalov, String nazov){
-        init(Kategoria.valueOf(nazov), pocetRegalov);
-    }
-    public Sekcia(int pocetRegalov, Kategoria nazov){
-        init(nazov, pocetRegalov);
+        init(pocetRegalov);
     }
 
 
 
-    protected void init(Kategoria kat, int pocet){
-        this.nazov = nazov;
+    private void init(int pocet){
         this.regale = new Regal[pocet];
         for(int i = 0; i < pocet; i++){
             regale[i] = new Regal();
@@ -40,21 +23,12 @@ public class Sekcia {
     }
 
 
-    public Regal[] getRegale(){
+    public Regal[] getRegal(){
         return regale;
     }
 
     public Regal getRegal(int i){
         return regale[i];
-    }
-
-
-    public void printSekcia(){
-        for(int i = 0; i < regale.length;i++){
-            System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
-            regale[i].printContent();
-        }
-        System.out.println();
     }
 
     public int najdiMiesto(int pocet){
@@ -76,5 +50,14 @@ public class Sekcia {
          }
         }
         return index;
+    }
+
+
+    public void printSekcia(){
+        for(int i = 0; i < regale.length;i++){
+            System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
+            regale[i].printContent();
+        }
+        System.out.println();
     }
 }

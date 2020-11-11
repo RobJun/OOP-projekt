@@ -21,7 +21,7 @@ public class Skladnik extends Zamestnanec{
     }
 
     public void umiestniNovyT(Sklad s){
-        s.UmiestniNovyTovar();
+        s.umiestniNovyTovar();
     }
 
 

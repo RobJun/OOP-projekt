@@ -22,6 +22,10 @@ public class Predajca extends Zamestnanec{
         p.setOtvorene(false);
     }
 
+    public void predajKnihy(Zakaznik z) {
+
+    }
+
 
     @Override
     public void spracuj(String s, Sklad sklad, Predajna predajna){
