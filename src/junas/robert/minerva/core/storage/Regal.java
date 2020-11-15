@@ -21,9 +21,15 @@ public class Regal {
         volneMiesto = miesto;
     }
 
-    public void pridajKnihy(Kniha k, int p){
+    public int pridajKnihy(Kniha k, int p){
+        if(p == 0) return 0;
+        if(volneMiesto < p){
+            p = volneMiesto;
+        }
         pridajKnihyP(k,p);
         volneMiesto -= p;
+
+        return p;
     }
 
     public int odoberKnihy(Kniha k, int p){

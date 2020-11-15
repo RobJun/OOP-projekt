@@ -13,7 +13,7 @@ public class Skladnik extends Zamestnanec{
 
 
     public Skladnik(String meno, long id){
-        super(meno, id,"heslo", 4.5);
+        super(meno, id, 4.5);
     }
 
     public void objednajtovar(@NotNull Sklad s,@NotNull String path){
@@ -52,8 +52,8 @@ public class Skladnik extends Zamestnanec{
             return;
         }
         if(this.pocet < pocet) pocet = this.pocet;
-        this.pocet -= pocet;
-        s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(kniha,pocet);
+        int pridane  = s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(kniha,pocet);
+        this.pocet -= pridane;
         if(this.pocet == 0) kniha = null;
     }
 
@@ -153,9 +153,11 @@ public class Skladnik extends Zamestnanec{
             }
             if(p == -1) {p = 0;}
 
+
             if(kniha != null && zober != null){
                 System.out.println("Uz mas knihy v inventari, najprv umiestni tie");
             }else if(kniha != null && k == null){
+                if(p ==0) p = this.pocet;
                 umiestniKnihyDoRegalu(sklad,umiestni,p);
             }else if(k == null){
                 System.out.println("nezadal si knihu");

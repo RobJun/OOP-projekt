@@ -9,7 +9,7 @@ public class Predajca extends Zamestnanec{
     private int pocet;
 
     public Predajca(String meno, long id){
-        super(meno, id,"1234",3.8);
+        super(meno, id, 3.8);
         kniha = null;
         pocet =0;
     }

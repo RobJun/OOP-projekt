@@ -45,7 +45,7 @@ public abstract class Pouzivatel {
         } else if(s.equals("exit")){
             exit();
         } else if(s.equals("logout")){
-            Knihkupectvo.prihlaseny = LoggedIn.NOONE;
+            Knihkupectvo.prihlaseny = LoggedIn.NONE;
         } else if(s.equals("info-me")){
             this.vypisInfo();
         }
