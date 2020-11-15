@@ -14,10 +14,9 @@ public class Zakaznik extends Pouzivatel{
     private ArrayList<Kniha> kosik;
     private int polozkyVKosiku;
     private HashMap<String,Integer> pocetKnih;
-    private static int pocet = 0;
 
     public Zakaznik(){
-        super("Guest", pocet++);
+        super("Guest", 0);
         kosik = new ArrayList<Kniha>();
         polozkyVKosiku = 0;
         pocetKnih = new HashMap<String,Integer>();
@@ -34,4 +33,6 @@ public class Zakaznik extends Pouzivatel{
             System.out.println("dostupnost n/s - zisti ci je kniha dostupna []");
         }
     }
+
+    public ArrayList<Kniha> getKosik() { return kosik; }
 }

@@ -82,4 +82,10 @@ public class NoveKnihy extends Regal{
 
     }
 
+    @Override
+    public int pridajKnihy(Kniha k, int p){
+        System.out.println("Na paletu sa nedaju dat knihy");
+        return -1;
+    }
+
 }

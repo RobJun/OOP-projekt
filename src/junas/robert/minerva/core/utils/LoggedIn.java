@@ -1,7 +1,7 @@
 package junas.robert.minerva.core.utils;
 
 public enum LoggedIn {
-    NOONE,
+    NONE,
     ZAKAZNIK,
     PREDAJCA,
     SKLADNIK

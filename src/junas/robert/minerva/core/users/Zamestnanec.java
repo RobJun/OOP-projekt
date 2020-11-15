@@ -4,21 +4,14 @@ import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
 
 abstract class Zamestnanec extends Pouzivatel{
-    private double plat;
-    private String heslo;
-    private double odrobene;
+    protected double plat;
+    protected double odrobene;
 
 
-    Zamestnanec(String m, long id, String heslo, double plat) {
+    Zamestnanec(String m, long id, double plat) {
         super(m, id);
-        this.heslo = heslo;
         this.plat = plat;
         odrobene = 0;
-    }
-
-
-    protected boolean skontrolujHeslo(String h){
-        return heslo.equals(h);
     }
 
     public double getPlat(){
