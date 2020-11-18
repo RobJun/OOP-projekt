@@ -114,7 +114,8 @@ public class Skladnik extends Zamestnanec{
         }else if(s.equals("sklad")){
             sklad.printSklad();
         }else if(s.contains("objednaj")){
-            String f = s.split("\"")[1];
+            String f = s.split(" ")[1];
+            f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
             this.objednajtovar(sklad, f);
         }else if(s.contains("n-umiestni")){
             this.umiestniNovyT(sklad);
