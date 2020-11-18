@@ -3,7 +3,7 @@ package junas.robert.minerva.core.items;
 import junas.robert.minerva.core.utils.Kategoria;
 import junas.robert.minerva.core.utils.Vazba;
 
-public class Kniha {
+public class Kniha implements java.io.Serializable{
     private String nazov, autor, isbn, jazyk, vydavatelstvo;
     private Kategoria kategoria;
     private Vazba vazba;

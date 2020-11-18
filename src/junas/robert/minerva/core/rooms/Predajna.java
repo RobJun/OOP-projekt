@@ -6,7 +6,7 @@ import junas.robert.minerva.core.utils.Kategoria;
 
 import java.util.HashMap;
 
-public class Predajna extends Miestnost{
+public class Predajna extends Miestnost {
     private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
     private boolean otvorene;
 

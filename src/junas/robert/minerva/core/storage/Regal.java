@@ -4,7 +4,7 @@ import junas.robert.minerva.core.items.Kniha;
 
 import java.util.*;
 
-public class Regal {
+public class Regal implements java.io.Serializable{
     protected ArrayList<Kniha> zoznamKnih;
     protected HashMap<String, Integer> pocetKnih;
     public final static int miesto = 300;

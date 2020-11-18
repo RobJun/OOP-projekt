@@ -2,7 +2,7 @@ package junas.robert.minerva.core.storage;
 
 import junas.robert.minerva.core.utils.Kategoria;
 
-public class Sekcia {
+public class Sekcia implements java.io.Serializable{
     protected Regal[] regale;
 
     public static final int defaultSize = 3;

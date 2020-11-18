@@ -8,9 +8,10 @@ import junas.robert.minerva.core.users.Skladnik;
 import junas.robert.minerva.core.users.Zakaznik;
 import junas.robert.minerva.core.utils.LoggedIn;
 
+import java.io.*;
 import java.util.Scanner;
 
-public class Knihkupectvo {
+public class Knihkupectvo implements java.io.Serializable{
     private Sklad sklad;
     private Predajna predajna;
     public static LoggedIn prihlaseny = LoggedIn.NONE;
@@ -24,6 +25,32 @@ public class Knihkupectvo {
     public Sklad getSklad() { return sklad; }
     public Predajna getPredajna() {return predajna;}
 
+    public void serialize(String path){
+        try{
+            FileOutputStream fileOut = new FileOutputStream(path);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Knihkupectvo deserialize(String path){
+        try {
+            FileInputStream fileIn = new FileInputStream("./knihkupectvo.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            Knihkupectvo knihkupectvo = (Knihkupectvo) in.readObject();
+            in.close();
+            fileIn.close();
+            return knihkupectvo;
+        } catch (IOException e) {
+            return new Knihkupectvo();
+        } catch (ClassNotFoundException e) {
+            return new Knihkupectvo();
+        }
+    }
+
 
     public static void main(String[] args) {
         Pouzivatel p = new Zakaznik();
@@ -32,7 +59,8 @@ public class Knihkupectvo {
         Skladnik skladnik = new Skladnik("Peter", 232132131);
 
         Scanner scanner = new Scanner(System.in);
-        Knihkupectvo knihkupectvo = new Knihkupectvo();
+        Knihkupectvo knihkupectvo = deserialize("./knihkupectvo.ser");
+
         String command  = null;
         while(!p.closeCallback()) {
             if(changedUser) {
@@ -71,6 +99,7 @@ public class Knihkupectvo {
                 p.spracuj(command, knihkupectvo.sklad, knihkupectvo.predajna);
             }
         }
+        knihkupectvo.serialize("./knihkupectvo.ser");
         System.out.println("System sa vypina");
     }
 
