@@ -5,7 +5,7 @@ import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.utils.LoggedIn;
 
-public abstract class Pouzivatel {
+public abstract class Pouzivatel implements InputProcess {
     protected long id;
     protected String meno;
     private boolean close = false;
@@ -28,12 +28,13 @@ public abstract class Pouzivatel {
     public boolean closeCallback(){
         return close;
     }
+
     ///vypise meno a id uzivatela
     public void vypisInfo(){
         System.out.println(meno + " ["+ id+"]");
     }
 
-
+    @Override
     public void spracuj(String s, Sklad sklad, Predajna predajna){
         if(s.equals("help")){
             System.out.println("---Vseobecne prikazy---");
