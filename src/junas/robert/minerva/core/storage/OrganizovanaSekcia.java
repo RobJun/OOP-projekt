@@ -4,6 +4,8 @@ import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.utils.Kategoria;
 import junas.robert.minerva.core.utils.TypZ;
 
+import java.util.ArrayList;
+
 public class OrganizovanaSekcia extends Sekcia{
     private Kategoria nazov;
     private TypZ typZoradenia;
@@ -32,9 +34,36 @@ public class OrganizovanaSekcia extends Sekcia{
         return 0;
     }
 
-    public Kniha[] skontrolujKategorieKnih(){
-        return null;
+
+    ///vracia arraylist zle ulozenych knih
+    ///ak su knihy spravnej kategorie vracia null
+    public ArrayList<Kniha> skontrolujKategorieKnih(){
+        ArrayList<Kniha> zle = new ArrayList<>();
+        for(Regal r : regale){
+            for(Kniha k : r.getZoznamKnih()){
+                if(k.getKategoria() != nazov){
+                    zle.add(k);
+                }
+            }
+        }
+
+        if(zle.isEmpty()) {
+            kategorizovane = true;
+            return null;
+        }
+        kategorizovane = false;
+        return zle;
     }
 
     public boolean isKategorizovane() {return kategorizovane;}
+
+    @Override
+    public void printSekcia(){
+        System.out.println("Typ: " + nazov);
+        for(int i = 0; i < regale.length;i++){
+            System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
+            regale[i].printContent();
+        }
+        System.out.println();
+    }
 }

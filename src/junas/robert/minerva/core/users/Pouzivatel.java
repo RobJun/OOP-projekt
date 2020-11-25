@@ -1,23 +1,28 @@
 package junas.robert.minerva.core.users;
 
 import junas.robert.minerva.core.Knihkupectvo;
-import junas.robert.minerva.core.rooms.Predajna;
-import junas.robert.minerva.core.rooms.Sklad;
+import junas.robert.minerva.core.utils.InlineCommand;
+import junas.robert.minerva.core.utils.InputProcess;
 import junas.robert.minerva.core.utils.LoggedIn;
+import java.util.HashMap;
 
-public abstract class Pouzivatel {
+public abstract class Pouzivatel implements InputProcess {
     protected long id;
     protected String meno;
     private boolean close = false;
+    protected HashMap<String, InlineCommand> inlineAkcie;
 
-    public Pouzivatel(){
-        meno = "NOONE";
-        id = -1;
-    }
     Pouzivatel(String m, long id) {
         meno = m;
         this.id =id;
+
+        inlineAkcie = new HashMap<>();
+        inlineAkcie.put("help", (args, kh) -> help());
+        inlineAkcie.put("exit", (args, kh) -> exit());
+        inlineAkcie.put("logout", (args, kh) -> Knihkupectvo.prihlaseny = LoggedIn.NONE);
+        inlineAkcie.put("info-me", (args, kh) -> vypisInfo());
     };
+
 
     ///funkcia ktora povie programu nech hlavny loop programu ukonci
     public void exit(){
@@ -28,27 +33,26 @@ public abstract class Pouzivatel {
     public boolean closeCallback(){
         return close;
     }
+
     ///vypise meno a id uzivatela
     public void vypisInfo(){
         System.out.println(meno + " ["+ id+"]");
     }
 
 
-    public void spracuj(String s, Sklad sklad, Predajna predajna){
-        if(s.equals("help")){
-            System.out.println("---Vseobecne prikazy---");
-            System.out.println("info-me - informacie o mne");
-            System.out.println("logout - odhlasit sa");
-            System.out.println("help - vypis pomocky");
-            System.out.println("exit - vypni system");
+    public void help(){
+        System.out.println("---Vseobecne prikazy---");
+        System.out.println("info-me - informacie o mne");
+        System.out.println("logout - odhlasit sa");
+        System.out.println("help - vypis pomocky");
+        System.out.println("exit - vypni system");
+    }
 
-        } else if(s.equals("exit")){
-            exit();
-        } else if(s.equals("logout")){
-            Knihkupectvo.prihlaseny = LoggedIn.NONE;
-        } else if(s.equals("info-me")){
-            this.vypisInfo();
-        }
+    @Override
+    public void spracuj(String[] s, Knihkupectvo kh){
+            if(inlineAkcie.containsKey(s[0])) {
+                inlineAkcie.get(s[0]).process(s,kh);
+            }
     }
 
 }
