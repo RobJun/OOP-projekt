@@ -101,6 +101,7 @@ public class Skladnik extends Zamestnanec{
     }
 
     @Override
+
     public void help() {
         super.help();
         System.out.println("---prikazy skladu---");
@@ -136,6 +137,7 @@ public class Skladnik extends Zamestnanec{
                 k = najdReferenciuNaKnihu(sklad, f.replaceAll("_", " ").substring(2));
             }else if(f.contains("/")){
                 p = Integer.parseInt(f.substring(1));
+
             }
         }
         if(zober[0] == -1) {

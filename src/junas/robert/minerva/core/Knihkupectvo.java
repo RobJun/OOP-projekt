@@ -91,6 +91,7 @@ public class Knihkupectvo implements java.io.Serializable{
                 System.out.println("Prihlasit sa ako [zakaznik/predajca/skladnik]:");
                 command = scanner.nextLine();
                 String s = command.toUpperCase();
+                if(s.equals("EXIT")) p.exit();
                 for (LoggedIn k : LoggedIn.values()) {
                     if (s.equals(k.toString())) {
                         prihlaseny = LoggedIn.valueOf(s);
