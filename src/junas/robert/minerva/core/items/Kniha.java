@@ -10,6 +10,12 @@ public class Kniha implements java.io.Serializable{
     private int pocetStran, rok, predaneKusy;
     private float cena;
 
+
+    public Kniha(Kategoria k){
+        init("Sdsda","dasd","ISBN9321231",300, (float) 10.99,k,"Slovensk",Vazba.BROZOVANA,"dasdsad",2000);
+    }
+
+
     public Kniha(String[] data){
         init(data[0], data[1],data[2],
                 Integer.parseInt(data[4]), Float.parseFloat(data[5]), Kategoria.valueOf(data[6]),

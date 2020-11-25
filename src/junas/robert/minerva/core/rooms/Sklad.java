@@ -49,7 +49,7 @@ public class Sklad  extends Miestnost {
             for(int i = 0; i < novyTovar.getZoznamKnih().size(); i++){
                 Kniha k = novyTovar.getZoznamKnih().get(i);
                 int pocet = novyTovar.getPocetKnih(k.getISBN());
-                if(umiestniKnihy(k, pocet,najdiMiestoKniham(pocet))) {
+                if(umiestniKnihy(k, pocet,najdiMiestoKniham(pocet)) == 1) {
                     novyTovar.odoberKnihy(k,pocet);
                     i--;
                 }
@@ -58,14 +58,14 @@ public class Sklad  extends Miestnost {
 
         }
 
-        private boolean umiestniKnihy(Kniha k, int pocet, int[]pozicia){
+        private int umiestniKnihy(Kniha k, int pocet, int[]pozicia){
             if(pozicia != null){
                 sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet);
                 System.out.println("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
                 System.out.println();
-                return true;
+                return 1;
             }
-            return false;
+            return 0;
         }
 
         private int[] najdiMiestoKniham(int pocet){
