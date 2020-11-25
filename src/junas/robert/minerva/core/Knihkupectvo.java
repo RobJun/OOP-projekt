@@ -53,6 +53,7 @@ public class Knihkupectvo implements java.io.Serializable{
 
 
     public static void main(String[] args) {
+        //upcasting
         Pouzivatel p = new Zakaznik();
         Predajca predajca = new Predajca("Karol", 3213213);
         Zakaznik zakaznik = new Zakaznik();
@@ -66,10 +67,12 @@ public class Knihkupectvo implements java.io.Serializable{
             if(changedUser) {
                 switch (prihlaseny) {
                     case PREDAJCA:
+                        //upcasting
                         p = predajca;
                         changedUser = false;
                         break;
                     case ZAKAZNIK:
+                        //upcasting
                         p = zakaznik;
                         changedUser = false;
                         if(!knihkupectvo.predajna.isOtvorene()){
@@ -78,6 +81,7 @@ public class Knihkupectvo implements java.io.Serializable{
                         }
                         break;
                     case SKLADNIK:
+                        //upcasting
                         p = skladnik;
                         changedUser = false;
                         break;
@@ -96,7 +100,9 @@ public class Knihkupectvo implements java.io.Serializable{
             }else {
                 System.out.println("Ste prihlaseny ["+prihlaseny+"] - \"help\" pre viac info");
                 command = scanner.nextLine().toLowerCase();
-                p.spracuj(command, knihkupectvo.sklad, knihkupectvo.predajna);
+                String[] cmd = command.split(" ");
+                //upcasting
+                p.spracuj(cmd, knihkupectvo);
             }
         }
         knihkupectvo.serialize("./knihkupectvo.ser");

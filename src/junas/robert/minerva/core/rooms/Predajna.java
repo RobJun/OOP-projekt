@@ -1,10 +1,14 @@
 package junas.robert.minerva.core.rooms;
 
+import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.storage.OrganizovanaSekcia;
+import junas.robert.minerva.core.storage.Regal;
 import junas.robert.minerva.core.storage.Sekcia;
 import junas.robert.minerva.core.utils.Kategoria;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class Predajna extends Miestnost {
     private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
@@ -25,6 +29,16 @@ public class Predajna extends Miestnost {
         }
     }
 
+
+    public int umiestniKnihy(Kniha k, int pocet){
+        Sekcia s = sekcie.get(k.getKategoria());
+        for(Regal r : s.getRegal()){
+            int pr = r.pridajKnihy(k,pocet);
+            pocet -=pr;
+        }
+        return pocet;
+    }
+
     public void setOtvorene(boolean b) {
         otvorene = b;
     }
@@ -34,7 +48,12 @@ public class Predajna extends Miestnost {
     }
 
     public void vypisPredajnu(){
-
+            int i = 0;
+            for(Map.Entry<Kategoria,OrganizovanaSekcia> entry : sekcie.entrySet()){
+                System.out.println("Sekcia: " + i);
+                entry.getValue().printSekcia();
+                i++;
+            }
     }
 
 
