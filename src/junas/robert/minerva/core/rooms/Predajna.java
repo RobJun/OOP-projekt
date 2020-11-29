@@ -4,8 +4,10 @@ import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.storage.OrganizovanaSekcia;
 import junas.robert.minerva.core.storage.Regal;
 import junas.robert.minerva.core.storage.Sekcia;
+import junas.robert.minerva.core.users.Zakaznik;
 import junas.robert.minerva.core.utils.Kategoria;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -13,6 +15,9 @@ import java.util.function.BiConsumer;
 public class Predajna extends Miestnost {
     private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
     private boolean otvorene;
+    private transient Zakaznik zakaznik;
+    private ArrayList<Kniha> katalog;
+
 
     public Predajna(){
         super();
@@ -41,6 +46,7 @@ public class Predajna extends Miestnost {
 
     public void setOtvorene(boolean b) {
         otvorene = b;
+        removeZakaznik();
     }
 
     public boolean isOtvorene(){
@@ -56,5 +62,21 @@ public class Predajna extends Miestnost {
             }
     }
 
+    public void setZakaznik(Zakaznik z ){ zakaznik = z; }
 
+    public void removeZakaznik(){
+        if(!otvorene)
+            zakaznik = null;
+    }
+
+    public Zakaznik getZakaznik(){ return  zakaznik;}
+
+
+    public ArrayList<Kniha> getKatalog() {
+        return katalog;
+    }
+
+    public void setKatalog(ArrayList<Kniha> katalog) {
+        this.katalog = katalog;
+    }
 }

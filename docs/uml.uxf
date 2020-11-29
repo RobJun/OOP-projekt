@@ -52,7 +52,7 @@ PEVNA
 BROZOVANA
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>500</x><y>710</y><w>290</w><h>240</h></coordinates><panel_attributes>Skladnik
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>520</x><y>710</y><w>290</w><h>290</h></coordinates><panel_attributes>Skladnik
 Package::users
 --
 -kniha : Kniha
@@ -67,8 +67,10 @@ Package::users
 -pridajKnihy(Kniha, Int) : Void
 +getPocetNosenych() : Int
 +getKniha() : Kniha
-+spracuj(String, Sklad, Predajna) : Void
-+vypisInfo() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>530</y><w>250</w><h>140</h></coordinates><panel_attributes>Zakaznik
++vypisInfo() : void
++help() : void
+-objednajCommandj(String[], Sklad) : void
+-premiestniCommand(String[], Sklad) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>530</y><w>250</w><h>140</h></coordinates><panel_attributes>Zakaznik
 Package::users
 --
 -kosik : Kniha[]
@@ -76,7 +78,8 @@ Package::users
 -pocetKnih : Map&lt;String,Int&gt;
 --
 +spracuj(String, Sklad, Predajna) : Void
-+getKosik() : Map&lt;String,Int&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>200</y><w>220</w><h>280</h></coordinates><panel_attributes>Sklad
++getKosik() : Map&lt;String,Int&gt;
++help()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>200</y><w>220</w><h>280</h></coordinates><panel_attributes>Sklad
 Package::rooms
 --
 -sekcie : Sekcia[]
@@ -169,18 +172,20 @@ ZAKAZNIK
 PREDAJCA
 SKLADNIK
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>540</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>780</y><w>230</w><h>170</h></coordinates><panel_attributes>Pouzivatel
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>540</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>780</y><w>240</w><h>200</h></coordinates><panel_attributes>Pouzivatel
 Package::users
 Abstract
 --
 #id : Long
 #meno : String
 -close : bool
+#inlineAkcie : Map&lt;String, InlineCommand&gt; 
 --
 +vypisInfo() : void
 +exit() : void
 +closeCallback() : bool
-+spracuj(String, Sklad, Predajna) : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>660</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>810</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>280</y><w>150</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>540</y><w>270</w><h>150</h></coordinates><panel_attributes>Predajca
++spracuj(String[],Knihkupectvo) : Void
++help() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>660</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>810</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>280</y><w>150</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>540</y><w>270</w><h>150</h></coordinates><panel_attributes>Predajca
 Package::users
 --
 -kniha : Kniha
@@ -189,7 +194,7 @@ Package::users
 +otvorPredajnu(Predajna) : Void
 +zavriPredajnu(Predajna) : Void
 +predajKnihy(Zakaznik) : Void
-+spracuj(String, Sklad, Predajna) : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>500</y><w>90</w><h>120</h></coordinates><panel_attributes>Zoradenie
++help() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>500</y><w>90</w><h>120</h></coordinates><panel_attributes>Zoradenie
 Package::utils
 {enum}
 --
@@ -211,7 +216,7 @@ Package::utils
     BESTSELLER
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>140</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>740</y><w>210</w><h>220</h></coordinates><panel_attributes>/Zamestnanec/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>140</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>740</y><w>220</w><h>220</h></coordinates><panel_attributes>/Zamestnanec/
 Package::user
 Abstract
 --
@@ -224,19 +229,19 @@ Abstract
 +getOdrobene() : Int
 +vypocitajPlat() : Double
 +pridajHodinu() : Void
-+spracuj(String, Sklad, Predajna) : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>810</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>590</y><w>60</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;20;40;20</additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>450</y><w>100</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;10;10;50;80;90</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>450</y><w>130</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>110;10;110;30;90;40;40;40;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>700</x><y>470</y><w>30</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>10</x><y>360</y><w>180</w><h>440</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>160;10;10;90;10;390;50;420</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>0</y><w>800</w><h>800</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>780;200;780;130;660;20;200;20;10;240;10;750;50;780</additional_attributes></element><element><id>Relation</id><coordinates><x>730</x><y>570</y><w>830</w><h>450</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>770;10;810;80;810;430;60;430;10;380</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>570</y><w>790</w><h>440</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>730;10;770;90;770;420;50;420;10;380</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>170</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;90;130;10;310;10;370;80;430;80;460;110</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>450</y><w>790</w><h>540</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;40;190;40;230;80;230;160;280;200;370;200;420;250;420;480;470;520;700;520;770;460;770;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>1010</y><w>180</w><h>60</h></coordinates><panel_attributes>InputCommand
++spracuj(String[], Knihkupectvo) : Void
++help() :void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>810</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>590</y><w>60</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;20;40;20</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>450</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;10;10;30;30;50;70;50;90;70;90;90</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>450</y><w>130</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>110;10;110;30;90;40;40;40;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>470</y><w>30</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>0</y><w>510</w><h>800</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>490;30;470;10;200;10;10;240;10;750;50;780</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>570</y><w>800</w><h>490</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>740;10;780;80;780;470;50;470;10;430</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>170</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;90;130;10;310;10;370;80;430;80;460;110</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>450</y><w>790</w><h>540</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;40;190;40;240;90;240;160;280;200;390;200;430;250;430;480;470;520;700;520;770;460;770;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>1050</y><w>180</w><h>60</h></coordinates><panel_attributes>InputCommand
 interface
 --
 process(Miestnost) : Void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>150</x><y>940</y><w>180</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>160;70;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>220</x><y>1010</y><w>210</w><h>60</h></coordinates><panel_attributes>InputProcess
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>970</y><w>210</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>190;80;170;50;30;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>1050</y><w>210</w><h>80</h></coordinates><panel_attributes>InputProcess
 interface
 --
 spracuj(String, Sklad, Predajna) : Void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>940</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element></diagram>
+help() : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>970</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>570</y><w>780</w><h>480</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>710;10;760;90;760;460;40;460;10;430</additional_attributes></element></diagram>

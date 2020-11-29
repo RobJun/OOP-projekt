@@ -17,9 +17,15 @@ public class Skladnik extends Zamestnanec{
 
         inlineAkcie.put("sklad", ((args, kh) -> kh.getSklad().printSklad()));
         inlineAkcie.put("n-umiestni", (args, kh) -> umiestniNovyT(kh.getSklad()));
-        inlineAkcie.put("info-n", (args, kh) -> {if( (kh.getSklad()).getNovyTovar() != null) {  (kh.getSklad()).getNovyTovar().printContent(); }});
+        inlineAkcie.put("info-n", (args, kh) -> {
+            if( (kh.getSklad()).getNovyTovar() != null) {
+                (kh.getSklad()).getNovyTovar().printContent();
+            }});
         inlineAkcie.put("katalog", (args, kh) -> (kh.getSklad()).printKatalog());
-        inlineAkcie.put("objednaj", ((args, kh) -> objednaj(args,kh.getSklad())));
+        inlineAkcie.put("objednaj", ((args, kh) -> {
+            objednaj(args,kh.getSklad());
+            kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
+        }));
         inlineAkcie.put("premiestni", ((args, kh) -> premiestni(args,kh.getSklad())));
 
     }
@@ -65,20 +71,6 @@ public class Skladnik extends Zamestnanec{
         if(this.pocet == 0) kniha = null;
     }
 
-
-    public Kniha najdReferenciuNaKnihu(Sklad s, int i){
-        return s.getKatalog().get(i);
-    }
-
-    public Kniha najdReferenciuNaKnihu(Sklad s, String id){
-        for(Kniha kp : s.getKatalog()){
-            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
-                return kp;
-                }
-        }
-        return null;
-    }
-
     private void pridajKnihy(Kniha k,int pocet){
         kniha = k;
         this.pocet = pocet;
@@ -109,7 +101,6 @@ public class Skladnik extends Zamestnanec{
         System.out.println("n-umiestni - automacticky najde a umiestni knihy na miesta kde sa zmestia");
         System.out.println("info-n - informacie o novom tovare");
         System.out.println("sklad - vypis cely sklad");
-        System.out.println("katalog - vypise vsetky knihy ktore sa nachadzaju/li v sklade");
         System.out.println("premiestni n/ref /pocet //zX-X //uX-X  - s/ref = nazov/isbn/katalogove cislo knihy\n " +
                 "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t moze byt null ak mas knihu v inventari] \n" +

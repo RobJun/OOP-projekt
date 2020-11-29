@@ -50,10 +50,12 @@ public class Kniha implements java.io.Serializable{
     public boolean isBestseller(){
         return kategoria == Kategoria.BESTSELLER;
     }
+    public float getCena(){ return cena;}
 
     public void setBestseller(){
         kategoria = Kategoria.BESTSELLER;
     }
+    public void predaj(int pocet) { this.predaneKusy+= pocet;}
 
     public void printContent() {
         System.out.print("\t"+ kategoria.toString() +": ("+jazyk+") "+ autor + ": " +

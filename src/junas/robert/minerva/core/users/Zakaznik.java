@@ -8,14 +8,14 @@ import java.util.HashMap;
 
 public class Zakaznik extends Pouzivatel{
     private ArrayList<Kniha> kosik;
-    private int polozkyVKosiku;
     private HashMap<String,Integer> pocetKnih;
 
     public Zakaznik(){
         super("Guest", 0);
         kosik = new ArrayList<Kniha>();
-        polozkyVKosiku = 0;
         pocetKnih = new HashMap<String,Integer>();
+
+        inlineAkcie.put("kosik", (args, kh) -> vypisKosik());
     }
 
     @Override
@@ -23,14 +23,34 @@ public class Zakaznik extends Pouzivatel{
         super.help();
         System.out.println("---Zakaznicke prikazy---");
         System.out.println("kosik - vypise knihy v kosiku");
-        System.out.println("dostupnost n/s - zisti ci je kniha dostupna []");
     }
 
-
-    @Override
-    public void spracuj(String[] s, Knihkupectvo kh){
-        super.spracuj(s, kh);
+    public void vypisKosik(){
+        if(kosik.isEmpty()) {
+            System.out.println("kosik je prazdny");
+            return;
+        }
+        for(int i = 0; i < kosik.size(); i++){
+            kosik.get(i).printContent();
+            System.out.print(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
+        }
     }
 
     public ArrayList<Kniha> getKosik() { return kosik; }
+    public int getPocetKnih(String isbn) {return pocetKnih.get(isbn);}
+
+    public void odoberKnihy(Kniha k, int pocet) {
+        int p = pocetKnih.get(k.getISBN());
+        if(pocet >= p) {
+            kosik.remove(k);
+            pocetKnih.remove(k.getISBN());
+        }else {
+            pocetKnih.replace(k.getISBN(),p-pocet);
+        }
+    }
+
+    public void pridajKnihy(Kniha k, int pocet){
+        kosik.add(k);
+        pocetKnih.put(k.getISBN(),pocet);
+    }
 }

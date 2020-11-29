@@ -1,5 +1,6 @@
 package junas.robert.minerva.core;
 
+import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.users.Pouzivatel;
@@ -9,6 +10,8 @@ import junas.robert.minerva.core.users.Zakaznik;
 import junas.robert.minerva.core.utils.LoggedIn;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Knihkupectvo implements java.io.Serializable{
@@ -73,11 +76,13 @@ public class Knihkupectvo implements java.io.Serializable{
                         break;
                     case ZAKAZNIK:
                         //upcasting
-                        p = zakaznik;
-                        changedUser = false;
                         if(!knihkupectvo.predajna.isOtvorene()){
                             System.out.println("Predajna je zavreta");
                             prihlaseny = LoggedIn.NONE;
+                        }else {
+                            p = zakaznik;
+                            knihkupectvo.getPredajna().setZakaznik(zakaznik);
+                            changedUser = false;
                         }
                         break;
                     case SKLADNIK:
