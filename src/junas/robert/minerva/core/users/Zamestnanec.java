@@ -46,19 +46,4 @@ abstract class Zamestnanec extends Pouzivatel{
         super.spracuj(s, kh);
         pridajHodinu();
     }
-
-
-
-    public Kniha najdReferenciuNaKnihu(Sklad s, int i){
-        return s.getKatalog().get(i);
-    }
-
-    public Kniha najdReferenciuNaKnihu(Sklad s, String id){
-        for(Kniha kp : s.getKatalog()){
-            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
-                return kp;
-            }
-        }
-        return null;
-    }
 }

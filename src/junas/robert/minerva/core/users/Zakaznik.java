@@ -2,6 +2,7 @@ package junas.robert.minerva.core.users;
 
 import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
+import junas.robert.minerva.core.rooms.Predajna;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ public class Zakaznik extends Pouzivatel{
         pocetKnih = new HashMap<String,Integer>();
 
         inlineAkcie.put("kosik", (args, kh) -> vypisKosik());
+        inlineAkcie.put("predajna", (args,kh) -> kh.getPredajna().vypisPredajnu() );
+        inlineAkcie.put("zober", (args, kh) -> dajDoKosika(args,kh.getPredajna()));
     }
 
     @Override
@@ -23,6 +26,7 @@ public class Zakaznik extends Pouzivatel{
         super.help();
         System.out.println("---Zakaznicke prikazy---");
         System.out.println("kosik - vypise knihy v kosiku");
+        System.out.println("predajna - vypise predajnu");
     }
 
     public void vypisKosik(){
@@ -49,8 +53,42 @@ public class Zakaznik extends Pouzivatel{
         }
     }
 
-    public void pridajKnihy(Kniha k, int pocet){
-        kosik.add(k);
-        pocetKnih.put(k.getISBN(),pocet);
+    private void pridajKnihy(Kniha k, int pocet){
+        if(kosik.contains(k)){
+            int z = pocetKnih.get(k.getISBN());
+            pocetKnih.replace(k.getISBN(),z+pocet);
+        }
+        else {
+            kosik.add(k);
+            pocetKnih.put(k.getISBN(), pocet);
+        }
     }
+
+    private void dajDoKosika(String[] args, Predajna pr){
+        Kniha k = null;
+        int p = -1;
+        for(String f : args){
+            if(f.contains("i/")){
+                k = najdReferenciuNaKnihu(pr, Integer.parseInt(f.substring(2)));
+            }else if(f.contains("s/")){
+                k = najdReferenciuNaKnihu(pr, f.replaceAll("_", " ").substring(2));
+            }else if(f.contains("/")){
+                p = Integer.parseInt(f.substring(1));
+            }
+        }
+
+        if(k == null || p < 1){
+            System.out.println("Kniha neexistuje alebo si zadal zly pocet");
+            return;
+        }
+
+        int z = pr.odoberKnihy(k,p);
+        if(z == -1){
+            System.out.println("Kniha nie je na predajni");
+            return;
+        }
+
+        pridajKnihy(k,z);
+    }
+
 }

@@ -1,6 +1,9 @@
 package junas.robert.minerva.core.users;
 
 import junas.robert.minerva.core.Knihkupectvo;
+import junas.robert.minerva.core.items.Kniha;
+import junas.robert.minerva.core.rooms.Miestnost;
+import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.utils.InlineCommand;
 import junas.robert.minerva.core.utils.InputProcess;
 import junas.robert.minerva.core.utils.LoggedIn;
@@ -65,6 +68,21 @@ public abstract class Pouzivatel implements InputProcess {
                 }
                 index = k + 1;
             }
+    }
+
+
+
+    public Kniha najdReferenciuNaKnihu(Miestnost s, int i){
+        return  (s.getKatalog().isEmpty() || i >= s.getKatalog().size() ) ? null : s.getKatalog().get(i);
+    }
+
+    public Kniha najdReferenciuNaKnihu(Miestnost s, String id){
+        for(Kniha kp : s.getKatalog()){
+            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
+                return kp;
+            }
+        }
+        return null;
     }
 
 }

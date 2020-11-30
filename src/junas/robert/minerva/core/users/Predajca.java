@@ -4,6 +4,8 @@ import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Predajna;
 import junas.robert.minerva.core.rooms.Sklad;
+import junas.robert.minerva.core.storage.Regal;
+import junas.robert.minerva.core.storage.Sekcia;
 import junas.robert.minerva.core.utils.InlineCommand;
 
 public class Predajca extends Zamestnanec{
@@ -36,7 +38,8 @@ public class Predajca extends Zamestnanec{
             System.out.println("Zakaznik nema nic v kosiku");
             return;
         }
-        for(Kniha k : z.getKosik()){
+        while(!z.getKosik().isEmpty()){
+            Kniha k = z.getKosik().get(0);
             int p = z.getPocetKnih(k.getISBN());
             k.predaj(p);
             z.odoberKnihy(k,p);
@@ -57,8 +60,6 @@ public class Predajca extends Zamestnanec{
 
 
     private void prines(String[] args, Knihkupectvo kh){
-        int[] zober = new int[] {-1,-1};
-        int[] umiestni = new int[] {-1,-1};
         int p = -1;
         Kniha k = null;
         for(String f : args){
@@ -70,5 +71,36 @@ public class Predajca extends Zamestnanec{
                 p = Integer.parseInt(f.substring(1));
             }
         }
+        if((k == null && kniha == null) || p < 1){
+            System.out.println("Zadana kniha neexistuje alebo si zadal zly pocet");
+            return;
+        }
+        if(kniha == null) {
+            for (Sekcia s : kh.getSklad().getSekcie()) {
+                for (Regal r : s.getRegal()) {
+                    if (r.existujeKniha(k)) {
+                        kniha = k;
+                        pocet = r.odoberKnihy(k, p);
+                    }
+                }
+            }
+        }
+        if(kniha == null || pocet < 1){
+            System.out.println("Kniha nie je v invetnari/nenachadzala sa v sklade)");
+            return;
+        }
+        int umies =  kh.getPredajna().umiestniKnihy(kniha,pocet);
+        if(umies == 0){
+            pocet = 0;
+            kniha = null;
+        }
+
+
+
+
+
+
+
+
     }
 }

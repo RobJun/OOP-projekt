@@ -53,7 +53,7 @@ public class Kniha implements java.io.Serializable{
     public float getCena(){ return cena;}
 
     public void setBestseller(){
-        kategoria = Kategoria.BESTSELLER;
+        if(predaneKusy > 100) kategoria = Kategoria.BESTSELLER;
     }
     public void predaj(int pocet) { this.predaneKusy+= pocet;}
 

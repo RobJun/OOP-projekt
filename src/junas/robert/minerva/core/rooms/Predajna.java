@@ -44,6 +44,15 @@ public class Predajna extends Miestnost {
         return pocet;
     }
 
+    public int odoberKnihy(Kniha k, int pocet){
+        Sekcia s = sekcie.get(k.getKategoria());
+        for(Regal r : s.getRegal()){
+            int pr = r.odoberKnihy(k,pocet);
+            return pr;
+        }
+        return -1;
+    }
+
     public void setOtvorene(boolean b) {
         otvorene = b;
         removeZakaznik();
