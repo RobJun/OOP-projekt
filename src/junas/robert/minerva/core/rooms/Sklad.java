@@ -8,9 +8,8 @@ import java.util.ArrayList;
 
 public class Sklad  extends Miestnost {
 
-        Sekcia[] sekcie;
+        private Sekcia[] sekcie;
         private NoveKnihy novyTovar;
-        private ArrayList<Kniha> katalog;
 
         public Sklad(){
             super();
@@ -103,17 +102,6 @@ public class Sklad  extends Miestnost {
         }
         public Sekcia[] getSekcie() {return sekcie;}
         public Sekcia getSekcie(int i) {return sekcie[i];}
-        public ArrayList<Kniha> getKatalog() {return katalog;}
-
-
-        public void printKatalog() {
-            int i = 0;
-            for(Kniha k : katalog){
-                String[] s = k.getBasicInfo();
-                System.out.println(i++ + ": " + s[0] + " - " + s[1] + " - { " +s[2] + " - " +s[3] + " }");
-
-            }
-        }
 
         public void printSklad(){
             for(int i = 0; i < sekcie.length;i++){

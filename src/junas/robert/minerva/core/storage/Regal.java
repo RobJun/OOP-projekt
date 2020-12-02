@@ -2,6 +2,7 @@ package junas.robert.minerva.core.storage;
 
 import junas.robert.minerva.core.items.Kniha;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
 
 public class Regal implements java.io.Serializable{
@@ -47,10 +48,14 @@ public class Regal implements java.io.Serializable{
     public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
     public int getPocetKnih(Kniha k){ return pocetKnih.get(k.getISBN());}
 
-    public void printContent(){
-        for(int i = 0; i < zoznamKnih.size(); i++){
-            zoznamKnih.get(i).printContent();
-            System.out.print(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
+    public void printContent(boolean usporiadane){
+        ArrayList<Kniha> p = zoznamKnih;
+        if(usporiadane)
+            p.sort(Comparator.comparing(a -> a.getBasicInfo()[0]));
+
+        for(int i = 0; i < p.size(); i++){
+            p.get(i).printContent();
+            System.out.print(" [" + pocetKnih.get(p.get(i).getISBN()) + "]\n");
         }
     }
 
@@ -65,7 +70,7 @@ public class Regal implements java.io.Serializable{
 
 
 
-    protected void pridajKnihyP(Kniha k, int p){
+    protected final void pridajKnihyP(Kniha k, int p){
         if(!existujeKniha(k)){
             zoznamKnih.add(k);
             pocetKnih.put(k.getISBN(),p);
@@ -74,7 +79,7 @@ public class Regal implements java.io.Serializable{
         }
     }
 
-    protected int odoberKnihyP(Kniha k, int p){
+    protected final int odoberKnihyP(Kniha k, int p){
         if(existujeKniha(k)){
             int pocet = getPocetKnih(k.getISBN());
             int vymazanych = p;

@@ -5,7 +5,7 @@ import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Sklad;
 
 abstract class Zamestnanec extends Pouzivatel{
-    protected double plat;
+    protected final double plat;
     protected double odrobene;
 
 
@@ -25,7 +25,6 @@ abstract class Zamestnanec extends Pouzivatel{
     public double getOdrobene(){
         return odrobene;
     }
-    public void setPlat(double p){ plat = p;}
 
     public double vypocitajPlat(){
         return odrobene*plat;

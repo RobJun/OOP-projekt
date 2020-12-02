@@ -2,13 +2,11 @@ package junas.robert.minerva.core.storage;
 
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.utils.Kategoria;
-import junas.robert.minerva.core.utils.TypZ;
 
 import java.util.ArrayList;
 
 public class OrganizovanaSekcia extends Sekcia{
     private Kategoria nazov;
-    private TypZ typZoradenia;
     private boolean kategorizovane = false;
 
 
@@ -30,7 +28,8 @@ public class OrganizovanaSekcia extends Sekcia{
         }
     }
 
-    public int najdiMiesto(String nazov) {
+    @Override
+    public int najdiMiesto(int pocet) {
         return 0;
     }
 
@@ -62,7 +61,7 @@ public class OrganizovanaSekcia extends Sekcia{
         System.out.println("Typ: " + nazov);
         for(int i = 0; i < regale.length;i++){
             System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
-            regale[i].printContent();
+            regale[i].printContent(true);
         }
         System.out.println();
     }

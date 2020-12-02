@@ -16,7 +16,6 @@ public class Predajna extends Miestnost {
     private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
     private boolean otvorene;
     private transient Zakaznik zakaznik;
-    private ArrayList<Kniha> katalog;
 
 
     public Predajna(){
@@ -40,6 +39,7 @@ public class Predajna extends Miestnost {
         for(Regal r : s.getRegal()){
             int pr = r.pridajKnihy(k,pocet);
             pocet -=pr;
+            if(pocet == 0) return pocet;
         }
         return pocet;
     }
@@ -55,7 +55,8 @@ public class Predajna extends Miestnost {
 
     public void setOtvorene(boolean b) {
         otvorene = b;
-        removeZakaznik();
+        if(b == false)
+        setZakaznik(null);
     }
 
     public boolean isOtvorene(){
@@ -73,17 +74,7 @@ public class Predajna extends Miestnost {
 
     public void setZakaznik(Zakaznik z ){ zakaznik = z; }
 
-    public void removeZakaznik(){
-        if(!otvorene)
-            zakaznik = null;
-    }
-
     public Zakaznik getZakaznik(){ return  zakaznik;}
-
-
-    public ArrayList<Kniha> getKatalog() {
-        return katalog;
-    }
 
     public void setKatalog(ArrayList<Kniha> katalog) {
         this.katalog = katalog;

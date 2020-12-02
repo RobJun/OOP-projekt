@@ -24,19 +24,19 @@ public abstract class Pouzivatel implements InputProcess {
         inlineAkcie = new HashMap<>();
         inlineAkcie.put("help", (args, kh) -> help());
         inlineAkcie.put("exit", (args, kh) -> exit());
-        inlineAkcie.put("logout", (args, kh) -> Knihkupectvo.prihlaseny = LoggedIn.NONE);
+        inlineAkcie.put("logout", (args, kh) -> kh.setPrihlaseny(LoggedIn.NONE));
         inlineAkcie.put("info-me", (args, kh) -> vypisInfo());
         inlineAkcie.put("katalog", (args,kh) -> kh.getSklad().printKatalog());
     };
 
 
     ///funkcia ktora povie programu nech hlavny loop programu ukonci
-    public void exit(){
+    public final void exit(){
         close = true;
     }
 
     ///funckia ktora zistuje ci sa hlavny loop konci
-    public boolean closeCallback(){
+    public final boolean closeCallback(){
         return close;
     }
 
@@ -47,6 +47,7 @@ public abstract class Pouzivatel implements InputProcess {
 
 
     public void help(){
+        System.out.println("na retazenie prikazpv pouzi: <prikaz> | <prikaz> | ...");
         System.out.println("---Vseobecne prikazy---");
         System.out.println("info-me - informacie o mne");
         System.out.println("katalog - vypise katalog predajne");

@@ -53,7 +53,7 @@ public class Zakaznik extends Pouzivatel{
         }
     }
 
-    private void pridajKnihy(Kniha k, int pocet){
+    public void pridajKnihy(Kniha k, int pocet){
         if(kosik.contains(k)){
             int z = pocetKnih.get(k.getISBN());
             pocetKnih.replace(k.getISBN(),z+pocet);

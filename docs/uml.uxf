@@ -1,16 +1,20 @@
-<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>400</x><y>30</y><w>210</w><h>190</h></coordinates><panel_attributes>Knihkupectvo
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>400</x><y>0</y><w>210</w><h>240</h></coordinates><panel_attributes>Knihkupectvo
 Package::core
 --
+-instancia : Knihkupectvo
 -sklad : Sklad
 -predajna : Predajna
-+prihlaseny : LoggedIn
-+changedUser : Bool
+-prihlaseny : LoggedIn
++zmenaUzi: Bool
 --
-+main(String) : void
++getInstance() : Knihkupectvo
++getPrihlaseny() : LoggedIn
++setPrihlaseny(LoggedIn) : Void
 +getSklad() : Sklad
 +getPredajna() : Predajna
-
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1330</x><y>240</y><w>210</w><h>340</h></coordinates><panel_attributes>Kniha
++main(String) : void
++serialize(String) : Void
++deserialize(String) :  Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1330</x><y>260</y><w>210</w><h>340</h></coordinates><panel_attributes>Kniha
 Package::items
 --
 -nazov: String
@@ -29,22 +33,28 @@ Package::items
 +getKategoria() : enum Kategoria
 +getISBN(): String
 +getBasicInfo() : String[]
-+getVydavatel() : String
-+isBestseller() : bool
++getCena() : Float
 +setBestseller() : Void
++predaj(int) : Void
 +printContent() : Void
-
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>170</x><y>270</y><w>280</w><h>190</h></coordinates><panel_attributes>Predajna
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>170</x><y>290</y><w>280</w><h>250</h></coordinates><panel_attributes>Predajna
 Package::rooms
 --
 -sekcie : map&lt;Kategoria, OrganizovanaSekcia&gt;
 -otvorene : bool
+-zakaznik : Zakaznik
+
 --
 #init(Int) : void
-+vypisPredajnu() : Void
++umiestniKnihy(Kniha,Int) : int
++odoberKnihy(Knih,Int) : int
 +setOtvorene(bool) : Void
-+isOtvorene() : bool 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1380</x><y>40</y><w>120</w><h>110</h></coordinates><panel_attributes>Vazba
++isOtvorene() : bool
++vypisPredajnu() : Void
++setZakaznik(Zakaznik) : Void
++getZakaznik() : Zakaznik
++setKatalog(Kniha[]) : Void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1380</x><y>60</y><w>120</w><h>110</h></coordinates><panel_attributes>Vazba
 Package::utils
 {enum}
 --
@@ -52,39 +62,38 @@ PEVNA
 BROZOVANA
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>520</x><y>710</y><w>290</w><h>290</h></coordinates><panel_attributes>Skladnik
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>530</x><y>790</y><w>290</w><h>240</h></coordinates><panel_attributes>Skladnik
 Package::users
 --
 -kniha : Kniha
 -pocet  : Int
 --
-+objednatTovar(Sklad, String) : Void
-+umiestniNovyT(Sklad) : Void
++umiestniNovyTovar(Sklad) : Void
 +odoberKnihyZRegalu(Sklad, Kniha, int, int[]) : Void
 +umiestniKnihyDoRegalu(Sklad,int[], int) : Void
-+najdiReferenciuNaKnihu(Sklad, Int) : Kniha
-+najdiReferenciuNaKnihu(Sklad, String) : Kniha
 -pridajKnihy(Kniha, Int) : Void
 +getPocetNosenych() : Int
 +getKniha() : Kniha
 +vypisInfo() : void
 +help() : void
--objednajCommandj(String[], Sklad) : void
--premiestniCommand(String[], Sklad) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>530</y><w>250</w><h>140</h></coordinates><panel_attributes>Zakaznik
+-objednaj(String[], Sklad) : void
+-premiestni(String[], Sklad) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>590</y><w>250</w><h>180</h></coordinates><panel_attributes>Zakaznik
 Package::users
 --
 -kosik : Kniha[]
--polozkyVKosiku : Int
 -pocetKnih : Map&lt;String,Int&gt;
 --
-+spracuj(String, Sklad, Predajna) : Void
++vypisKosik() : Void
 +getKosik() : Map&lt;String,Int&gt;
-+help()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>200</y><w>220</w><h>280</h></coordinates><panel_attributes>Sklad
++ getPocetKnih(String) : Int
++odoberKnihy(Kniha,Int) : Void
++public pridajKnihy(Kniha, Int) : Void
+-dajDoKosika(String, Predajna
++help()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>650</x><y>290</y><w>220</w><h>230</h></coordinates><panel_attributes>Sklad
 Package::rooms
 --
 -sekcie : Sekcia[]
 -novyTovar : noveKnihy
--katalog : Kniha[] 
 --
 #init(Int) : void
 +objednatKnihy(String) : void
@@ -93,12 +102,10 @@ Package::rooms
 -najdiMiestoKniham() : Int[]
 +najdiNajvacsieMiesto() : int[]
 +getNovyTovar() : noveKnihy
-+getKatalog() : Kniha[]
 +getSekcie() : Sekcia[]
 +getSekcie(Int) : Sekcia
-+printKatalg() : Void
 +printSklad() : void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>210</y><w>190</w><h>210</h></coordinates><panel_attributes>Sekcie
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>230</y><w>190</w><h>210</h></coordinates><panel_attributes>Sekcie
 Package::storage
 --
 #regale : Regal[]
@@ -110,7 +117,7 @@ Package::storage
 +najdiMiesto(Int) : int
 +najdiNajvacsieMiesto() : Int
 +printSekcia() : Void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1290</x><y>640</y><w>210</w><h>300</h></coordinates><panel_attributes>Regal
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1290</x><y>660</y><w>210</w><h>300</h></coordinates><panel_attributes>Regal
 Package::storage
 --
 #zoznamKnih : Kniha[]
@@ -127,11 +134,11 @@ Package::storage
 +getPocetKnih(String) : Int 
 +getPocetKnih(Kniha) : Int 
 +existujeKniha(Kniha) : Bool
-+printContent() : Void
++printContent(Bool) : Void
 #pridajknihyP(Kniha,Int) : Void
 #odoberKnihyP(Kniha, Int) : Int
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>740</y><w>210</w><h>190</h></coordinates><panel_attributes>noveKnihy
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>760</y><w>210</w><h>190</h></coordinates><panel_attributes>noveKnihy
 Package::storage
 --
 -minute : bool
@@ -143,36 +150,29 @@ Package::storage
 +odoberKnihy(Kniha, Int) : Int
 +isMinute() : bool
 -skontrolujMinutie() : void
-+getMiesto() : Int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>210</y><w>220</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;160;40;40;40;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>550</x><y>210</y><w>130</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;50;80;110;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>310</y><w>130</w><h>130</h></coordinates><panel_attributes>/Miestnost/
++getMiesto() : Int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>230</y><w>220</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;200;30;180;40;40;40;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>550</x><y>230</y><w>120</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60;40;100;100;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>360</y><w>130</w><h>150</h></coordinates><panel_attributes>/Miestnost/
 Package::rooms
 Abstract
 --
++katalog : Kniha[]
 +defualtSize : Int
 #size : Int
 --
 #init(Int) : void
-
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1240</x><y>180</y><w>50</w><h>370</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;350;30;310;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1270</x><y>180</y><w>190</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;60;130;40;40;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>410</y><w>440</w><h>330</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;10;120;60;50;60;10;90;10;210;120;310;420;310</additional_attributes></element><element><id>Relation</id><coordinates><x>1390</x><y>570</y><w>100</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;70;10;30;60;30;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1040</x><y>830</y><w>270</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>680</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1050</x><y>480</y><w>200</w><h>190</h></coordinates><panel_attributes>OrganizovanaSekcia
++getKatalog() : Kniha[]
++printKatalog() : Void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1240</x><y>200</y><w>50</w><h>370</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;350;30;310;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1270</x><y>200</y><w>190</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;60;130;40;40;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>430</y><w>440</w><h>330</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;10;120;60;50;60;10;90;10;210;120;310;420;310</additional_attributes></element><element><id>Relation</id><coordinates><x>1390</x><y>590</y><w>100</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;70;10;30;60;30;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1040</x><y>850</y><w>270</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>750</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1050</x><y>500</y><w>200</w><h>190</h></coordinates><panel_attributes>OrganizovanaSekcia
 Package::storage
 --
 -nazov : Kategoria
--typZoradenia : TypZ
 -kategorizovane : bool
 --
 -init(Kategoria, int) : Void
-+najdiMiesto(String) : Int[]
++najdiMiesto(int) : Int
 +skontrolujKategorieKnih() : Kniha[]
 +isKategorizovane() : bool
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1140</x><y>410</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>40</y><w>90</w><h>150</h></coordinates><panel_attributes>LoggedIn
-Package::utils
-{enum}
---
-NONE
-ZAKAZNIK
-PREDAJCA
-SKLADNIK
---
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>540</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>370</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>780</y><w>240</w><h>200</h></coordinates><panel_attributes>Pouzivatel
++printSekcia() : Void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1140</x><y>430</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>420</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>390</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>800</y><w>260</w><h>230</h></coordinates><panel_attributes>/Pouzivatel/
 Package::users
 Abstract
 --
@@ -185,7 +185,9 @@ Abstract
 +exit() : void
 +closeCallback() : bool
 +spracuj(String[],Knihkupectvo) : Void
-+help() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>660</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>810</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>280</y><w>150</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>540</y><w>270</w><h>150</h></coordinates><panel_attributes>Predajca
++help() : void
++najdiReferenciuNaKnihu(Sklad, Int) : Kniha
++najdiReferenciuNaKnihu(Sklad, String) : Kniha</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>760</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>920</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>860</x><y>370</y><w>160</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>580</y><w>270</w><h>180</h></coordinates><panel_attributes>Predajca
 Package::users
 --
 -kniha : Kniha
@@ -194,14 +196,8 @@ Package::users
 +otvorPredajnu(Predajna) : Void
 +zavriPredajnu(Predajna) : Void
 +predajKnihy(Zakaznik) : Void
-+help() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>500</y><w>90</w><h>120</h></coordinates><panel_attributes>Zoradenie
-Package::utils
-{enum}
---
-NAZOV
-AUTOR
---
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>340</x><y>110</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>470</y><w>120</w><h>290</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;150;100;240;100;270</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1200</x><y>0</y><w>130</w><h>190</h></coordinates><panel_attributes>Kategoria
++help() : void
+-prines(String,kh) : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>110</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>510</y><w>120</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130;100;220;100;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1200</x><y>20</y><w>130</w><h>190</h></coordinates><panel_attributes>Kategoria
 Package::utils
 {enum}
 --
@@ -216,13 +212,12 @@ Package::utils
     BESTSELLER
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>140</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>740</y><w>220</w><h>220</h></coordinates><panel_attributes>/Zamestnanec/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1430</x><y>160</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>810</y><w>220</w><h>220</h></coordinates><panel_attributes>/Zamestnanec/
 Package::user
 Abstract
 --
 #plat : Double
 #odrobene : Int
-#inlineAkcie :InlineCommand[]
 --
 +getPlat() : Double
 +setPlat(Double) : Void
@@ -230,18 +225,30 @@ Abstract
 +vypocitajPlat() : Double
 +pridajHodinu() : Void
 +spracuj(String[], Knihkupectvo) : Void
-+help() :void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>810</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>590</y><w>60</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;20;40;20</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>450</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;10;10;30;30;50;70;50;90;70;90;90</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>450</y><w>130</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>110;10;110;30;90;40;40;40;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>470</y><w>30</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>0</y><w>510</w><h>800</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>490;30;470;10;200;10;10;240;10;750;50;780</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>570</y><w>800</w><h>490</h></coordinates><panel_attributes>lt=&lt;-
-</panel_attributes><additional_attributes>740;10;780;80;780;470;50;470;10;430</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>170</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;90;130;10;310;10;370;80;430;80;460;110</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>450</y><w>790</w><h>540</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;40;40;190;40;240;90;240;160;280;200;390;200;430;250;430;480;470;520;700;520;770;460;770;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>1050</y><w>180</w><h>60</h></coordinates><panel_attributes>InputCommand
++help() :void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>840</y><w>50</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>650</y><w>60</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;20;40;20</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>530</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;10;10;30;60;30;90;50</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>530</y><w>130</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>110;10;110;30;90;50;20;50;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>510</y><w>40</w><h>300</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>10;10;20;280</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>20</y><w>420</w><h>800</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>400;10;200;10;10;240;10;750;50;780</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>590</y><w>790</w><h>530</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>730;10;770;80;760;510;30;510;10;440</additional_attributes></element><element><id>Relation</id><coordinates><x>860</x><y>190</y><w>490</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;160;100;10;320;10;380;80;440;80;470;110</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>530</y><w>760</w><h>480</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;190;40;210;60;210;100;250;140;360;140;410;200;410;420;440;460;670;460;740;400;740;160</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>1070</y><w>210</w><h>60</h></coordinates><panel_attributes>*InputCommand*
+Package::utils
 interface
 --
-process(Miestnost) : Void
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>970</y><w>210</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>190;80;170;50;30;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>1050</y><w>210</w><h>80</h></coordinates><panel_attributes>InputProcess
+process(String, Knihkupectvo) : Void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>1020</y><w>200</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>180;40;170;20;30;20;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>1060</y><w>210</w><h>70</h></coordinates><panel_attributes>*InputProcess*
+Package::utils
 interface
 --
 spracuj(String, Sklad, Predajna) : Void
-help() : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>970</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>570</y><w>780</w><h>480</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>710;10;760;90;760;460;40;460;10;430</additional_attributes></element></diagram>
+help() : Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>780</x><y>590</y><w>770</w><h>520</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>700;10;750;90;740;500;30;500;10;440</additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>1020</y><w>70</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;.
+&lt;&lt;lamda&gt;&gt;</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>40</y><w>90</w><h>150</h></coordinates><panel_attributes>LoggedIn
+Package::utils
+{enum}
+--
+NONE
+ZAKAZNIK
+PREDAJCA
+SKLADNIK
+--
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

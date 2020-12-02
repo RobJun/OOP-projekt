@@ -94,13 +94,5 @@ public class Predajca extends Zamestnanec{
             pocet = 0;
             kniha = null;
         }
-
-
-
-
-
-
-
-
     }
 }

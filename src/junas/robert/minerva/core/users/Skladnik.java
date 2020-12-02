@@ -1,11 +1,9 @@
 package junas.robert.minerva.core.users;
 
-import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Sklad;
 import junas.robert.minerva.core.storage.NoveKnihy;
 import junas.robert.minerva.core.storage.Regal;
-import org.jetbrains.annotations.NotNull;
 
 public class Skladnik extends Zamestnanec{
     private Kniha kniha;
@@ -16,7 +14,7 @@ public class Skladnik extends Zamestnanec{
         super(meno, id, 4.5);
 
         inlineAkcie.put("sklad", ((args, kh) -> kh.getSklad().printSklad()));
-        inlineAkcie.put("n-umiestni", (args, kh) -> umiestniNovyT(kh.getSklad()));
+        inlineAkcie.put("n-umiestni", (args, kh) -> umiestniNovyTovar(kh.getSklad()));
         inlineAkcie.put("info-n", (args, kh) -> {
             if( (kh.getSklad()).getNovyTovar() != null) {
                 (kh.getSklad()).getNovyTovar().printContent();
@@ -27,14 +25,11 @@ public class Skladnik extends Zamestnanec{
             kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
         }));
         inlineAkcie.put("premiestni", ((args, kh) -> premiestni(args,kh.getSklad())));
+        inlineAkcie.put("max-miesto", ((args, kh) -> kh.getSklad().najdiNajvacsieMiesto()));
 
     }
 
-    public void objednajtovar(@NotNull Sklad s,@NotNull String path){
-        s.objednatKnihy(path);
-    }
-
-    public void umiestniNovyT(Sklad s){
+    public void umiestniNovyTovar(Sklad s){
         s.umiestniNovyTovar();
     }
 
@@ -77,9 +72,7 @@ public class Skladnik extends Zamestnanec{
     }
 
 
-    public int getPocetNosenych() {
-        return pocet;
-    }
+    public int getPocetNosenych() { return pocet; }
     public Kniha getKniha(){
         return kniha;
     }
@@ -93,7 +86,6 @@ public class Skladnik extends Zamestnanec{
     }
 
     @Override
-
     public void help() {
         super.help();
         System.out.println("---prikazy skladu---");
@@ -107,6 +99,7 @@ public class Skladnik extends Zamestnanec{
                 "\t\t\t\t\t\t\t\t\t\t- zX-X = pozicia z ktorej beriem \n"+
                 "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme \n" +
                 "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
+        System.out.println("max-miesto - najde najvacsie miesto na ulozenie");
         System.out.println("");
     }
 
@@ -158,6 +151,6 @@ public class Skladnik extends Zamestnanec{
     private void objednaj(String[] s, Sklad sklad){
         String f = s[1];
         f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
-        this.objednajtovar(sklad, f);
+        sklad.objednatKnihy(f);
     }
 }

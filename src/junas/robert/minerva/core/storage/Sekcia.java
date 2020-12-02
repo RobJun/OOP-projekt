@@ -56,7 +56,7 @@ public class Sekcia implements java.io.Serializable{
     public void printSekcia(){
         for(int i = 0; i < regale.length;i++){
             System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
-            regale[i].printContent();
+            regale[i].printContent(false);
         }
         System.out.println();
     }

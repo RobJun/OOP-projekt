@@ -6,3 +6,7 @@ public interface InputProcess {
     void spracuj(String[] s, Knihkupectvo kh);
     void help();
 }
+
+
+
+

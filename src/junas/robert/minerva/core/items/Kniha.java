@@ -3,17 +3,12 @@ package junas.robert.minerva.core.items;
 import junas.robert.minerva.core.utils.Kategoria;
 import junas.robert.minerva.core.utils.Vazba;
 
-public class Kniha implements java.io.Serializable{
+public final class Kniha implements java.io.Serializable{
     private String nazov, autor, isbn, jazyk, vydavatelstvo;
     private Kategoria kategoria;
     private Vazba vazba;
     private int pocetStran, rok, predaneKusy;
     private float cena;
-
-
-    public Kniha(Kategoria k){
-        init("Sdsda","dasd","ISBN9321231",300, (float) 10.99,k,"Slovensk",Vazba.BROZOVANA,"dasdsad",2000);
-    }
 
 
     public Kniha(String[] data){
@@ -46,16 +41,15 @@ public class Kniha implements java.io.Serializable{
         return isbn;
     }
     public String[] getBasicInfo() { return new String[] {nazov,autor,isbn,vydavatelstvo};}
-    public String getVydavatel() {return vydavatelstvo;}
-    public boolean isBestseller(){
-        return kategoria == Kategoria.BESTSELLER;
-    }
     public float getCena(){ return cena;}
 
     public void setBestseller(){
         if(predaneKusy > 100) kategoria = Kategoria.BESTSELLER;
     }
-    public void predaj(int pocet) { this.predaneKusy+= pocet;}
+    public void predaj(int pocet) {
+        this.predaneKusy+= pocet;
+        setBestseller();
+    }
 
     public void printContent() {
         System.out.print("\t"+ kategoria.toString() +": ("+jazyk+") "+ autor + ": " +
