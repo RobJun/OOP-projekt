@@ -5,7 +5,7 @@ import junas.robert.minerva.core.items.Kniha;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
 
-public class Regal implements java.io.Serializable{
+public class Regal implements java.io.Serializable {
     protected ArrayList<Kniha> zoznamKnih;
     protected HashMap<String, Integer> pocetKnih;
     public final static int miesto = 300;
@@ -22,7 +22,7 @@ public class Regal implements java.io.Serializable{
         volneMiesto = miesto;
     }
 
-    public int pridajKnihy(Kniha k, int p){
+    public int pridajKnihy(Kniha k, int p) {
         if(p == 0) return 0;
         if(volneMiesto < p){
             p = volneMiesto;
@@ -33,34 +33,32 @@ public class Regal implements java.io.Serializable{
         return p;
     }
 
-    public int odoberKnihy(Kniha k, int p){
+    public int odoberKnihy(Kniha k, int p) {
         int v = odoberKnihyP(k,p);
         volneMiesto += v;
         return v;
 
     }
 
-    public int getMiesto(){
-        return volneMiesto;
-    }
-    public ArrayList<Kniha> getZoznamKnih(){ return zoznamKnih; }
-    public HashMap<String,Integer>getPocetKnih() {return  pocetKnih;}
-    public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
-    public int getPocetKnih(Kniha k){ return pocetKnih.get(k.getISBN());}
+    public int getMiesto() { return volneMiesto; }
+    public ArrayList<Kniha> getZoznamKnih() { return zoznamKnih; }
+    public HashMap<String,Integer>getPocetKnih() { return  pocetKnih; }
+    public int getPocetKnih(String isbn) { return pocetKnih.get(isbn); }
+    public int getPocetKnih(Kniha k) { return pocetKnih.get(k.getISBN()); }
 
-    public void printContent(boolean usporiadane){
+    public void printContent(boolean usporiadane) {
         ArrayList<Kniha> p = zoznamKnih;
         if(usporiadane)
             p.sort(Comparator.comparing(a -> a.getBasicInfo()[0]));
 
-        for(int i = 0; i < p.size(); i++){
+        for(int i = 0; i < p.size(); i++) {
             p.get(i).printContent();
             System.out.print(" [" + pocetKnih.get(p.get(i).getISBN()) + "]\n");
         }
     }
 
-    public boolean existujeKniha(Kniha k){
-        for(int i = 0 ; i < zoznamKnih.size();i++){
+    public boolean existujeKniha(Kniha k) {
+        for(int i = 0 ; i < zoznamKnih.size();i++) {
             if(zoznamKnih.get(i).getISBN().equals(k.getISBN())) {
                 return true;
             }
@@ -70,24 +68,24 @@ public class Regal implements java.io.Serializable{
 
 
 
-    protected final void pridajKnihyP(Kniha k, int p){
-        if(!existujeKniha(k)){
+    protected final void pridajKnihyP(Kniha k, int p) {
+        if(!existujeKniha(k)) {
             zoznamKnih.add(k);
             pocetKnih.put(k.getISBN(),p);
-        }else{
+        }else {
             pocetKnih.replace(k.getISBN(),pocetKnih.get(k.getISBN()) + p);
         }
     }
 
-    protected final int odoberKnihyP(Kniha k, int p){
-        if(existujeKniha(k)){
+    protected final int odoberKnihyP(Kniha k, int p) {
+        if(existujeKniha(k)) {
             int pocet = getPocetKnih(k.getISBN());
             int vymazanych = p;
-            if(pocet <= p){
+            if(pocet <= p) {
                 vymazanych = pocet;
                 zoznamKnih.remove(k);
                 pocetKnih.remove(k.getISBN());
-            }else{
+            }else {
                 pocetKnih.replace(k.getISBN(),pocet-p);
             }
 

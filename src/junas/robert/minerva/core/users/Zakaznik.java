@@ -7,11 +7,11 @@ import junas.robert.minerva.core.rooms.Predajna;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Zakaznik extends Pouzivatel{
+public class Zakaznik extends Pouzivatel {
     private ArrayList<Kniha> kosik;
     private HashMap<String,Integer> pocetKnih;
 
-    public Zakaznik(){
+    public Zakaznik() {
         super("Guest", 0);
         kosik = new ArrayList<Kniha>();
         pocetKnih = new HashMap<String,Integer>();
@@ -29,12 +29,12 @@ public class Zakaznik extends Pouzivatel{
         System.out.println("predajna - vypise predajnu");
     }
 
-    public void vypisKosik(){
+    public void vypisKosik() {
         if(kosik.isEmpty()) {
             System.out.println("kosik je prazdny");
             return;
         }
-        for(int i = 0; i < kosik.size(); i++){
+        for(int i = 0; i < kosik.size(); i++) {
             kosik.get(i).printContent();
             System.out.print(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
         }
@@ -53,7 +53,7 @@ public class Zakaznik extends Pouzivatel{
         }
     }
 
-    public void pridajKnihy(Kniha k, int pocet){
+    public void pridajKnihy(Kniha k, int pocet) {
         if(kosik.contains(k)){
             int z = pocetKnih.get(k.getISBN());
             pocetKnih.replace(k.getISBN(),z+pocet);
@@ -64,26 +64,26 @@ public class Zakaznik extends Pouzivatel{
         }
     }
 
-    private void dajDoKosika(String[] args, Predajna pr){
+    private void dajDoKosika(String[] args, Predajna pr) {
         Kniha k = null;
         int p = -1;
-        for(String f : args){
-            if(f.contains("i/")){
+        for(String f : args) {
+            if(f.contains("i/")) {
                 k = najdReferenciuNaKnihu(pr, Integer.parseInt(f.substring(2)));
-            }else if(f.contains("s/")){
+            }else if(f.contains("s/")) {
                 k = najdReferenciuNaKnihu(pr, f.replaceAll("_", " ").substring(2));
-            }else if(f.contains("/")){
+            }else if(f.contains("/")) {
                 p = Integer.parseInt(f.substring(1));
             }
         }
 
-        if(k == null || p < 1){
+        if(k == null || p < 1) {
             System.out.println("Kniha neexistuje alebo si zadal zly pocet");
             return;
         }
 
         int z = pr.odoberKnihy(k,p);
-        if(z == -1){
+        if(z == -1) {
             System.out.println("Kniha nie je na predajni");
             return;
         }

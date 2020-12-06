@@ -4,7 +4,7 @@ import junas.robert.minerva.core.Knihkupectvo;
 import junas.robert.minerva.core.items.Kniha;
 import junas.robert.minerva.core.rooms.Sklad;
 
-abstract class Zamestnanec extends Pouzivatel{
+abstract class Zamestnanec extends Pouzivatel {
     protected final double plat;
     protected double odrobene;
 
@@ -41,7 +41,7 @@ abstract class Zamestnanec extends Pouzivatel{
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh){
+    public void spracuj(String[] s, Knihkupectvo kh) {
         super.spracuj(s, kh);
         pridajHodinu();
     }

@@ -46,7 +46,7 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
 
-    public void help(){
+    public void help() {
         System.out.println("na retazenie prikazpv pouzi: <prikaz> | <prikaz> | ...");
         System.out.println("---Vseobecne prikazy---");
         System.out.println("info-me - informacie o mne");
@@ -57,7 +57,7 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh){
+    public void spracuj(String[] s, Knihkupectvo kh) {
         int index = 0;
             while(index < s.length) {
                 if (inlineAkcie.containsKey(s[index])) {
@@ -73,13 +73,13 @@ public abstract class Pouzivatel implements InputProcess {
 
 
 
-    public Kniha najdReferenciuNaKnihu(Miestnost s, int i){
+    public Kniha najdReferenciuNaKnihu(Miestnost s, int i) {
         return  (s.getKatalog().isEmpty() || i >= s.getKatalog().size() ) ? null : s.getKatalog().get(i);
     }
 
-    public Kniha najdReferenciuNaKnihu(Miestnost s, String id){
-        for(Kniha kp : s.getKatalog()){
-            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
+    public Kniha najdReferenciuNaKnihu(Miestnost s, String id) {
+        for(Kniha kp : s.getKatalog()) {
+            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)) {
                 return kp;
             }
         }

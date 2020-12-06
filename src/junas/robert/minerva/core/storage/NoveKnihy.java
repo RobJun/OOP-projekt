@@ -6,10 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class NoveKnihy extends Regal{
+public class NoveKnihy extends Regal {
     private boolean minute;
 
-    public NoveKnihy(String path){
+    public NoveKnihy(String path) {
         super();
         if(nacitajKnihy(path)) {
             minute = false;
@@ -29,7 +29,7 @@ public class NoveKnihy extends Regal{
         return -1;
     }
 
-    public void vyhodPaletu(){
+    public void vyhodPaletu() {
         if(isMinute()){
             try {
                 finalize();
@@ -45,7 +45,7 @@ public class NoveKnihy extends Regal{
     }
 
 
-    public boolean nacitajKnihy(String path){
+    public boolean nacitajKnihy(String path) {
         try {
             File zoznam = new File(path);
             Scanner reader = new Scanner(zoznam);
@@ -61,12 +61,11 @@ public class NoveKnihy extends Regal{
             return true;
         } catch (FileNotFoundException e) {
             System.out.println("Novy tovar sa nepodarilo nacitat");
-            e.printStackTrace();
             return false;
         }
     }
 
-    public void printContent(){
+    public void printContent() {
         for(int i = 0; i < zoznamKnih.size(); i++){
 
                 zoznamKnih.get(i).printContent();
@@ -75,7 +74,7 @@ public class NoveKnihy extends Regal{
     }
 
     @Override
-    public int odoberKnihy(Kniha k, int p){
+    public int odoberKnihy(Kniha k, int p) {
         int v = odoberKnihyP(k,p);
         skontrolujMinutie();
         return v;
@@ -83,7 +82,7 @@ public class NoveKnihy extends Regal{
     }
 
     @Override
-    public int pridajKnihy(Kniha k, int p){
+    public int pridajKnihy(Kniha k, int p) {
         System.out.println("Na paletu sa nedaju dat knihy");
         return -1;
     }

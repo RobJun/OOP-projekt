@@ -2,22 +2,22 @@ package junas.robert.minerva.core.storage;
 
 import junas.robert.minerva.core.utils.Kategoria;
 
-public class Sekcia implements java.io.Serializable{
+public class Sekcia implements java.io.Serializable {
     protected Regal[] regale;
 
     public static final int defaultSize = 3;
 
 
-    public Sekcia(){init(defaultSize);}
+    public Sekcia(){ init(defaultSize); }
     public Sekcia(int pocetRegalov){
         init(pocetRegalov);
     }
 
 
 
-    private void init(int pocet){
+    private void init(int pocet) {
         this.regale = new Regal[pocet];
-        for(int i = 0; i < pocet; i++){
+        for(int i = 0; i < pocet; i++) {
             regale[i] = new Regal();
         }
     }
@@ -43,18 +43,18 @@ public class Sekcia implements java.io.Serializable{
     public int najdiNajvacsieMiesto() {
         int max = 0;
         int index = -1;
-        for(int i = 0; i < regale.length;i++){
-         if(max < regale[i].getMiesto()){
+        for(int i = 0; i < regale.length;i++) {
+            if(max < regale[i].getMiesto()) {
              max = regale[i].getMiesto();
              index = i;
-         }
+            }
         }
         return index;
     }
 
 
     public void printSekcia(){
-        for(int i = 0; i < regale.length;i++){
+        for(int i = 0; i < regale.length;i++) {
             System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
             regale[i].printContent(false);
         }

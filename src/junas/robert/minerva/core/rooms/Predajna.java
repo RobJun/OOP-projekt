@@ -18,14 +18,14 @@ public class Predajna extends Miestnost {
     private transient Zakaznik zakaznik;
 
 
-    public Predajna(){
+    public Predajna() {
         super();
         init(defaultSize);
     }
 
 
     @Override
-    protected void init(int velkost){
+    protected void init(int velkost) {
         sekcie = new HashMap<Kategoria, OrganizovanaSekcia>();
         Kategoria[] v = Kategoria.values();
         for(int i = 1; i < v.length;i++){
@@ -34,7 +34,7 @@ public class Predajna extends Miestnost {
     }
 
 
-    public int umiestniKnihy(Kniha k, int pocet){
+    public int umiestniKnihy(Kniha k, int pocet) {
         Sekcia s = sekcie.get(k.getKategoria());
         for(Regal r : s.getRegal()){
             int pr = r.pridajKnihy(k,pocet);
@@ -46,7 +46,7 @@ public class Predajna extends Miestnost {
 
     public int odoberKnihy(Kniha k, int pocet){
         Sekcia s = sekcie.get(k.getKategoria());
-        for(Regal r : s.getRegal()){
+        for(Regal r : s.getRegal()) {
             int pr = r.odoberKnihy(k,pocet);
             return pr;
         }
@@ -63,7 +63,7 @@ public class Predajna extends Miestnost {
         return otvorene;
     }
 
-    public void vypisPredajnu(){
+    public void vypisPredajnu() {
             int i = 0;
             for(Map.Entry<Kategoria,OrganizovanaSekcia> entry : sekcie.entrySet()){
                 System.out.println("Sekcia: " + i);
@@ -72,9 +72,9 @@ public class Predajna extends Miestnost {
             }
     }
 
-    public void setZakaznik(Zakaznik z ){ zakaznik = z; }
+    public void setZakaznik(Zakaznik z ) { zakaznik = z; }
 
-    public Zakaznik getZakaznik(){ return  zakaznik;}
+    public Zakaznik getZakaznik() { return  zakaznik;}
 
     public void setKatalog(ArrayList<Kniha> katalog) {
         this.katalog = katalog;

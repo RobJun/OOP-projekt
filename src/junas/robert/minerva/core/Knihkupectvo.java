@@ -11,20 +11,19 @@ import junas.robert.minerva.core.utils.LoggedIn;
 import java.io.*;
 import java.util.Scanner;
 
-public class Knihkupectvo implements java.io.Serializable{
+public class Knihkupectvo implements java.io.Serializable {
     private static Knihkupectvo instancia = null;
     private final Sklad sklad;
     private final Predajna predajna;
     private LoggedIn prihlaseny = LoggedIn.NONE;
     public static boolean changeUser = false;
 
-    private Knihkupectvo(){
+    private Knihkupectvo() {
         sklad = new Sklad();
         predajna = new Predajna();
     }
 
-    public static Knihkupectvo getInstance()
-    {
+    public static Knihkupectvo getInstance() {
         if (instancia == null)
             instancia = new Knihkupectvo();
         return instancia;
@@ -37,7 +36,7 @@ public class Knihkupectvo implements java.io.Serializable{
     public static void setPrihlaseny(LoggedIn prihlaseny) {instancia.prihlaseny = prihlaseny;}
 
 
-    public static void serialize(String path){
+    public static void serialize(String path) {
         try{
             FileOutputStream fileOut = new FileOutputStream(path);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -48,7 +47,7 @@ public class Knihkupectvo implements java.io.Serializable{
         }
     }
 
-    public static void deserialize(String path){
+    public static void deserialize(String path) {
         try {
             FileInputStream fileIn = new FileInputStream("./knihkupectvo.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -86,7 +85,7 @@ public class Knihkupectvo implements java.io.Serializable{
                         break;
                     case ZAKAZNIK:
                         //upcasting
-                        if(!knihkupectvo.predajna.isOtvorene()){
+                        if(!knihkupectvo.predajna.isOtvorene()) {
                             System.out.println("Predajna je zavreta");
                             setPrihlaseny(LoggedIn.NONE);
                         }else {
@@ -102,7 +101,7 @@ public class Knihkupectvo implements java.io.Serializable{
                         break;
                 }
             }
-            if(getPrihlaseny() == LoggedIn.NONE){
+            if(getPrihlaseny() == LoggedIn.NONE) {
                 System.out.println("Prihlasit sa ako [zakaznik/predajca/skladnik]:");
                 command = scanner.nextLine();
                 String s = command.toUpperCase();

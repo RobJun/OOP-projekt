@@ -5,22 +5,22 @@ import junas.robert.minerva.core.utils.Kategoria;
 
 import java.util.ArrayList;
 
-public class OrganizovanaSekcia extends Sekcia{
+public class OrganizovanaSekcia extends Sekcia {
     private Kategoria nazov;
     private boolean kategorizovane = false;
 
 
-    public OrganizovanaSekcia(Kategoria k){
+    public OrganizovanaSekcia(Kategoria k) {
         super();
         init(k,defaultSize);
         kategorizovane = false;
     }
-    public OrganizovanaSekcia(Kategoria k, int pocet){
+    public OrganizovanaSekcia(Kategoria k, int pocet) {
         super();
         init(k,pocet);
     }
 
-    private void init(Kategoria kat,int pocet){
+    private void init(Kategoria kat,int pocet) {
         nazov = kat;
         this.regale = new Regal[pocet];
         for(int i = 0; i < pocet; i++){
@@ -36,11 +36,11 @@ public class OrganizovanaSekcia extends Sekcia{
 
     ///vracia arraylist zle ulozenych knih
     ///ak su knihy spravnej kategorie vracia null
-    public ArrayList<Kniha> skontrolujKategorieKnih(){
+    public ArrayList<Kniha> skontrolujKategorieKnih() {
         ArrayList<Kniha> zle = new ArrayList<>();
         for(Regal r : regale){
-            for(Kniha k : r.getZoznamKnih()){
-                if(k.getKategoria() != nazov){
+            for(Kniha k : r.getZoznamKnih()) {
+                if(k.getKategoria() != nazov) {
                     zle.add(k);
                 }
             }
@@ -57,9 +57,9 @@ public class OrganizovanaSekcia extends Sekcia{
     public boolean isKategorizovane() {return kategorizovane;}
 
     @Override
-    public void printSekcia(){
+    public void printSekcia() {
         System.out.println("Typ: " + nazov);
-        for(int i = 0; i < regale.length;i++){
+        for(int i = 0; i < regale.length;i++) {
             System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
             regale[i].printContent(true);
         }

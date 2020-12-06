@@ -11,7 +11,7 @@ public final class Kniha implements java.io.Serializable{
     private float cena;
 
 
-    public Kniha(String[] data){
+    public Kniha(String[] data) {
         init(data[0], data[1],data[2],
                 Integer.parseInt(data[4]), Float.parseFloat(data[5]), Kategoria.valueOf(data[6]),
                 data[7],Vazba.valueOf(data[8]),data[9],Integer.parseInt(data[10]));
@@ -20,7 +20,7 @@ public final class Kniha implements java.io.Serializable{
 
     private void init(String Nazov, String Autor, String ISBN,
                       int PocetStran, float cena, Kategoria kategoria,
-                      String Jazyk, Vazba v, String vydavatelstvo,int rok){
+                      String Jazyk, Vazba v, String vydavatelstvo,int rok) {
         nazov = Nazov;
         autor = Autor;
         isbn = ISBN;
