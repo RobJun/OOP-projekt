@@ -1,4 +1,4 @@
-package junas.robert.lagatoria.core.knihkupectvo.items;
+package junas.robert.lagatoria.core.items;
 
 public abstract class Obalka implements InfoKniha {
     private String dizajn;

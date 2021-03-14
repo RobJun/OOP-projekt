@@ -1,4 +1,4 @@
-package junas.robert.lagatoria.core.knihkupectvo.items;
+package junas.robert.lagatoria.core.items;
 
 import java.io.Serializable;
 

@@ -2,7 +2,7 @@ package junas.robert.lagatoria.core.knihkupectvo.rooms;
 
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.items.Kniha;
 
 import java.util.ArrayList;
 
@@ -39,6 +39,17 @@ public class Sklad  extends Miestnost {
             novyTovar.printContent();
             System.out.println();
         }
+
+    public void objednatKnihy(NoveKnihy noveKnihy){
+        novyTovar = noveKnihy;
+        System.out.println("Novy tovar obsahuje: ");
+        for(Kniha K : novyTovar.getZoznamKnih()){
+            katalog.add(K);
+        }
+        //novyTovar.printContent();
+        System.out.println();
+    }
+
 
         public void umiestniNovyTovar(){
             if(novyTovar == null) {

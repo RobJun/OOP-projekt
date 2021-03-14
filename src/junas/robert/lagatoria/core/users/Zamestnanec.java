@@ -1,13 +1,13 @@
 package junas.robert.lagatoria.core.users;
 
-import junas.robert.lagatoria.core.Knihkupectvo;
+import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 
-abstract class Zamestnanec extends Pouzivatel{
+public abstract class Zamestnanec extends Pouzivatel{
     protected double plat;
     protected double odrobene;
 
 
-    Zamestnanec(String m, long id, double plat) {
+    public Zamestnanec(String m, long id, double plat) {
         super(m, id);
         this.plat = plat;
         odrobene = 0;

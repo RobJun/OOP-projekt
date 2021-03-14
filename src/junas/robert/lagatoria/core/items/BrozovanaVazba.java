@@ -1,4 +1,4 @@
-package junas.robert.lagatoria.core.knihkupectvo.items;
+package junas.robert.lagatoria.core.items;
 
 public class BrozovanaVazba extends Obalka{
     private String obrazok;

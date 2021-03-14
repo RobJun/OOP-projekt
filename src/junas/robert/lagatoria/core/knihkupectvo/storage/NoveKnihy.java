@@ -1,11 +1,14 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
-import junas.robert.lagatoria.core.knihkupectvo.items.*;
+import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.utils.Kategoria;
 import junas.robert.lagatoria.core.utils.Vazba;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class NoveKnihy extends Regal{
@@ -14,6 +17,14 @@ public class NoveKnihy extends Regal{
     public NoveKnihy(String path){
         super();
         minute = !nacitajKnihy(path);
+    }
+
+    public NoveKnihy(Queue<Kniha> knihy, Queue<Integer> pocetKnih){
+        super();
+        minute = knihy.isEmpty();
+        for (Kniha k : knihy){
+            this.pridajKnihyP(k,pocetKnih.remove());
+        }
     }
 
     public boolean isMinute() {
@@ -30,7 +41,6 @@ public class NoveKnihy extends Regal{
     public void vyhodPaletu(){
         if(isMinute()){
             try {
-                finalize();
                 System.out.println("Paletu sme vyhodili");
                 System.out.println();
             } catch (Throwable throwable) {
@@ -61,7 +71,7 @@ public class NoveKnihy extends Regal{
                    obalka = new PevnaVazba("normalny", "cervena", "koza");
                }
 
-               Kniha k = new Kniha(kniha[0],kniha[1],kniha[2],kniha[9],Integer.parseInt(kniha[10]),Float.parseFloat(kniha[5]));
+               Kniha k = new Kniha(kniha[2],kniha[9],Integer.parseInt(kniha[10]),Float.parseFloat(kniha[5]));
 
                k.pridajSucast(text);
                k.pridajSucast(obalka);

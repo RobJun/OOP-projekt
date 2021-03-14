@@ -3,8 +3,8 @@ package junas.robert.lagatoria.core.users;
 import junas.robert.lagatoria.core.utils.InlineCommand;
 import junas.robert.lagatoria.core.utils.InputProcess;
 import junas.robert.lagatoria.core.utils.LoggedIn;
-import junas.robert.lagatoria.core.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public abstract class Pouzivatel implements InputProcess {
     private boolean close = false;
     protected HashMap<String, InlineCommand> inlineAkcie;
 
-    Pouzivatel(String m, long id) {
+    public Pouzivatel(String m, long id) {
         meno = m;
         this.id =id;
 
@@ -26,6 +26,7 @@ public abstract class Pouzivatel implements InputProcess {
         inlineAkcie.put("info-me", (args, kh) -> vypisInfo());
         inlineAkcie.put("katalog", (args,kh) -> kh.getSklad().printKatalog());
     };
+
 
 
     ///funkcia ktora povie programu nech hlavny loop programu ukonci

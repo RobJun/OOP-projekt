@@ -1,12 +1,13 @@
-package junas.robert.lagatoria.core.users;
+package junas.robert.lagatoria.core.users.knihkupectvo;
 
 import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
-import junas.robert.lagatoria.core.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
+import junas.robert.lagatoria.core.users.Zamestnanec;
 
-public class Predajca extends Zamestnanec{
+public class Predajca extends Zamestnanec {
     private Kniha kniha;
     private int pocet;
 

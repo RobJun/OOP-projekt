@@ -1,12 +1,13 @@
-package junas.robert.lagatoria.core.users;
+package junas.robert.lagatoria.core.users.knihkupectvo;
 
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
+import junas.robert.lagatoria.core.users.Pouzivatel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Zakaznik extends Pouzivatel{
+public class Zakaznik extends Pouzivatel {
     private ArrayList<Kniha> kosik;
     private HashMap<String,Integer> pocetKnih;
 

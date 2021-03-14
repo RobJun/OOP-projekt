@@ -1,26 +1,33 @@
-package junas.robert.lagatoria.core;
+package junas.robert.lagatoria.core.knihkupectvo;
 
+import junas.robert.lagatoria.core.Odoberatel;
+import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.core.users.Predajca;
-import junas.robert.lagatoria.core.users.Skladnik;
-import junas.robert.lagatoria.core.users.Zakaznik;
+import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
+import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
+import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.utils.LoggedIn;
 
 import java.io.*;
 import java.util.Scanner;
 
-public class Knihkupectvo implements java.io.Serializable{
+public class Knihkupectvo implements java.io.Serializable, Odoberatel {
     private static Knihkupectvo instancia = null;
     private Sklad sklad;
     private Predajna predajna;
     private LoggedIn prihlaseny = LoggedIn.NONE;
     public static boolean zmenaUzi = false;
 
+
+    private Boolean prijma;
+
     private Knihkupectvo(){
         sklad = new Sklad();
         predajna = new Predajna();
+
+        prijma = false;
     }
 
     public static Knihkupectvo getInstance()
@@ -123,6 +130,18 @@ public class Knihkupectvo implements java.io.Serializable{
         }
         serialize("./knihkupectvo.ser");
         System.out.println("System sa vypina");
+    }
+
+
+    public Boolean prijmameTovar(){
+        if(sklad.getNovyTovar() == null) return true;
+        return sklad.getNovyTovar().isMinute();
+    }
+
+
+    @Override
+    public double zaplatVydavatelovi(Kniha kniha, int pocet) {
+        return kniha.getCena()*0.50*pocet;
     }
 
 }

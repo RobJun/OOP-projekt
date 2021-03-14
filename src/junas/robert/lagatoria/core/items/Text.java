@@ -1,4 +1,4 @@
-package junas.robert.lagatoria.core.knihkupectvo.items;
+package junas.robert.lagatoria.core.items;
 
 import junas.robert.lagatoria.core.utils.Kategoria;
 
@@ -29,7 +29,31 @@ public class Text implements InfoKniha{
         System.out.println("\t["+kategoria.toString()+"] "+autor + ": " + nazov + " [" + jazyk+ "]");
     }
 
+    public void setNazov(String nazov) {
+        this.nazov = nazov;
+    }
+
+    public String getNazov() {
+        return nazov;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
     public void oprav(){ opravene = true;}
 
     public Boolean isOpravene(){ return opravene; }
+
+    public int getDlzka() {
+        return dlzka;
+    }
+
+    public void setDlzka(int dlzka) {
+        this.dlzka = dlzka;
+    }
+
+    public Kategoria getKategoria() {
+        return kategoria;
+    }
 }

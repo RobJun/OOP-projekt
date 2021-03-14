@@ -1,11 +1,12 @@
 package junas.robert.lagatoria.core.knihkupectvo.rooms;
 
+import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.knihkupectvo.storage.OrganizovanaSekcia;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
-import junas.robert.lagatoria.core.users.Zakaznik;
+import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.utils.Kategoria;
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.items.Kniha;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class Predajna extends Miestnost {
 
 
     public int umiestniKnihy(Kniha k, int pocet){
-        Sekcia s = sekcie.get(k.getKategoria());
+        Sekcia s = sekcie.get(((Text)(k.getSucast(0))).getKategoria());
         for(Regal r : s.getRegal()){
             int pr = r.pridajKnihy(k,pocet);
             pocet -=pr;
@@ -43,7 +44,7 @@ public class Predajna extends Miestnost {
     }
 
     public int odoberKnihy(Kniha k, int pocet){
-        Sekcia s = sekcie.get(k.getKategoria());
+        Sekcia s = sekcie.get(((Text)(k.getSucast(0))).getKategoria());
         for(Regal r : s.getRegal()){
             int pr = r.odoberKnihy(k,pocet);
             return pr;

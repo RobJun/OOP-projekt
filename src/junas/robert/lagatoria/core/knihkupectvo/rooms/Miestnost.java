@@ -1,6 +1,6 @@
 package junas.robert.lagatoria.core.knihkupectvo.rooms;
 
-import junas.robert.lagatoria.core.knihkupectvo.items.Kniha;
+import junas.robert.lagatoria.core.items.Kniha;
 
 import java.util.ArrayList;
 
