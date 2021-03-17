@@ -16,9 +16,9 @@ public class Zakaznik extends Pouzivatel {
         kosik = new ArrayList<Kniha>();
         pocetKnih = new HashMap<String,Integer>();
 
-        inlineAkcie.put("kosik", (args, kh) -> vypisKosik());
-        inlineAkcie.put("predajna", (args,kh) -> kh.getPredajna().vypisPredajnu() );
-        inlineAkcie.put("zober", (args, kh) -> dajDoKosika(args,kh.getPredajna()));
+        inlineAkcie.put("kosik",(args, kh, vy)-> vypisKosik());
+        inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu() );
+        inlineAkcie.put("zober", (args, kh, vy) -> dajDoKosika(args,kh.getPredajna()));
     }
 
     @Override

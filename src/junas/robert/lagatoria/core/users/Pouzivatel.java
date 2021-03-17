@@ -6,6 +6,7 @@ import junas.robert.lagatoria.core.utils.LoggedIn;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
+import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 import java.util.HashMap;
 
@@ -20,11 +21,11 @@ public abstract class Pouzivatel implements InputProcess {
         this.id =id;
 
         inlineAkcie = new HashMap<>();
-        inlineAkcie.put("help", (args, kh) -> help());
-        inlineAkcie.put("exit", (args, kh) -> exit());
-        inlineAkcie.put("logout", (args, kh) -> kh.setPrihlaseny(LoggedIn.NONE));
-        inlineAkcie.put("info-me", (args, kh) -> vypisInfo());
-        inlineAkcie.put("katalog", (args,kh) -> kh.getSklad().printKatalog());
+        inlineAkcie.put("help", (args, kh, vy) -> help());
+        inlineAkcie.put("exit", (args, kh, vy) -> exit());
+        inlineAkcie.put("logout", (args, kh, vy) -> kh.setPrihlaseny(LoggedIn.NONE));
+        inlineAkcie.put("info-me", (args, kh, vy) -> vypisInfo());
+        inlineAkcie.put("katalog", (args, kh, vy) -> kh.getSklad().printKatalog());
     };
 
 
@@ -55,11 +56,11 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh){
+    public void spracuj(String[] s, Knihkupectvo kh, Vydavatelstvo vy){
         int index = 0;
             while(index < s.length) {
                 if (inlineAkcie.containsKey(s[index])) {
-                    inlineAkcie.get(s[index]).process(s, kh);
+                    inlineAkcie.get(s[index]).process(s, kh, vy);
                 }
                 int k;
                 for (k = index + 1; k < s.length; k++) {

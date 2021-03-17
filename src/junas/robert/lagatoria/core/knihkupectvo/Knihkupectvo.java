@@ -70,7 +70,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
         getInstance();
     }
 
-
+/*
     public static void main(String[] args) {
         //upcasting
         Pouzivatel p = new Zakaznik();
@@ -130,7 +130,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
         }
         serialize("./knihkupectvo.ser");
         System.out.println("System sa vypina");
-    }
+    }*/
 
 
     public Boolean prijmameTovar(){

@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.core.users;
 
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public abstract class Zamestnanec extends Pouzivatel{
     protected double plat;
@@ -12,9 +13,9 @@ public abstract class Zamestnanec extends Pouzivatel{
         this.plat = plat;
         odrobene = 0;
 
-        inlineAkcie.put("plat", ((args, kh) ->  System.out.println("Tvoj plat je: " + getPlat())));
-        inlineAkcie.put("zarobene", ((args, kh) -> System.out.println("zarobil si: " + vypocitajPlat())));
-        inlineAkcie.put("odrobene", ((args, kh) -> System.out.println("odrobil si: " + getOdrobene())));
+        inlineAkcie.put("plat", ((args, kh, vy) ->  System.out.println("Tvoj plat je: " + getPlat())));
+        inlineAkcie.put("zarobene", ((args, kh, vy) -> System.out.println("zarobil si: " + vypocitajPlat())));
+        inlineAkcie.put("odrobene", ((args, kh, vy) -> System.out.println("odrobil si: " + getOdrobene())));
     }
 
     public double getPlat(){
@@ -39,8 +40,8 @@ public abstract class Zamestnanec extends Pouzivatel{
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh){
-        super.spracuj(s, kh);
+    public void spracuj(String[] s, Knihkupectvo kh, Vydavatelstvo vy){
+        super.spracuj(s, kh, vy);
         pridajHodinu();
     }
 }

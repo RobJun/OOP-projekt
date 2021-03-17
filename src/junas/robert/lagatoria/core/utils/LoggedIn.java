@@ -4,5 +4,6 @@ public enum LoggedIn {
     NONE,
     ZAKAZNIK,
     PREDAJCA,
-    SKLADNIK
+    SKLADNIK,
+    MANAZER;
 }

@@ -16,12 +16,12 @@ public class Predajca extends Zamestnanec {
         kniha = null;
         pocet =0;
 
-        inlineAkcie.put("otvor", (args, kh) -> otvorPredajnu(kh.getPredajna()));
-        inlineAkcie.put("zavri", (args, kh)-> zavriPredajnu(kh.getPredajna()));
-        inlineAkcie.put("predajna", (args, kh) -> kh.getPredajna().vypisPredajnu());
-        inlineAkcie.put("sklad", (args, kh) -> kh.getSklad().printSklad());
-        inlineAkcie.put("predaj", (args,kh)->  predajKnihy(kh.getPredajna().getZakaznik()));
-        inlineAkcie.put("prines", ((args, kh) -> prines(args,kh)));
+        inlineAkcie.put("otvor", (args, kh, vy) -> otvorPredajnu(kh.getPredajna()));
+        inlineAkcie.put("zavri", (args, kh, vy)-> zavriPredajnu(kh.getPredajna()));
+        inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu());
+        inlineAkcie.put("sklad", (args, kh, vy) -> kh.getSklad().printSklad());
+        inlineAkcie.put("predaj", (args, kh, vy)->  predajKnihy(kh.getPredajna().getZakaznik()));
+        inlineAkcie.put("prines", ((args, kh, vy) -> prines(args,kh)));
     }
 
     public void otvorPredajnu(Predajna p){

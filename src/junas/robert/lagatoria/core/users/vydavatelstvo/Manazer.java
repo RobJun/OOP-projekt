@@ -10,7 +10,10 @@ public class Manazer extends Zamestnanec {
     ArrayList<Autor> autori = new ArrayList<Autor>();
 
     public Manazer(String m, long id, double plat) {
+
         super(m, id, plat);
+        inlineAkcie.put("dajNapisat", (args, kh, vy) -> dajNapisatKnihu());
+        inlineAkcie.put("vydajKnihy", (args, kh, vy) -> vy.vydajKnihy());
     }
 
     public void pridajAutora(ArrayList<Autor> autori){

@@ -15,19 +15,19 @@ public class Skladnik extends Zamestnanec {
     public Skladnik(String meno, long id){
         super(meno, id, 4.5);
 
-        inlineAkcie.put("sklad", ((args, kh) -> kh.getSklad().printSklad()));
-        inlineAkcie.put("n-umiestni", (args, kh) -> umiestniNovyT(kh.getSklad()));
-        inlineAkcie.put("info-n", (args, kh) -> {
+        inlineAkcie.put("sklad", ((args, kh, vy) -> kh.getSklad().printSklad()));
+        inlineAkcie.put("n-umiestni", (args, kh, vy) -> umiestniNovyT(kh.getSklad()));
+        inlineAkcie.put("info-n", (args, kh, vy) -> {
             if( (kh.getSklad()).getNovyTovar() != null) {
                 (kh.getSklad()).getNovyTovar().printContent();
             }});
-        inlineAkcie.put("katalog", (args, kh) -> (kh.getSklad()).printKatalog());
-        inlineAkcie.put("objednaj", ((args, kh) -> {
+        inlineAkcie.put("katalog", (args, kh, vy) -> (kh.getSklad()).printKatalog());
+        inlineAkcie.put("objednaj", ((args, kh, vy)-> {
             objednaj(args,kh.getSklad());
             kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
         }));
-        inlineAkcie.put("premiestni", ((args, kh) -> premiestni(args,kh.getSklad())));
-        inlineAkcie.put("max-miesto", ((args, kh) -> kh.getSklad().najdiNajvacsieMiesto()));
+        inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh.getSklad())));
+        inlineAkcie.put("max-miesto", ((args, kh, vy) -> kh.getSklad().najdiNajvacsieMiesto()));
 
     }
 
