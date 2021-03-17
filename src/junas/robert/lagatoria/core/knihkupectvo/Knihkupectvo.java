@@ -58,14 +58,14 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
 
     public static void deserialize(String path){
         try {
-            FileInputStream fileIn = new FileInputStream("./knihkupectvo.ser");
+            FileInputStream fileIn = new FileInputStream(path);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             instancia = (Knihkupectvo) in.readObject();
             in.close();
             fileIn.close();
             return;
         } catch (IOException e) {
-            Controller.printline("Nenasiel sa subor 'knihkupectvo.ser' -- vytvara sa nove knihkupectvo'");
+            Controller.printline("Nenasiel sa subor '"+path+"' -- vytvara sa nove knihkupectvo'");
         } catch (ClassNotFoundException e) {
         }
         getInstance();
@@ -126,7 +126,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
                 command = scanner.nextLine().toLowerCase();
                 String[] cmd = command.split(" ");
                 //upcasting
-                p.spracuj(cmd, knihkupectvo);
+                p.spracuj(cmd, null);
             }
         }
         serialize("./knihkupectvo.ser");

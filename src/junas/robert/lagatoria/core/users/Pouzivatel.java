@@ -56,11 +56,11 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh, Vydavatelstvo vy){
+    public void spracuj(String[] s, Vydavatelstvo vy){
         int index = 0;
             while(index < s.length) {
                 if (inlineAkcie.containsKey(s[index])) {
-                    inlineAkcie.get(s[index]).process(s, kh, vy);
+                    inlineAkcie.get(s[index]).process(s, Knihkupectvo.getInstance(), vy);
                 }
                 int k;
                 for (k = index + 1; k < s.length; k++) {

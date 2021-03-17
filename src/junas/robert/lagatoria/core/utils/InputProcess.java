@@ -4,6 +4,6 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public interface InputProcess {
-    void spracuj(String[] s, Knihkupectvo kh, Vydavatelstvo vy);
+    void spracuj(String[] s, Vydavatelstvo vy);
     void help();
 }

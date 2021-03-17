@@ -37,7 +37,7 @@ public class Zakaznik extends Pouzivatel {
         }
         for(int i = 0; i < kosik.size(); i++){
             kosik.get(i).printContent();
-            System.out.print(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
+            Controller.printline(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
         }
     }
 

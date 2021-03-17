@@ -40,8 +40,8 @@ public abstract class Zamestnanec extends Pouzivatel{
     }
 
     @Override
-    public void spracuj(String[] s, Knihkupectvo kh, Vydavatelstvo vy){
-        super.spracuj(s, kh, vy);
+    public void spracuj(String[] s, Vydavatelstvo vy){
+        super.spracuj(s, vy);
         pridajHodinu();
     }
 }

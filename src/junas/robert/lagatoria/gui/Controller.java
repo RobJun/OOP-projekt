@@ -35,9 +35,9 @@ public class Controller {
 
 
     private StackPane manazerOkno = new StackPane();
-    private StackPane zakaznikOkno = new StackPane();
+    private HBox zakaznikOkno = new HBox();
     private HBox predajcaOkno = new HBox();
-    private StackPane skladnikOkno = new StackPane();
+    private HBox skladnikOkno = new HBox();
     private StackPane def = new StackPane();
 
 
@@ -54,6 +54,9 @@ public class Controller {
         out.textProperty().bind(textRecu);
 
         createPredajcaButtons();
+        createZakaznikButtons();
+        createManazerButtons();
+        createSkladnikButtons();
 
         Text text = new Text("Prihlaste sa");
         def.getChildren().add(text);
@@ -86,46 +89,45 @@ public class Controller {
         otvor.setOnMouseClicked(e ->{
             if(otvor.getText().compareTo("Otvor") == 0){
                 otvor.setText("Zavri");
-                pouzivatel.spracuj(new String[]{"otvor"}, Knihkupectvo.getInstance(),null);
+                pouzivatel.spracuj(new String[]{"otvor"},null);
             }else{
                 otvor.setText("Otvor");
-                pouzivatel.spracuj(new String[]{"zavri"}, Knihkupectvo.getInstance(),null);
+                pouzivatel.spracuj(new String[]{"zavri"},null);
             }
         });
 
         Button vypis = new Button("Vypis");
         vypis.setOnMouseClicked(e -> {
-            pouzivatel.spracuj("predajna | sklad".split(" "),Knihkupectvo.getInstance(),null);
+            pouzivatel.spracuj("predajna | sklad".split(" "),null);
         });
 
         Button predaj = new Button("Predaj");
         predaj.setOnMouseClicked(e -> {
-            pouzivatel.spracuj(new String[]{"predaj"},Knihkupectvo.getInstance(),null);
+            pouzivatel.spracuj(new String[]{"predaj"},null);
         });
 
         Button plat = new Button("Plat");
         plat.setOnMouseClicked(e -> {
-            pouzivatel.spracuj("plat | zarobene | odrobene".split(" "),Knihkupectvo.getInstance(),null);
+            pouzivatel.spracuj("plat | zarobene | odrobene".split(" "),null);
         });
 
         Button katalog = new Button("Katalog");
         katalog.setOnMouseClicked(e -> {
-            pouzivatel.spracuj(new String[]{"katalog"},Knihkupectvo.getInstance(),null);
+            pouzivatel.spracuj(new String[]{"katalog"},null);
         });
 
         Button prines = new Button("Prines");
         prines.setOnMouseClicked(e->{
             String command = input.getText();
+            input.setText("");
             if(command.isEmpty()){
-                printline("do input:  n/ref /pocet //zX-X //uX-X  \n" +
+                printline("do input:  n/ref /pocet \n" +
                         "\t\t\t\t\t\t\t\t\t\t- s/ref = nazov/isbn/katalogove cislo knihy\n" +
                         "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
                         "\t\t\t\t\t\t\t\t\t\t\t moze byt null ak mas knihu v inventari] \n" +
-                        " \t\t\t\t\t\t\t\t\t\t- zX-X = pozicia z ktorej beriem \n" +
-                        "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme \n" +
                         "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
             }else
-            pouzivatel.spracuj((prines +" " + command).split(" "),Knihkupectvo.getInstance(),null);
+            pouzivatel.spracuj(("prines " + command).split(" "),null);
         });
 
 
@@ -140,6 +142,52 @@ public class Controller {
     }
 
     private void createZakaznikButtons(){
+        Button vstup = new Button("Vstup");
+        vstup.setOnMouseClicked(e ->{
+            if(Knihkupectvo.getInstance().getPredajna().getZakaznik() != null) return;
+            if(!Knihkupectvo.getInstance().getPredajna().isOtvorene()){
+                printline("Predajna je zavreta");
+            }else {
+                Knihkupectvo.getInstance().getPredajna().setZakaznik(zakaznik);
+                printline("Vstupil si do predajne");
+            }
+        });
+
+        Button katalog = new Button("Katalog");
+        katalog.setOnMouseClicked(e -> {
+            pouzivatel.spracuj(new String[]{"katalog"},null);
+        });
+
+        Button predaj = new Button("Predajna");
+        predaj.setOnMouseClicked(e -> {
+            pouzivatel.spracuj(new String[]{"predajna"},null);
+        });
+
+        Button prines = new Button("Pridaj");
+        prines.setOnMouseClicked(e->{
+            String command = input.getText();
+            input.setText("");
+            if(command.isEmpty()){
+                printline("do input:  n/ref /pocet  \n" +
+                        "\t\t\t\t\t\t\t\t\t\t- s/ref = nazov/isbn/katalogove cislo knihy\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
+                        "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
+            }else
+                pouzivatel.spracuj(("zober " + command).split(" "),null);
+        });
+
+        Button kosik = new Button("Kosik");
+        kosik.setOnMouseClicked(e -> {
+            pouzivatel.spracuj(new String[]{"kosik"},null);
+        });
+
+        zakaznikOkno.setSpacing(20);
+        zakaznikOkno.getChildren().add(vstup);
+        zakaznikOkno.getChildren().add(katalog);
+        zakaznikOkno.getChildren().add(predaj);
+        zakaznikOkno.getChildren().add(kosik);
+        zakaznikOkno.getChildren().add(prines);
+
 
     }
 
@@ -148,6 +196,51 @@ public class Controller {
     }
 
     private void createSkladnikButtons(){
+        Button katalog = new Button("Katalog");
+        katalog.setOnMouseClicked(e -> {
+            pouzivatel.spracuj(new String[]{"katalog"},null);
+        });
+
+        Button predaj = new Button("Sklad");
+        predaj.setOnMouseClicked(e -> {
+            pouzivatel.spracuj("sklad | info-n".split(" "),null);
+        });
+
+        Button prines = new Button("Premiestni");
+        prines.setOnMouseClicked(e->{
+            String command = input.getText();
+            input.setText("");
+            if(command.isEmpty()){
+                printline("do input: n/ref /pocet //zX-X //uX-X  - s/ref = nazov/isbn/katalogove cislo knihy\n " +
+                        "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t moze byt null ak mas knihu v inventari] \n" +
+                        "\t\t\t\t\t\t\t\t\t\t- zX-X = pozicia z ktorej beriem \n"+
+                        "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme \n" +
+                        "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
+            }else
+                pouzivatel.spracuj(("premiestni " + command).split(" "),null);
+        });
+
+        Button objednaj = new Button("Objednaj");
+        objednaj.setOnMouseClicked(e->{
+            String command = input.getText();
+            input.setText("");
+            if(command.isEmpty()){
+                printline("zadajte cestu k suboru");
+            }else
+                pouzivatel.spracuj(("objednaj \"" + command +"\" | n-umiestni").split(" "),null);
+        });
+
+        Button miesto = new Button("najdiMiesto");
+        miesto.setOnMouseClicked(e->{
+            pouzivatel.spracuj(new String[]{"max-miesto"},null);
+        });
+
+        skladnikOkno.setSpacing(20);
+        skladnikOkno.getChildren().add(predaj);
+        skladnikOkno.getChildren().add(prines);
+        skladnikOkno.getChildren().add(objednaj);
+        skladnikOkno.getChildren().add(miesto);
 
     }
 

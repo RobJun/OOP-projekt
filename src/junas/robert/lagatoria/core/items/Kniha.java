@@ -47,7 +47,7 @@ public class Kniha implements InfoKniha{
     @Override
     public void getInfo() {
         casti.get(0).getInfo();
-        Controller.printline("\tcena: " + cena + "€ - vydavatel: " + vydavatelstvo + " " + rok);
+        Controller.printline("\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok);
         casti.get(1).getInfo();
     }
 
