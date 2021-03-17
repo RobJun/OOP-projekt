@@ -3,6 +3,7 @@ package junas.robert.lagatoria.core.knihkupectvo.storage;
 import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.utils.Kategoria;
 import junas.robert.lagatoria.core.utils.Vazba;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,14 +42,14 @@ public class NoveKnihy extends Regal{
     public void vyhodPaletu(){
         if(isMinute()){
             try {
-                System.out.println("Paletu sme vyhodili");
-                System.out.println();
+                Controller.printline("Paletu sme vyhodili");
+                Controller.printline("");
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                System.out.println();
+                Controller.printline("");
             }
         }else{
-            System.out.println("Na palete su stale knihy\n");
+            Controller.printline("Na palete su stale knihy\n");
         }
     }
 
@@ -82,7 +83,7 @@ public class NoveKnihy extends Regal{
             reader.close();
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("Novy tovar sa nepodarilo nacitat");
+            Controller.printline("Novy tovar sa nepodarilo nacitat");
             e.printStackTrace();
             return false;
         }
@@ -91,7 +92,7 @@ public class NoveKnihy extends Regal{
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){
 
-            System.out.print(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
+            Controller.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
                 zoznamKnih.get(i).printContent();
         }
     }
@@ -106,7 +107,7 @@ public class NoveKnihy extends Regal{
 
     @Override
     public int pridajKnihy(Kniha k, int p){
-        System.out.println("Na paletu sa nedaju dat knihy");
+        Controller.printline("Na paletu sa nedaju dat knihy");
         return -1;
     }
 

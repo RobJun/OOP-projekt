@@ -1,5 +1,7 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
+import junas.robert.lagatoria.gui.Controller;
+
 public class Sekcia implements java.io.Serializable{
     protected Regal[] regale;
 
@@ -53,7 +55,7 @@ public class Sekcia implements java.io.Serializable{
 
     public void printSekcia(){
         for(int i = 0; i < regale.length;i++){
-            System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
+            Controller.printline("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
             regale[i].printContent();
         }
         System.out.println();

@@ -1,5 +1,7 @@
 package junas.robert.lagatoria.core.items;
 
+import junas.robert.lagatoria.gui.Controller;
+
 public class PevnaVazba extends Obalka{
     private String material;
 
@@ -12,6 +14,6 @@ public class PevnaVazba extends Obalka{
     @Override
     public void getInfo() {
         super.getInfo();
-        System.out.println("\t\ttyp vazby: " + typObalky + " ["+material+"]");
+        Controller.printline("\t\ttyp vazby: " + typObalky + " ["+material+"]");
     }
 }

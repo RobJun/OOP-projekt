@@ -3,6 +3,7 @@ package junas.robert.lagatoria.core.users.vydavatelstvo;
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.ArrayList;
 
@@ -25,10 +26,10 @@ public class Manazer extends Zamestnanec {
     }
 
     public void dajNapisatKnihu(){
-        System.out.println("Manazer rozposiela ziadosti o knihu");
+        Controller.printline("Manazer rozposiela ziadosti o knihu");
         for (Autor autor: autori) {
             if(autor.prijmiPoziadvku()) {
-                System.out.println(autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku");
+                Controller.printline(autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku");
             }
         }
     }

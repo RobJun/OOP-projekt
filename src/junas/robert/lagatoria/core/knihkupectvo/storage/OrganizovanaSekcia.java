@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.utils.Kategoria;
+import junas.robert.lagatoria.gui.Controller;
 
 public class OrganizovanaSekcia extends Sekcia{
     private Kategoria nazov;
@@ -32,11 +33,11 @@ public class OrganizovanaSekcia extends Sekcia{
 
     @Override
     public void printSekcia(){
-        System.out.println("Typ: " + nazov);
+        Controller.printline("Typ: " + nazov);
         for(int i = 0; i < regale.length;i++){
-            System.out.println("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
+            Controller.printline("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
             regale[i].printContent();
         }
-        System.out.println();
+        Controller.printline("");
     }
 }

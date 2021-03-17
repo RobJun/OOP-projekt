@@ -5,6 +5,7 @@ import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.Pisanie;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.Random;
 
@@ -48,7 +49,7 @@ public abstract class Autor {
     }
 
     public String vymysliKnihu() {
-        System.out.println("Autor vymyslel Knihu");
+        Controller.printline("Autor vymyslel Knihu");
         int targetStringLength = 10;
         Random random = new Random();
 

@@ -1,7 +1,7 @@
 package junas.robert.lagatoria.core.items;
 
 import junas.robert.lagatoria.core.utils.Kategoria;
-import junas.robert.lagatoria.core.utils.Vazba;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class Kniha implements InfoKniha{
     @Override
     public void getInfo() {
         casti.get(0).getInfo();
-        System.out.println("\tcena: " + cena + "€ - vydavatel: " + vydavatelstvo + " " + rok);
+        Controller.printline("\tcena: " + cena + "€ - vydavatel: " + vydavatelstvo + " " + rok);
         casti.get(1).getInfo();
     }
 

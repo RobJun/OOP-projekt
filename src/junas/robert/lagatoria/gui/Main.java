@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.gui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,8 @@ public class Main extends Application {
 
     private Controller controller;
 
+    public static boolean enabled = false;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -29,15 +32,30 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        enabled = true;
         stage.setTitle("Lagatoria");
 
         Manazer manazer = new Manazer("Hlavny manazer", 2032, 20);
         Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer, 10);
         Knihkupectvo knihkupectvo = Knihkupectvo.getInstance();
 
-        HBox root = new HBox();
+        BorderPane root = new BorderPane();
+
+        BorderPane mainWindow = new BorderPane();
 
         StackPane work = new StackPane();
+        mainWindow.setTop(work);
+
+        BorderPane center = new BorderPane();
+        HBox input = new HBox();
+        Text textInput = new Text("input");
+        input.getChildren().addAll(textInput, Controller.input);
+        HBox.setMargin(textInput, new Insets(0,10,0,20));
+        input.maxWidth(500);
+        center.setTop(input);
+        center.setCenter(controller.out);
+
+        mainWindow.setCenter(center);
 
         controller = new Controller(work);
 
@@ -45,7 +63,7 @@ public class Main extends Application {
         menu.setStyle("-fx-border-style: solid;" +
                       "-fx-border-color: black");
         Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
-        menu.setMaxWidth(130);
+        menu.setMaxWidth(150);
         menu.setAlignment(Pos.TOP_CENTER);
         menu.setPrefWidth(100);
 
@@ -81,8 +99,9 @@ public class Main extends Application {
 
 
 
-        root.getChildren().addAll(menu,work);
-        root.setHgrow(menu, Priority.ALWAYS);
+        root.setLeft(menu);
+        root.getLeft().maxHeight(150);
+        root.setCenter(mainWindow);
 
         Scene scene = new Scene(root,800,600);
 

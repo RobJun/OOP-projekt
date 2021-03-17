@@ -6,6 +6,8 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.Main;
 
 public class Predajca extends Zamestnanec {
     private Kniha kniha;
@@ -33,8 +35,12 @@ public class Predajca extends Zamestnanec {
     }
 
     public void predajKnihy(Zakaznik z) {
+        if(z == null) {
+            Controller.printline("Ziadny zakaznik nie je v predajni");
+            return;
+        }
         if(z.getKosik().isEmpty()){
-            System.out.println("Zakaznik nema nic v kosiku");
+            Controller.printline("Zakaznik nema nic v kosiku");
             return;
         }
         while(!z.getKosik().isEmpty()){
@@ -42,7 +48,7 @@ public class Predajca extends Zamestnanec {
             int p = z.getPocetKnih(k.getISBN());
             k.predaj(p);
             z.odoberKnihy(k,p);
-            System.out.println("Zakaznik si kupil: " + k.getBasicInfo()[0] + " ["+p+ "] ["+ p*k.getCena()+ "]");
+            Controller.printline("Zakaznik si kupil: " + k.getBasicInfo()[0] + " ["+p+ "] ["+ p*k.getCena()+ "]");
         }
     }
 
@@ -71,7 +77,7 @@ public class Predajca extends Zamestnanec {
             }
         }
         if((k == null && kniha == null) || p < 1){
-            System.out.println("Zadana kniha neexistuje alebo si zadal zly pocet");
+            Controller.printline("Zadana kniha neexistuje alebo si zadal zly pocet");
             return;
         }
         if(kniha == null) {
@@ -85,7 +91,7 @@ public class Predajca extends Zamestnanec {
             }
         }
         if(kniha == null || pocet < 1){
-            System.out.println("Kniha nie je v invetnari/nenachadzala sa v sklade)");
+            Controller.printline("Kniha nie je v invetnari/nenachadzala sa v sklade)");
             return;
         }
         int umies =  kh.getPredajna().umiestniKnihy(kniha,pocet);

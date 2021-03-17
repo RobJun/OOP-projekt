@@ -5,6 +5,7 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.gui.Controller;
 import org.jetbrains.annotations.NotNull;
 
 public class Skladnik extends Zamestnanec {
@@ -59,11 +60,11 @@ public class Skladnik extends Zamestnanec {
 
     public void umiestniKnihyDoRegalu(Sklad s, int[] pozicia, int pocet){
         if(pozicia == null) {
-            System.out.println("Neplatna pozicia");
+            Controller.printline("Neplatna pozicia");
             return;
         }
         if(kniha == null){
-            System.out.println("Nemas knihy u seba");
+            Controller.printline("Nemas knihy u seba");
             return;
         }
         if(this.pocet < pocet) pocet = this.pocet;
@@ -89,7 +90,7 @@ public class Skladnik extends Zamestnanec {
     public void vypisInfo(){
         if(kniha == null) {super.vypisInfo();}
         else {
-            System.out.println(meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]");
+            Controller.printline(meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]");
         }
     }
 
@@ -143,12 +144,12 @@ public class Skladnik extends Zamestnanec {
 
 
         if(kniha != null && zober != null){
-            System.out.println("Uz mas knihy v inventari, najprv umiestni tie");
+            Controller.printline("Uz mas knihy v inventari, najprv umiestni tie");
         }else if(kniha != null && k == null){
             if(p ==0) p = this.pocet;
             umiestniKnihyDoRegalu(sklad,umiestni,p);
         }else if(k == null){
-            System.out.println("nezadal si knihu");
+            Controller.printline("nezadal si knihu");
         }else if(kniha == null && umiestni == null) {
             odoberKnihyZRegalu(sklad,k,p, zober);
         }else{

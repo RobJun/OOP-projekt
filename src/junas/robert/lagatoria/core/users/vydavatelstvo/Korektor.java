@@ -2,6 +2,7 @@ package junas.robert.lagatoria.core.users.vydavatelstvo;
 
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.gui.Controller;
 
 public class Korektor extends Zamestnanec {
     public Korektor(String m, long id, double plat) {
@@ -9,7 +10,7 @@ public class Korektor extends Zamestnanec {
     }
 
     private void najdiChybyVTexte(Text text){
-        System.out.println("Najedenych a opravenych " + (int)(Math.random()*100) + " chyb");
+        Controller.printline("Najedenych a opravenych " + (int)(Math.random()*100) + " chyb");
     }
 
     private Text skratText(Text text){

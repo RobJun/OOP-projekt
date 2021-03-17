@@ -1,5 +1,7 @@
 package junas.robert.lagatoria.core.items;
 
+import junas.robert.lagatoria.gui.Controller;
+
 public abstract class Obalka implements InfoKniha {
     private String dizajn;
     private String farba;
@@ -12,7 +14,7 @@ public abstract class Obalka implements InfoKniha {
 
     @Override
     public void getInfo() {
-        System.out.println("\tObalka:");
-        System.out.println("\t\tdizajn: " + dizajn + ", farba: " + farba);
+        Controller.printline("\tObalka:");
+        Controller.printline("\t\tdizajn: " + dizajn + ", farba: " + farba);
     }
 }
