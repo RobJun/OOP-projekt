@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.core.vydavatelstvo.spisovatelia;
 
 
+import javafx.application.Platform;
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePisanie;
@@ -30,20 +31,37 @@ public abstract class Autor {
         piseKnihu = true;
         Autor autor = this;
         Thread thread = new Thread(new Runnable() {
+            String nazov = "";
             @Override
             public void run() {
+                Text text = null;
+
+                Runnable myslienky = new Runnable() {
+                    @Override
+                    public void run() {
+                        nazov = autor.vymysliKnihu();
+                    }
+                };
+
                 try {
                     Thread.sleep(10000);
-                    String nazov = autor.vymysliKnihu();
-                    Text text = autor.napisText();
-                    text.setNazov(nazov);
-                    autor.odosliVydavatelovi(text);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                Platform.runLater(myslienky);
+
+                try {
+                    text = autor.napisText();
+                    text.setNazov(nazov);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                autor.odosliVydavatelovi(text);
             }
         });
+
+        thread.setDaemon(true);
         thread.start();
         return true;
     }

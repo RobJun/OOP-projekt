@@ -28,7 +28,10 @@ public class Skladnik extends Zamestnanec {
             kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
         }));
         inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh.getSklad())));
-        inlineAkcie.put("max-miesto", ((args, kh, vy) -> kh.getSklad().najdiNajvacsieMiesto()));
+        inlineAkcie.put("max-miesto", ((args, kh, vy) -> {
+            int[] miesto = kh.getSklad().najdiNajvacsieMiesto();
+            Controller.printline("Sekcia:" + miesto[0] + " Polička: " +miesto[1]);
+        }));
 
     }
 
@@ -95,7 +98,6 @@ public class Skladnik extends Zamestnanec {
     }
 
     @Override
-
     public void help() {
         super.help();
         System.out.println("---prikazy skladu---");

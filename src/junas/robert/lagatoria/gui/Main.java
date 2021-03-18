@@ -37,7 +37,6 @@ public class Main extends Application {
 
         Manazer manazer = new Manazer("Hlavny manazer", 2032, 20);
         Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer, 10);
-        Knihkupectvo knihkupectvo = Knihkupectvo.getInstance();
 
         BorderPane root = new BorderPane();
 
@@ -57,7 +56,7 @@ public class Main extends Application {
 
         mainWindow.setCenter(center);
 
-        controller = new Controller(work);
+        controller = new Controller(work, vydavatelstvo);
 
         VBox menu= new VBox(20);
         menu.setStyle("-fx-border-style: solid;" +

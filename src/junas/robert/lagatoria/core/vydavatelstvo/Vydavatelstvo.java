@@ -10,15 +10,14 @@ import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Dizajner;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Korektor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.AutorExistujeException;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
+import junas.robert.lagatoria.gui.Controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Vydavatelstvo {
     private Korektor korektor;
@@ -63,6 +62,20 @@ public class Vydavatelstvo {
         prijateTexty.add(text);
     }
 
+    public void dajAutorovManazerovi(){
+        for (Autor autor: autori) {
+            try {
+                manazer.pridajAutora(autor);
+            } catch (AutorExistujeException e) {
+                Controller.printline(e.getMessage());
+            }
+        }
+    }
+
+    public void prijmiAutora(Autor autor){
+        autori.add(autor);
+    }
+
     public void vydajKnihy(){
         Text vydavana = prijateTexty.remove();
 
@@ -89,5 +102,31 @@ public class Vydavatelstvo {
 
     public String getNazov() {
         return nazov;
+    }
+
+    public void vypisAutorov() {
+        for(Autor a: autori){
+            Controller.printline(a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
+                    "] Je v zozname: " + ((manazer.existujeAutor(a)) ? "✓": "x"));
+        }
+        Controller.printline("");
+    }
+
+    public Manazer getManazer() {
+        return manazer;
+    }
+
+    public void vypisTexty(){
+        if(prijateTexty.isEmpty()){
+            Controller.printline("Ziadne texty na vydanie");
+            return;
+        }
+
+        Iterator<Text> it = prijateTexty.iterator();
+        while(it.hasNext()){
+            Text current = it.next();
+            if(current !=null)
+            Controller.printline(current.getAutor() + ": " +current.getNazov());
+        }
     }
 }

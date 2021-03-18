@@ -2,9 +2,13 @@ package junas.robert.lagatoria.core.users.vydavatelstvo;
 
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.utils.AutorExistujeException;
+import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.gui.Controller;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Manazer extends Zamestnanec {
@@ -15,14 +19,41 @@ public class Manazer extends Zamestnanec {
         super(m, id, plat);
         inlineAkcie.put("dajNapisat", (args, kh, vy) -> dajNapisatKnihu());
         inlineAkcie.put("vydajKnihy", (args, kh, vy) -> vy.vydajKnihy());
+        inlineAkcie.put("pridajA", (args,kh,vy) -> {
+            try {
+                Constructor c = Class.forName(args[1]).getConstructor(String.class, String.class, Vydavatelstvo.class);
+                Autor autor = (Autor) c.newInstance(args[2],args[3],vy);
+                vy.prijmiAutora(autor);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
+        inlineAkcie.put("vypisAutor", (args,kh,vy) -> vy.vypisAutorov());
+        inlineAkcie.put("Pzoznam", ((args, kh, vy) -> vy.dajAutorovManazerovi()));
+        inlineAkcie.put("Queue", ((args, kh, vy) -> vy.vypisTexty()));
     }
 
     public void pridajAutora(ArrayList<Autor> autori){
-        this.autori = autori;
+        this.autori = (ArrayList<Autor>) autori.clone();
     }
 
-    public void pridajAutora(Autor autor){
-        this.autori.add(autor);
+    public void pridajAutora(Autor autor) throws AutorExistujeException {
+        if(autori.contains(autor))
+            throw new AutorExistujeException(autor.getMeno());
+        else
+            this.autori.add(autor);
+    }
+
+    public boolean existujeAutor(Autor autor){
+        return autori.contains(autor);
     }
 
     public void dajNapisatKnihu(){

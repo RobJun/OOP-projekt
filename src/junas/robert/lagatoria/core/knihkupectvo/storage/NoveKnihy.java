@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.items.*;
+import junas.robert.lagatoria.core.utils.InvalidFormatException;
 import junas.robert.lagatoria.core.utils.Kategoria;
 import junas.robert.lagatoria.core.utils.Vazba;
 import junas.robert.lagatoria.gui.Controller;
@@ -17,7 +18,18 @@ public class NoveKnihy extends Regal{
 
     public NoveKnihy(String path){
         super();
-        minute = !nacitajKnihy(path);
+        try {
+            minute = !nacitajKnihy(path);
+        } catch (InvalidFormatException e) {
+            Controller.printline(e.getMessage());
+            if(e.getLoadedRows() > 0){
+                Controller.printline("podarilo sa nacitat " + e.getLoadedRows() + " riadkov");
+                minute = false;
+            }
+            else{
+                minute = true;
+            }
+        }
     }
 
     public NoveKnihy(Queue<Kniha> knihy, Queue<Integer> pocetKnih){
@@ -54,14 +66,20 @@ public class NoveKnihy extends Regal{
     }
 
 
-    public boolean nacitajKnihy(String path){
+    public boolean nacitajKnihy(String path) throws InvalidFormatException {
         try {
             File zoznam = new File(path);
             Scanner reader = new Scanner(zoznam);
+            int row = 1;
             while(reader.hasNextLine()){
                 String kh = reader.nextLine();
                 // vo vstupnom subore su informacie o knihe rozdelene tromi /
                String[] kniha = kh.split("/{3}");
+               if(kniha.length != 11) {
+                   throw new InvalidFormatException("Kniha na " + row + " riadku je zadana v zlom formate",row-1);
+               }
+
+               row++;
 
                Text text = new Text(kniha[0],kniha[1],kniha[7],Integer.parseInt(kniha[4]), Kategoria.valueOf(kniha[6]));
 
@@ -84,7 +102,6 @@ public class NoveKnihy extends Regal{
             return true;
         } catch (FileNotFoundException e) {
             Controller.printline("Novy tovar sa nepodarilo nacitat");
-            e.printStackTrace();
             return false;
         }
     }
