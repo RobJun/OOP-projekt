@@ -6,6 +6,7 @@ import junas.robert.lagatoria.core.Stanok;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,22 +54,29 @@ public class Distributor extends Zamestnanec {
 
     public void DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, Kniha kniha, int pocet) {
         HashMap<Odoberatel, Integer> pomer = pomerKnih(odoberatelia,pocet);
+        double kapital = 0;
+
         for (Odoberatel o : odoberatelia){
             if(o instanceof Knihkupectvo){
                 knihyPripraveneNaOdoslanie.add(kniha);
                 poctyKnih.add(pomer.get(o));
-                if(Knihkupectvo.getInstance().prijmameTovar()){
+                if(knihyPripraveneNaOdoslanie.size() == 4 && Knihkupectvo.getInstance().prijmameTovar()){
                     Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie,new LinkedList<>(poctyKnih)));
                     double zaplatene = 0;
                     while(!knihyPripraveneNaOdoslanie.isEmpty()){
                         zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(),poctyKnih.remove());
                     }
+                    Controller.printline("Knihkupectvo prijalo vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€");
+                    kapital += zaplatene;
                 }
             }else{
                 Stanok stanok = (Stanok) o;
                 stanok.odober(kniha,pomer.get(o));
-                stanok.zaplatVydavatelovi(kniha,pomer.get(o));
+                double zaplatene = stanok.zaplatVydavatelovi(kniha,pomer.get(o));
+                Controller.printline("Stanok prijal knihy a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
+                kapital += zaplatene;
             }
         }
+        Controller.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
     }
 }

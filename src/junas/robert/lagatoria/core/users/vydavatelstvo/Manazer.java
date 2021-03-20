@@ -1,8 +1,9 @@
 package junas.robert.lagatoria.core.users.vydavatelstvo;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.core.utils.AutorExistujeException;
+import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.gui.Controller;
@@ -39,6 +40,7 @@ public class Manazer extends Zamestnanec {
         inlineAkcie.put("vypisAutor", (args,kh,vy) -> vy.vypisAutorov());
         inlineAkcie.put("Pzoznam", ((args, kh, vy) -> vy.dajAutorovManazerovi()));
         inlineAkcie.put("Queue", ((args, kh, vy) -> vy.vypisTexty()));
+        inlineAkcie.put("Strategia", (args,kh,vy) -> vy.typVydavania(Boolean.valueOf(args[1])));
     }
 
     public void pridajAutora(ArrayList<Autor> autori){

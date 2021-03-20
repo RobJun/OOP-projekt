@@ -4,16 +4,14 @@ import junas.robert.lagatoria.core.Odoberatel;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
-import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
-import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
-import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
-import junas.robert.lagatoria.core.utils.LoggedIn;
+import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.gui.Controller;
 
 import java.io.*;
-import java.util.Scanner;
 
+/**
+ * Singleton trieda
+ */
 public class Knihkupectvo implements java.io.Serializable, Odoberatel {
     private static Knihkupectvo instancia = null;
     private Sklad sklad;
@@ -31,6 +29,10 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
         prijma = false;
     }
 
+
+    /**
+     * @return vracia instanciu na Singleton Knihkupectvo
+     */
     public static Knihkupectvo getInstance()
     {
         if (instancia == null)
@@ -45,6 +47,10 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
     public static void setPrihlaseny(LoggedIn prihlaseny) {instancia.prihlaseny = prihlaseny;}
 
 
+    /**
+     * Uklada sa instancia knihkupectva, knihy v nom a ich ulozenie
+     * @param path cesta k suboru, kde sa ulozia informacie o knihkupectve
+     */
     public static void serialize(String path){
         try{
             FileOutputStream fileOut = new FileOutputStream(path);
@@ -56,6 +62,10 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
         }
     }
 
+    /**
+     * metoda nacita informacie o knihkupectve do programu
+     * @param path cesta k suboru odkial sa maju data o knihkupectve nacitat
+     */
     public static void deserialize(String path){
         try {
             FileInputStream fileIn = new FileInputStream(path);
@@ -134,12 +144,22 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
     }*/
 
 
+    /**
+     * Zistuje ci je knihkupectvo pripravene prebrat novy tovar od vydavatela
+     * @return Ak sa nenachadza ziadny este nepoukladany tovar v sklade tak sa vracia true inak false
+     */
     public Boolean prijmameTovar(){
         if(sklad.getNovyTovar() == null) return true;
         return sklad.getNovyTovar().isMinute();
     }
 
 
+    /**
+     * vypocet kolko musi Knihkupectvo zaplatit za knihy vydavatelovi
+     * @param kniha kniha za ktoru sa plati
+     * @param pocet pocet prebratej knihy
+     * @return celkova cena ktoru knihkupectvo zaplatilo
+     */
     @Override
     public double zaplatVydavatelovi(Kniha kniha, int pocet) {
         return kniha.getCena()*0.50*pocet;

@@ -3,15 +3,12 @@ package junas.robert.lagatoria.gui;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -22,21 +19,18 @@ import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
 import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
-import junas.robert.lagatoria.core.utils.LoggedIn;
+import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.lang.reflect.Array;
 public class Controller {
 
-    class NewStage{
+    class AutorCreation {
         private TextField menoAutora = new TextField();
         private TextField prievzisko = new TextField();
-        NewStage(String title, String autor){
+        AutorCreation(String title, String autor){
             Stage subStage = new Stage();
             subStage.setTitle(autor);
 
@@ -58,6 +52,7 @@ public class Controller {
                     typ = PoetryAutor.class.getName();
                 }
                 pouzivatel.spracuj(("pridajA " + typ + " " + menoAutora.getText() + " " + prievzisko.getText()).split(" "),vydavatelstvo);
+                subStage.close();
             });
             root.getChildren().addAll(new Text("Prve meno"), menoAutora);
             root.getChildren().addAll(new Text("Prievzisko"), prievzisko);
@@ -86,7 +81,7 @@ public class Controller {
 
 
     public static TextArea out = new TextArea();
-    static TextField input = new TextField();
+    public static TextField input = new TextField();
 
     private static StringProperty textRecu = new SimpleStringProperty();
 
@@ -247,7 +242,7 @@ public class Controller {
         EventHandler<ActionEvent> vytvor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                new NewStage("pridanie", ((MenuItem)event.getSource()).getText());
+                new AutorCreation("pridanie", ((MenuItem)event.getSource()).getText());
             }
         };
 
@@ -267,6 +262,8 @@ public class Controller {
         Button vypisAutorov = new Button("Autori");
         Button pisat = new Button("Daj Napisat Knihu");
         Button text = new Button("Texty na vydanie");
+        Button vydaj = new Button("Vydaj text na vrchu zoznamu");
+        Button strategia = new Button("Vydavanie po jednom");
 
         vypisAutorov.setOnMouseClicked(e->{
             pouzivatel.spracuj(new String[]{"vypisAutor"}, vydavatelstvo);
@@ -280,10 +277,28 @@ public class Controller {
             pouzivatel.spracuj(new String[]{"Queue"}, vydavatelstvo);
         });
 
+        vydaj.setOnMouseClicked(e->{
+            pouzivatel.spracuj(new String[]{"vydajKnihy"},vydavatelstvo);
+        });
+
+        strategia.setOnMouseClicked(e->{
+            if(strategia.getText().compareTo("Vydavanie po jednom") == 0){
+                pouzivatel.spracuj("Strategia true".split(" "),vydavatelstvo);
+                strategia.setText("Vydavanie vsetkych");
+            }else{
+                pouzivatel.spracuj("Strategia false".split(" "),vydavatelstvo);
+                strategia.setText("Vydavanie po jednom");
+            }
+        });
+
+
+
         manazerOkno.getChildren().add(menuBar);
         manazerOkno.getChildren().add(vypisAutorov);
         manazerOkno.getChildren().add(pisat);
         manazerOkno.getChildren().add(text);
+        manazerOkno.getChildren().add(vydaj);
+        manazerOkno.getChildren().add(strategia);
     }
 
     private void createSkladnikButtons(){

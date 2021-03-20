@@ -1,7 +1,7 @@
 package junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie;
 
 import junas.robert.lagatoria.core.items.Text;
-import junas.robert.lagatoria.core.utils.Kategoria;
+import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;

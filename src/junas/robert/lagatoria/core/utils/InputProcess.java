@@ -4,6 +4,16 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public interface InputProcess {
-    void spracuj(String[] s, Vydavatelstvo vy);
+    /**
+     * funkcia na spracovanie vstupov do aplikacnej logiky
+     * @param args argumenty, ktore sa daju vykonat
+     * @param vydavatelstvo referencia na vydavatelstvo nad ktorym sa robia metody
+     */
+    void spracuj(String[] args, Vydavatelstvo vydavatelstvo);
+
+    /**
+     * @deprecated iba konzolova verzia;
+     * vypis funckii, ktore moze uzivatel urobit
+     */
     void help();
 }

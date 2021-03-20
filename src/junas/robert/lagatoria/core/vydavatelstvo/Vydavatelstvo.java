@@ -1,16 +1,13 @@
 package junas.robert.lagatoria.core.vydavatelstvo;
 
+import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.Odoberatel;
 import junas.robert.lagatoria.core.Stanok;
-import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.items.Obalka;
-import junas.robert.lagatoria.core.items.Text;
+import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
-import junas.robert.lagatoria.core.users.vydavatelstvo.Dizajner;
-import junas.robert.lagatoria.core.users.vydavatelstvo.Korektor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
-import junas.robert.lagatoria.core.utils.AutorExistujeException;
+import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
@@ -20,6 +17,46 @@ import junas.robert.lagatoria.gui.Controller;
 import java.util.*;
 
 public class Vydavatelstvo {
+
+    interface VydavanieStrategy{
+        void vydajKnihy();
+    }
+
+    class Korektor extends Zamestnanec {
+        public Korektor(String m, long id, double plat) {
+            super(m, id, plat);
+        }
+
+        private void najdiChybyVTexte(Text text){
+            Controller.printline("Najedenych a opravenych " + (int)(Math.random()*100) + " chyb");
+        }
+
+        private Text skratText(Text text){
+            text.setDlzka(text.getDlzka() - (int)(text.getDlzka()*0.1));
+            return text;
+        }
+
+        public Text precitajText(Text text) {
+            najdiChybyVTexte(text);
+            return skratText(text);
+        }
+    }
+
+    class Dizajner extends Zamestnanec {
+        public Dizajner(String m, long id, double plat) {
+            super(m, id, plat);
+        }
+
+        public Obalka navrhniObalku() {
+            if((int)(Math.random()*2) == 0) {
+                return new BrozovanaVazba("nejaky", "biela", "papagaj");
+            }else{
+                return new PevnaVazba("nejaky","cervena", "drevo");
+            }
+        }
+    }
+
+
     private Korektor korektor;
     private Dizajner dizajner;
     private Manazer manazer;
@@ -36,6 +73,14 @@ public class Vydavatelstvo {
     private String code;
     private String group;
 
+
+    private VydavanieStrategy strategia;
+
+    /**
+     * Vytvori instanciu Vydavatela Dalakan a zaroven sa prida instancia vydavatelovho knihkupectva
+     * @param manazer manazer vydavatelstva je pridavany z vonku
+     * @param pocetStankov incializacn pocet Odoberatlov typu Stanok
+     */
     public Vydavatelstvo(Manazer manazer, int pocetStankov){
         nazov = "Dalakan";
         code = "3315";
@@ -56,12 +101,43 @@ public class Vydavatelstvo {
         }
         odoberatelia.add(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
+
+        strategia = ()-> { vydanie(0); };
     }
 
+    /**
+     * Funkcia urci strategiu akou sa budu knihy vydavat (Bud vsetky naraz alebo iba jedna)
+     * Strategia ma dopad na pocet vytlackov aj cenu knihy
+     * pri tlaceni vsetkych sa zhorsuje kvalita teda aj pocet vytlackov sa zhorsuje
+     * @param vydajVsetko ak je parameter true tak sa vydaju vsetky knihy v rade, inak sa vydava po jednej
+     */
+    public void typVydavania(boolean vydajVsetko){
+        if(vydajVsetko){
+            strategia = () -> {
+                while(!prijateTexty.isEmpty()) {
+                    vydanie(30);
+                }
+
+            };
+        }else{
+            strategia = ()-> {
+                vydanie(0);
+            };
+        }
+    }
+
+    /**
+     * Prida text do radu, z ktoreho sa neskor kniha vyda
+     * @param text text na pridanie do radu prijatychtextov
+     */
     public void prijmiText(Text text){
         prijateTexty.add(text);
     }
 
+    /**
+     * Snazi sa pridat vsetkych autorov vo vydavatelstve manazerovi
+     * Osetruje sa vynimka ked autor uz daneho autora ma
+     */
     public void dajAutorovManazerovi(){
         for (Autor autor: autori) {
             try {
@@ -72,16 +148,23 @@ public class Vydavatelstvo {
         }
     }
 
+    /**
+     * Prida autora do zoznamu vsetkych autorov
+     * @param autor pridavany autor
+     */
     public void prijmiAutora(Autor autor){
         autori.add(autor);
     }
 
-    public void vydajKnihy(){
+    private void vydanie(int rychlostDeficit){
+        if(prijateTexty.isEmpty()){
+            Controller.printline("ziadna kniha na vydanie");
+            return;
+        }
         Text vydavana = prijateTexty.remove();
-
         Obalka obalka = dizajner.navrhniObalku();
         vydavana = korektor.precitajText(vydavana);
-        double feedback = manazer.ziskajFeedback(vydavana);
+        double feedback = manazer.ziskajFeedback(vydavana) - rychlostDeficit;
         int pocet = distributor.urciPocet(feedback);
         int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
         int i = 0;
@@ -99,11 +182,23 @@ public class Vydavatelstvo {
         distributor.DajOdoberatlom(odoberatelia, kniha, pocet);
     }
 
+    /**
+     * Vyda text ktory sa nachadza na vrchu radu, do ktoreho sa text dostane cez funkciu prijmiText(Text text)
+     */
+    public void vydajKnihy(){
+        strategia.vydajKnihy();
+    }
+
 
     public String getNazov() {
         return nazov;
     }
 
+    /**
+     * Vypise vsetkych autorov
+     * ✓ = je na zozname autorov schopnych pisat
+     * x = autor nie je schopny pisat / nie je nahlaseny u manazera
+     */
     public void vypisAutorov() {
         for(Autor a: autori){
             Controller.printline(a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
@@ -116,17 +211,32 @@ public class Vydavatelstvo {
         return manazer;
     }
 
+
+    /**
+     * Vypise este nevydane texty cakajuce na vydanie
+     */
     public void vypisTexty(){
         if(prijateTexty.isEmpty()){
             Controller.printline("Ziadne texty na vydanie");
             return;
         }
 
+        int i = 1;
         Iterator<Text> it = prijateTexty.iterator();
         while(it.hasNext()){
             Text current = it.next();
             if(current !=null)
-            Controller.printline(current.getAutor() + ": " +current.getNazov());
+            Controller.printline(i +": " + current.getAutor() + ": " +current.getNazov());
+            i++;
         }
+    }
+
+
+    /**
+     * Odobertal bude prijmat knihy od vydavatela
+     * @param odoberatel pridavany odoberatel
+     */
+    public void pridajOdoberatela(Odoberatel odoberatel){
+        odoberatelia.add(odoberatel);
     }
 }

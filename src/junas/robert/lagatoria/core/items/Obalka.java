@@ -2,6 +2,9 @@ package junas.robert.lagatoria.core.items;
 
 import junas.robert.lagatoria.gui.Controller;
 
+/**
+ * Obalka a cast knihy
+ */
 public abstract class Obalka implements InfoKniha {
     private String dizajn;
     private String farba;

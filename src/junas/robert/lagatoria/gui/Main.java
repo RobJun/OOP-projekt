@@ -11,7 +11,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
-import junas.robert.lagatoria.core.utils.LoggedIn;
+import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public class Main extends Application {

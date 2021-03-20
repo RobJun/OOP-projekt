@@ -1,15 +1,13 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.items.*;
-import junas.robert.lagatoria.core.utils.InvalidFormatException;
-import junas.robert.lagatoria.core.utils.Kategoria;
-import junas.robert.lagatoria.core.utils.Vazba;
+import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
+import junas.robert.lagatoria.core.utils.enums.Kategoria;
+import junas.robert.lagatoria.core.utils.enums.Vazba;
 import junas.robert.lagatoria.gui.Controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -75,10 +73,13 @@ public class NoveKnihy extends Regal{
                 String kh = reader.nextLine();
                 // vo vstupnom subore su informacie o knihe rozdelene tromi /
                String[] kniha = kh.split("/{3}");
-               if(kniha.length != 11) {
+               if(kniha.length != 11
+                       || !kniha[4].matches("[0-9]+")
+                       || !kniha[10].matches("[0-9]+")
+                       || !kniha[3].matches("[0-9]+")
+                       || !kniha[5].matches("[-+]?[0-9]+\\.?[0-9]+")) {
                    throw new InvalidFormatException("Kniha na " + row + " riadku je zadana v zlom formate",row-1);
                }
-
                row++;
 
                Text text = new Text(kniha[0],kniha[1],kniha[7],Integer.parseInt(kniha[4]), Kategoria.valueOf(kniha[6]));

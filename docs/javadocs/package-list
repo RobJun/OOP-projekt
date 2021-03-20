@@ -1,0 +1,15 @@
+junas.robert.lagatoria.core
+junas.robert.lagatoria.core.items
+junas.robert.lagatoria.core.knihkupectvo
+junas.robert.lagatoria.core.knihkupectvo.rooms
+junas.robert.lagatoria.core.knihkupectvo.storage
+junas.robert.lagatoria.core.users
+junas.robert.lagatoria.core.users.knihkupectvo
+junas.robert.lagatoria.core.users.vydavatelstvo
+junas.robert.lagatoria.core.utils
+junas.robert.lagatoria.core.utils.enums
+junas.robert.lagatoria.core.utils.exceptions
+junas.robert.lagatoria.core.vydavatelstvo
+junas.robert.lagatoria.core.vydavatelstvo.spisovatelia
+junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie
+junas.robert.lagatoria.gui

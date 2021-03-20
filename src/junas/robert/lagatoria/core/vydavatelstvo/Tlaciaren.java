@@ -13,6 +13,16 @@ public class Tlaciaren {
     public Tlaciaren(Vydavatelstvo vydavatelstvo){
         this.vydavatelstvo = vydavatelstvo;
     }
+
+    /**
+     * Vytlaci, resp. spoji, vsetky casti knihy do celku s nazvom Kniha
+     * @param text text ktory sa bude tlacit
+     * @param obalka obalka knihy
+     * @param pocet pocet vytlackov ktore sa maju vytlacit
+     * @param isbn  poznavaci kod pre knihu
+     * @param cena  cena za ktoru sa bude kniha predavat
+     * @return  vracia instanciu vytlacenej knihy
+     */
     public Kniha vytlacKnihy(Text text, Obalka obalka, int pocet, String isbn, double cena){
         Kniha kniha = new Kniha(isbn,vydavatelstvo.getNazov(), Calendar.getInstance().get(Calendar.YEAR),cena);
         kniha.pridajSucast(text);

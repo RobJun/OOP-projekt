@@ -2,7 +2,7 @@ package junas.robert.lagatoria.core.users;
 
 import junas.robert.lagatoria.core.utils.InlineCommand;
 import junas.robert.lagatoria.core.utils.InputProcess;
-import junas.robert.lagatoria.core.utils.LoggedIn;
+import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
@@ -56,15 +56,15 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
     @Override
-    public void spracuj(String[] s, Vydavatelstvo vy){
+    public void spracuj(String[] args, Vydavatelstvo vydavatelstvo){
         int index = 0;
-            while(index < s.length) {
-                if (inlineAkcie.containsKey(s[index])) {
-                    inlineAkcie.get(s[index]).process(s, Knihkupectvo.getInstance(), vy);
+            while(index < args.length) {
+                if (inlineAkcie.containsKey(args[index])) {
+                    inlineAkcie.get(args[index]).process(args, Knihkupectvo.getInstance(), vydavatelstvo);
                 }
                 int k;
-                for (k = index + 1; k < s.length; k++) {
-                    if (s[k].equals("|")) break;
+                for (k = index + 1; k < args.length; k++) {
+                    if (args[k].equals("|")) break;
                 }
                 index = k + 1;
             }

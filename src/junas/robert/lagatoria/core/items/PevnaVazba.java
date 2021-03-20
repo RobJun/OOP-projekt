@@ -5,6 +5,12 @@ import junas.robert.lagatoria.gui.Controller;
 public class PevnaVazba extends Obalka{
     private String material;
 
+
+    /**
+     * @param dizajn dizajn obalky
+     * @param farba farba obalky
+     * @param material material, z ktoreho je obalka vytvorena
+     */
     public PevnaVazba(String dizajn, String farba,String material){
         super(dizajn,farba);
         typObalky = "Pevna vazba";
