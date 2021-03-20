@@ -18,6 +18,8 @@ public class Manazer extends Zamestnanec {
     public Manazer(String m, long id, double plat) {
 
         super(m, id, plat);
+
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("dajNapisat", (args, kh, vy) -> dajNapisatKnihu());
         inlineAkcie.put("vydajKnihy", (args, kh, vy) -> vy.vydajKnihy());
         inlineAkcie.put("pridajA", (args,kh,vy) -> {
@@ -68,6 +70,11 @@ public class Manazer extends Zamestnanec {
     }
 
 
+    /**
+     * Urci ako by mala byt kniha popularna
+     * @param text text o ktorom chcem vediet jeho hodnotu
+     * @return  vracia hodnotu textu, resp. hodnotenie od kritikov
+     */
     public double ziskajFeedback(Text text) {
         switch(text.getKategoria()){
             case POEZIA:
@@ -83,14 +90,21 @@ public class Manazer extends Zamestnanec {
         }
     }
 
+    /**
+     * Cena je dana podla parametru feedback (mozne ceny: 4,99;7,99;9,99;14,99 alebo 19,99)
+     * @param feedback hodnota 0-100 ako bude kniha predavana
+     * @return vracia navrhnutu cenu knihy
+     */
     public double navrhniCenu(double feedback) {
-        if(feedback < 50){
+        if(feedback < 30){
             return 4.99;
-        }else if(feedback < 75){
+        } else if(feedback < 50){
+            return 7.99;
+        } else if(feedback < 75){
             return 9.99;
-        }else if(feedback < 80){
+        } else if(feedback < 80){
             return 14.99;
-        }else {
+        } else {
             return 19.99;
         }
     }

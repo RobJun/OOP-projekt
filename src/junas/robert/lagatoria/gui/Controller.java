@@ -18,6 +18,7 @@ import junas.robert.lagatoria.core.users.Pouzivatel;
 import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
 import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
+import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
@@ -63,13 +64,67 @@ public class Controller {
     }
 
 
+    class OdoberatelCreation{
+        private TextField nazovStanku = new TextField();
+
+        OdoberatelCreation(){
+            Stage subStage = new Stage();
+            subStage.setTitle("Pridanie Odoberatela");
+
+            FlowPane root = new FlowPane();
+            root.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(root, 250, 200);
+
+            Button submit = new Button("Submit");
+            submit.setOnMouseClicked(e->{
+                if(nazovStanku.getText() == "" || nazovStanku.getText() == null ){
+                    return;
+                }
+                pouzivatel.spracuj(("pridajOdoberatela " + nazovStanku.getText()).split(" "),vydavatelstvo);
+                subStage.close();
+            });
+            root.getChildren().addAll(new Text("Nazov Stanku"), nazovStanku);
+            root.getChildren().add(submit);
+            subStage.setScene(scene);
+            subStage.show();
+        }
+    }
+
+    class removeOdoberatel{
+        private TextField indexer = new TextField();
+
+        removeOdoberatel(){
+            Stage subStage = new Stage();
+            subStage.setTitle("Odstranenie Odoberatela");
+
+            FlowPane root = new FlowPane();
+            root.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(root, 250, 200);
+
+            Button submit = new Button("Submit");
+            submit.setOnMouseClicked(e->{
+                if(indexer.getText() == null || indexer.getText() == "" || !indexer.getText().matches("[0-9]+")){
+                    return;
+                }
+                pouzivatel.spracuj(("odstranOdoberatela " + indexer.getText()).split(" "),vydavatelstvo);
+                subStage.close();
+            });
+            root.getChildren().addAll(new Text("Index: "), indexer);
+            root.getChildren().add(submit);
+            subStage.setScene(scene);
+            subStage.show();
+        }
+    }
+
+
     private Vydavatelstvo vydavatelstvo;
 
     private Pouzivatel pouzivatel;
     private Zakaznik zakaznik = new Zakaznik();
     private Predajca predajca = new Predajca("Predavac",22);
     private Skladnik skladnik = new Skladnik("Skladnik", 23);
-    private Manazer manazer = new Manazer("manazer", 24,8.5);
+    private Manazer manazer;
+    private Distributor distributor;
     private StackPane pane;
 
 
@@ -77,6 +132,7 @@ public class Controller {
     private HBox zakaznikOkno = new HBox();
     private HBox predajcaOkno = new HBox();
     private HBox skladnikOkno = new HBox();
+    private HBox distibutorOkno = new HBox();
     private StackPane def = new StackPane();
 
 
@@ -90,6 +146,7 @@ public class Controller {
         this.pane = pane;
         this.vydavatelstvo = vydavatelstvo;
         manazer = vydavatelstvo.getManazer();
+        distributor = vydavatelstvo.getDistibutor();
         input.setPrefWidth(1000);
 
         out.textProperty().bind(textRecu);
@@ -98,6 +155,7 @@ public class Controller {
         createZakaznikButtons();
         createManazerButtons();
         createSkladnikButtons();
+        createDistributorButtons();
 
         Text text = new Text("Prihlaste sa");
         def.getChildren().add(text);
@@ -239,6 +297,8 @@ public class Controller {
         MenuItem poetryAutor = new MenuItem("autor poezie");
         MenuItem addAutors = new MenuItem("Pridaj autorov do zoznamu cakajucich na pisane");
 
+
+
         EventHandler<ActionEvent> vytvor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -255,8 +315,9 @@ public class Controller {
         });
 
         menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors);
+
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(menu);
+        menuBar.getMenus().addAll(menu);
 
 
         Button vypisAutorov = new Button("Autori");
@@ -264,6 +325,7 @@ public class Controller {
         Button text = new Button("Texty na vydanie");
         Button vydaj = new Button("Vydaj text na vrchu zoznamu");
         Button strategia = new Button("Vydavanie po jednom");
+
 
         vypisAutorov.setOnMouseClicked(e->{
             pouzivatel.spracuj(new String[]{"vypisAutor"}, vydavatelstvo);
@@ -351,6 +413,34 @@ public class Controller {
     }
 
 
+    private void createDistributorButtons(){
+        Menu menu2 = new Menu("Odoberatelia");
+        MenuItem pridajOdoberatela = new MenuItem("pridaj odoberatela");
+        MenuItem vypisOdoberatlov = new MenuItem("vypisOdoberatelov");
+        MenuItem odoberOdoberatela = new MenuItem("odober odoberatela");
+
+        pridajOdoberatela.setOnAction(e->{
+                new OdoberatelCreation();
+        });
+
+        vypisOdoberatlov.setOnAction(e->{
+            pouzivatel.spracuj(new String[]{"vypisOdoberatelov"}, vydavatelstvo);
+        });
+
+        odoberOdoberatela.setOnAction(e->{
+           new removeOdoberatel();
+        });
+
+        menu2.getItems().addAll(pridajOdoberatela,odoberOdoberatela,vypisOdoberatlov);
+
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(menu2);
+
+        distibutorOkno.getChildren().add(menuBar);
+    }
+
+
 
     public String getPouzivatel() {
         if(pouzivatel == null) return "NIKTO";
@@ -373,6 +463,8 @@ public class Controller {
             pane.getChildren().add(predajcaOkno);
         else if(p instanceof Manazer)
             pane.getChildren().add(manazerOkno);
+        else if(p instanceof Distributor)
+            pane.getChildren().add(distibutorOkno);
     }
 
 
@@ -390,6 +482,8 @@ public class Controller {
             case MANAZER:
                 this.pouzivatel = manazer;
                 break;
+            case DISTRI:
+                this.pouzivatel = distributor;
         }
     }
 }

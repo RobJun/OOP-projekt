@@ -21,6 +21,8 @@ public abstract class Pouzivatel implements InputProcess {
         this.id =id;
 
         inlineAkcie = new HashMap<>();
+
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("help", (args, kh, vy) -> help());
         inlineAkcie.put("exit", (args, kh, vy) -> exit());
         inlineAkcie.put("logout", (args, kh, vy) -> kh.setPrihlaseny(LoggedIn.NONE));

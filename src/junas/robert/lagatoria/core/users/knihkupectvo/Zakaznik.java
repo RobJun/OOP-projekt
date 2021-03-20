@@ -17,6 +17,7 @@ public class Zakaznik extends Pouzivatel {
         kosik = new ArrayList<Kniha>();
         pocetKnih = new HashMap<String,Integer>();
 
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("kosik",(args, kh, vy)-> vypisKosik());
         inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu() );
         inlineAkcie.put("zober", (args, kh, vy) -> dajDoKosika(args,kh.getPredajna()));

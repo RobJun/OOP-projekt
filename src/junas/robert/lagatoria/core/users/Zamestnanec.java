@@ -13,6 +13,7 @@ public abstract class Zamestnanec extends Pouzivatel{
         this.plat = plat;
         odrobene = 0;
 
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("plat", ((args, kh, vy) ->  System.out.println("Tvoj plat je: " + getPlat())));
         inlineAkcie.put("zarobene", ((args, kh, vy) -> System.out.println("zarobil si: " + vypocitajPlat())));
         inlineAkcie.put("odrobene", ((args, kh, vy) -> System.out.println("odrobil si: " + getOdrobene())));

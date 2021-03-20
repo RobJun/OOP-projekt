@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Stanok implements Odoberatel {
+    public String nazov;
     private ArrayList<Kniha> zoznamKnih;
     private HashMap<String, Integer> pocetKnih;
 
-    public Stanok(){
+    public Stanok(String nazov){
+        this.nazov = nazov;
         zoznamKnih = new ArrayList<>();
         pocetKnih = new HashMap<>();
     }
@@ -19,4 +21,7 @@ public class Stanok implements Odoberatel {
         pocetKnih.put(kniha.getISBN(),pocet);
     }
 
+    public String getNazov() {
+        return nazov;
+    }
 }

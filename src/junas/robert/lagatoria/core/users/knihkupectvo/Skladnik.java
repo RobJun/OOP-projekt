@@ -16,6 +16,8 @@ public class Skladnik extends Zamestnanec {
     public Skladnik(String meno, long id){
         super(meno, id, 4.5);
 
+
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("sklad", ((args, kh, vy) -> kh.getSklad().printSklad()));
         inlineAkcie.put("n-umiestni", (args, kh, vy) -> umiestniNovyT(kh.getSklad()));
         inlineAkcie.put("info-n", (args, kh, vy) -> {

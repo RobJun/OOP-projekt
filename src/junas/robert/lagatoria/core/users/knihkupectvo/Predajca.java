@@ -18,6 +18,7 @@ public class Predajca extends Zamestnanec {
         kniha = null;
         pocet =0;
 
+        //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("otvor", (args, kh, vy) -> otvorPredajnu(kh.getPredajna()));
         inlineAkcie.put("zavri", (args, kh, vy)-> zavriPredajnu(kh.getPredajna()));
         inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu());

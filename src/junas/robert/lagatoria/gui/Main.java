@@ -20,6 +20,7 @@ public class Main extends Application {
     private Button skladnikButton = new Button("Skladník");
     private Button predajcaButton = new Button("Predajca");
     private Button manazerButton = new Button("Manažer");
+    private Button distriButton = new Button("Distributor");
 
     private Controller controller;
 
@@ -70,6 +71,7 @@ public class Main extends Application {
         skladnikButton.setMinWidth(menu.getPrefWidth());
         predajcaButton.setMinWidth(menu.getPrefWidth());
         manazerButton.setMinWidth(menu.getPrefWidth());
+        distriButton.setMinWidth(menu.getPrefWidth());
 
         Text text = new Text();
         text.setText("prihlasiť sa ako:");
@@ -78,7 +80,7 @@ public class Main extends Application {
         prihlaseny.setText("(" + controller.getPouzivatel()+")");
         prihlaseny.setTextAlignment(TextAlignment.CENTER);
 
-        menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,prihlaseny);
+        menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,distriButton,prihlaseny);
 
         zakaznikButton.setOnMouseClicked(e -> {
             controller.update(prihlaseny,LoggedIn.ZAKAZNIK);
@@ -94,6 +96,10 @@ public class Main extends Application {
 
         manazerButton.setOnMouseClicked(e -> {
             controller.update(prihlaseny,LoggedIn.MANAZER);
+        });
+
+        distriButton.setOnMouseClicked(e -> {
+            controller.update(prihlaseny,LoggedIn.DISTRI);
         });
 
 

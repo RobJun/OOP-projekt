@@ -97,7 +97,7 @@ public class Vydavatelstvo {
         autori.add(new PoetryAutor("Peter", "Nagy",this));
 
         for(int i = 0; i < pocetStankov;i++){
-            odoberatelia.add(new Stanok());
+            odoberatelia.add(new Stanok("stanok"+i));
         }
         odoberatelia.add(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
@@ -238,5 +238,33 @@ public class Vydavatelstvo {
      */
     public void pridajOdoberatela(Odoberatel odoberatel){
         odoberatelia.add(odoberatel);
+    }
+
+    /**
+     * Odstrani odoberatela zo zoznamu odoberatelov knih (ak sa na indexe nachadza knihkupectvo tak to sa nevymaze)
+     * @param index index na ktorom sa nachaza odstranovany odoberatel
+     */
+    public void odoberOdoberatela(int index) {
+        if(odoberatelia.get(index) instanceof Knihkupectvo){
+            Controller.printline("Knihkupectvo sa neda odstranit zo zoznamu");
+            return;
+        }
+        if(index >= odoberatelia.size()) {
+            Controller.printline("neplatny index");
+            return;
+        }
+        odoberatelia.remove(index);
+    }
+
+    public void vypisOdoberatelov() {
+        int index = 0;
+        for (Odoberatel o: odoberatelia) {
+            Controller.printline(index+": "+o.getClass().getSimpleName() + ": " + ((o instanceof Knihkupectvo) ? ("Minerva") : ((Stanok)o).getNazov()));
+            index++;
+        }
+    }
+
+    public Distributor getDistibutor() {
+        return distributor;
     }
 }

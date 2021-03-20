@@ -23,6 +23,10 @@ public class Distributor extends Zamestnanec {
         super(m, id, plat);
         knihyPripraveneNaOdoslanie = new LinkedList<>();
         poctyKnih = new LinkedList<>();
+
+        inlineAkcie.put("pridajOdoberatela", ((args, kh, vy) -> vy.pridajOdoberatela(new Stanok(args[1]))));
+        inlineAkcie.put("vypisOdoberatelov", ((args, kh, vy) -> vy.vypisOdoberatelov()));
+        inlineAkcie.put("odstranOdoberatela", ((args, kh, vy) -> vy.odoberOdoberatela(Integer.valueOf(args[1]))));
     }
 
     public int urciPocet(double feedback) {

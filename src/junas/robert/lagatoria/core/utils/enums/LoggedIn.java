@@ -8,5 +8,6 @@ public enum LoggedIn {
     ZAKAZNIK,
     PREDAJCA,
     SKLADNIK,
-    MANAZER;
+    MANAZER,
+    DISTRI;
 }
