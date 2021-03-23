@@ -42,7 +42,15 @@ public class Text implements InfoKniha{
         return autor;
     }
 
-    public void oprav(){ opravene = true;}
+
+    /**
+     * oznaci text za opraveny
+     * @return pocet najdenych chyb v texte
+     */
+    public int oprav(){
+        opravene = true;
+        return (int)(Math.random()*(dlzka/2));
+    }
 
     public Boolean isOpravene(){ return opravene; }
 

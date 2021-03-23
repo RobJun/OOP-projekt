@@ -28,7 +28,7 @@ public class Vydavatelstvo {
         }
 
         private void najdiChybyVTexte(Text text){
-            Controller.printline("Najedenych a opravenych " + (int)(Math.random()*100) + " chyb");
+            Controller.printline("Najedenych a opravenych " + text.oprav() + " chyb");
         }
 
         private Text skratText(Text text){
@@ -252,9 +252,11 @@ public class Vydavatelstvo {
      * x = autor nie je schopny pisat / nie je nahlaseny u manazera
      */
     public void vypisAutorov() {
+        int i = 0;
         for(Autor a: autori){
-            Controller.printline(a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
+            Controller.printline(i +": "+a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
                     "] Je v zozname: " + ((manazer.existujeAutor(a)) ? "✓": "x"));
+            i++;
         }
         Controller.printline("");
     }
@@ -262,6 +264,8 @@ public class Vydavatelstvo {
     public Manazer getManazer() {
         return manazer;
     }
+
+    public Autor getAutor(int index) {return autori.get(index);};
 
 
     /**

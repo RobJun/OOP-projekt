@@ -4,6 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
+import junas.robert.lagatoria.core.utils.exceptions.AutorNieJeNaZozname;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.gui.Controller;
@@ -43,6 +44,14 @@ public class Manazer extends Zamestnanec {
         inlineAkcie.put("Pzoznam", ((args, kh, vy) -> vy.dajAutorovManazerovi()));
         inlineAkcie.put("Queue", ((args, kh, vy) -> vy.vypisTexty()));
         inlineAkcie.put("Strategia", (args,kh,vy) -> vy.typVydavania(Boolean.valueOf(args[1])));
+        inlineAkcie.put("odoberA", ((args, kh, vy) -> {
+            try {
+                odoberAutora(vy.getAutor(Integer.valueOf(args[1])));
+            } catch (AutorNieJeNaZozname autorNieJeNaZozname) {
+                autorNieJeNaZozname.printStackTrace();
+                Controller.printline(autorNieJeNaZozname.getMessage());
+            }
+        }));
     }
 
     public void pridajAutora(ArrayList<Autor> autori){
@@ -54,6 +63,12 @@ public class Manazer extends Zamestnanec {
             throw new AutorExistujeException(autor.getMeno());
         else
             this.autori.add(autor);
+    }
+
+    public void odoberAutora(Autor autor) throws AutorNieJeNaZozname {
+        if (!autori.contains(autor)) throw new AutorNieJeNaZozname(autor.getMeno());
+
+        autori.remove(autor);
     }
 
     public boolean existujeAutor(Autor autor){

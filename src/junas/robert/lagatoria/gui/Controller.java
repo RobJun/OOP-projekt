@@ -3,6 +3,8 @@ package junas.robert.lagatoria.gui;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -42,7 +44,7 @@ public class Controller {
 
             Button submit = new Button("Submit");
             submit.setOnMouseClicked(e->{
-                if(menoAutora.getText() == "" || menoAutora.getText() == null || prievzisko.getText() == null ||prievzisko.getText() == ""){
+                if(menoAutora.getText().length() == 0 || menoAutora.getText() == null || prievzisko.getText() == null ||prievzisko.getText().length() == 0 ){
                     return;
                 }
                 String typ = null;
@@ -64,6 +66,42 @@ public class Controller {
         }
     }
 
+    class RemoveAutor {
+        private TextField index = new TextField();
+
+        RemoveAutor(){
+            Stage subStage = new Stage();
+            subStage.setTitle("nepisuci autor");
+
+            FlowPane root = new FlowPane();
+            root.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(root, 250, 200);
+
+            Button submit = new Button("Submit");
+            submit.setOnMouseClicked(e->{
+                if(index == null || index.getText().length() == 0 || !index.getText().matches("[0-9]+") ){
+                    return;
+                }
+                String typ = null;
+                pouzivatel.spracuj(("odoberA " + index.getText()).split(" "),vydavatelstvo);
+                subStage.close();
+            });
+
+            index.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d*")) {
+                        index.setText(newValue.replaceAll("[^\\d]", ""));
+                    }
+                }
+            });
+            root.getChildren().addAll(new Text("index"), index);
+            root.getChildren().add(submit);
+            subStage.setScene(scene);
+            subStage.show();
+        }
+    }
+
 
     class OdoberatelCreation{
         private TextField nazovStanku = new TextField();
@@ -78,7 +116,7 @@ public class Controller {
 
             Button submit = new Button("Submit");
             submit.setOnMouseClicked(e->{
-                if(nazovStanku.getText() == "" || nazovStanku.getText() == null ){
+                if( nazovStanku.getText() == null || nazovStanku.getText().length() == 0){
                     return;
                 }
                 pouzivatel.spracuj(("pridajOdoberatela " + nazovStanku.getText()).split(" "),vydavatelstvo);
@@ -92,7 +130,7 @@ public class Controller {
     }
 
     class removeOdoberatel{
-        private TextField indexer = new TextField();
+        private TextField index = new TextField();
 
         removeOdoberatel(){
             Stage subStage = new Stage();
@@ -104,13 +142,23 @@ public class Controller {
 
             Button submit = new Button("Submit");
             submit.setOnMouseClicked(e->{
-                if(indexer.getText() == null || indexer.getText() == "" || !indexer.getText().matches("[0-9]+")){
+                if(index.getText() == null || index.getText().length() == 0 || !index.getText().matches("[0-9]+")){
                     return;
                 }
-                pouzivatel.spracuj(("odstranOdoberatela " + indexer.getText()).split(" "),vydavatelstvo);
+                pouzivatel.spracuj(("odstranOdoberatela " + index.getText()).split(" "),vydavatelstvo);
                 subStage.close();
             });
-            root.getChildren().addAll(new Text("Index: "), indexer);
+            index.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d*")) {
+                        index.setText(newValue.replaceAll("[^\\d]", ""));
+                    }
+                }
+            });
+
+
+            root.getChildren().addAll(new Text("Index: "), index);
             root.getChildren().add(submit);
             subStage.setScene(scene);
             subStage.show();
@@ -307,6 +355,7 @@ public class Controller {
         MenuItem historyAutor = new MenuItem("history autor");
         MenuItem poetryAutor = new MenuItem("autor poezie");
         MenuItem addAutors = new MenuItem("Pridaj autorov do zoznamu cakajucich na pisane");
+        MenuItem removeAutors = new MenuItem("Odober autora zo zoznamu autorov cakajucich na pisanie");
 
 
 
@@ -325,7 +374,11 @@ public class Controller {
             pouzivatel.spracuj(new String[]{"Pzoznam"},vydavatelstvo);
         });
 
-        menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors);
+        removeAutors.setOnAction(e->{
+            new RemoveAutor();
+        });
+
+        menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors, removeAutors);
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu);
