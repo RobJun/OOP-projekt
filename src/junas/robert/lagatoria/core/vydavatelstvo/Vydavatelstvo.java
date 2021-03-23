@@ -102,7 +102,7 @@ public class Vydavatelstvo {
         odoberatelia.add(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
 
-        strategia = ()-> { vydanie(0); };
+        strategia = this::vydanie;
     }
 
     /**
@@ -114,15 +114,52 @@ public class Vydavatelstvo {
     public void typVydavania(boolean vydajVsetko){
         if(vydajVsetko){
             strategia = () -> {
-                while(!prijateTexty.isEmpty()) {
-                    vydanie(30);
+                ArrayList<Kniha> vytlaceneKnihy = new ArrayList<>();
+                ArrayList<Integer> pocetVytlackov = new ArrayList<>();
+                if(prijateTexty.isEmpty()){
+                    Controller.printline("ziadna kniha na vydanie");
+                    return;
                 }
+                while(!prijateTexty.isEmpty()) {
+                    Text vydavana = prijateTexty.remove();
 
+                    Controller.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
+
+                    Obalka obalka = dizajner.navrhniObalku();
+                    vydavana = korektor.precitajText(vydavana);
+
+                    double feedback = manazer.ziskajFeedback(vydavana);
+
+                    Controller.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
+
+                    int pocet = distributor.urciPocet(feedback);
+
+                    pocetVytlackov.add(pocet);
+
+                    Controller.printline("Naplanovany pocet vytlackov: " + pocet);
+
+                    int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
+                    int i = 0;
+                    if(pouziteKody.containsKey(titleCode)){
+                        i = pouziteKody.get(titleCode)+1;
+                        pouziteKody.replace(titleCode,i);
+                    }else{
+                        pouziteKody.put(titleCode, 0);
+                    }
+                    String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
+                    double cena = manazer.navrhniCenu(feedback);
+
+                    Controller.printline("cena knihy: " + cena);
+
+
+                    Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
+                    kniha.getInfo();
+                    vytlaceneKnihy.add(kniha);
+                }
+                distributor.DajOdoberatlom(odoberatelia,vytlaceneKnihy,pocetVytlackov);
             };
         }else{
-            strategia = ()-> {
-                vydanie(0);
-            };
+            strategia = this::vydanie;
         }
     }
 
@@ -156,16 +193,26 @@ public class Vydavatelstvo {
         autori.add(autor);
     }
 
-    private void vydanie(int rychlostDeficit){
+    private void vydanie(){
         if(prijateTexty.isEmpty()){
             Controller.printline("ziadna kniha na vydanie");
             return;
         }
         Text vydavana = prijateTexty.remove();
+
+        Controller.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
+
         Obalka obalka = dizajner.navrhniObalku();
         vydavana = korektor.precitajText(vydavana);
-        double feedback = manazer.ziskajFeedback(vydavana) - rychlostDeficit;
+
+        double feedback = manazer.ziskajFeedback(vydavana);
+
+        Controller.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
+
         int pocet = distributor.urciPocet(feedback);
+
+        Controller.printline("Naplanovany pocet vytlackov: " + pocet);
+
         int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
         int i = 0;
         if(pouziteKody.containsKey(titleCode)){
@@ -177,7 +224,12 @@ public class Vydavatelstvo {
         String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
         double cena = manazer.navrhniCenu(feedback);
 
+        Controller.printline("cena knihy: " + cena);
+
+
         Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
+
+        kniha.getInfo();
 
         distributor.DajOdoberatlom(odoberatelia, kniha, pocet);
     }

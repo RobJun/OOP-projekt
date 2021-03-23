@@ -71,9 +71,9 @@ public class Zakaznik extends Pouzivatel {
         int p = -1;
         for(String f : args){
             if(f.contains("i/")){
-                k = najdReferenciuNaKnihu(pr, Integer.parseInt(f.substring(2)));
+                k = najdiReferenciuNaKnihu(pr, Integer.parseInt(f.substring(2)));
             }else if(f.contains("s/")){
-                k = najdReferenciuNaKnihu(pr, f.replaceAll("_", " ").substring(2));
+                k = najdiReferenciuNaKnihu(pr, f.replaceAll("_", " ").substring(2));
             }else if(f.contains("/")){
                 p = Integer.parseInt(f.substring(1));
             }

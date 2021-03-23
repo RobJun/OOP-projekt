@@ -7,6 +7,7 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.HashMap;
 
@@ -44,7 +45,7 @@ public abstract class Pouzivatel implements InputProcess {
 
     ///vypise meno a id uzivatela
     public void vypisInfo(){
-        System.out.println(meno + " ["+ id+"]");
+        Controller.printline(meno + " ["+ id+"]");
     }
 
 
@@ -74,11 +75,11 @@ public abstract class Pouzivatel implements InputProcess {
 
 
 
-    public Kniha najdReferenciuNaKnihu(Miestnost s, int i){
+    public Kniha najdiReferenciuNaKnihu(Miestnost s, int i){
         return  (s.getKatalog().isEmpty() || i >= s.getKatalog().size() ) ? null : s.getKatalog().get(i);
     }
 
-    public Kniha najdReferenciuNaKnihu(Miestnost s, String id){
+    public Kniha najdiReferenciuNaKnihu(Miestnost s, String id){
         for(Kniha kp : s.getKatalog()){
             if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
                 return kp;

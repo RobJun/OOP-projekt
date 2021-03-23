@@ -130,9 +130,9 @@ public class Skladnik extends Zamestnanec {
                 umiestni[0] = Integer.parseInt(f.substring(3,f.indexOf('-')));
                 umiestni[1] = Integer.parseInt(f.substring(f.indexOf('-')+1));
             }else if(f.contains("i/")){
-                k = najdReferenciuNaKnihu(sklad, Integer.parseInt(f.substring(2)));
+                k = najdiReferenciuNaKnihu(sklad, Integer.parseInt(f.substring(2)));
             }else if(f.contains("s/")){
-                k = najdReferenciuNaKnihu(sklad, f.replaceAll("_", " ").substring(2));
+                k = najdiReferenciuNaKnihu(sklad, f.replaceAll("_", " ").substring(2));
             }else if(f.contains("/")){
                 p = Integer.parseInt(f.substring(1));
 

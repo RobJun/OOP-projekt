@@ -7,7 +7,6 @@ import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.Main;
 
 public class Predajca extends Zamestnanec {
     private Kniha kniha;
@@ -70,9 +69,9 @@ public class Predajca extends Zamestnanec {
         Kniha k = null;
         for(String f : args){
             if(f.contains("i/")){
-                k = najdReferenciuNaKnihu(kh.getSklad(), Integer.parseInt(f.substring(2)));
+                k = najdiReferenciuNaKnihu(kh.getSklad(), Integer.parseInt(f.substring(2)));
             }else if(f.contains("s/")){
-                k = najdReferenciuNaKnihu(kh.getSklad(), f.replaceAll("_", " ").substring(2));
+                k = najdiReferenciuNaKnihu(kh.getSklad(), f.replaceAll("_", " ").substring(2));
             }else if(f.contains("/")){
                 p = Integer.parseInt(f.substring(1));
             }

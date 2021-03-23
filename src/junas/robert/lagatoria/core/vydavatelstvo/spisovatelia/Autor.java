@@ -26,6 +26,10 @@ public abstract class Autor {
         pisanie = new NormalnePisanie();
     }
 
+    /**
+     * Metoda spusti novy thread na ktorom autor vymysli a pise knihu a odosle ju do vydavatelstva
+     * @return ci autor prijal pozidavku
+     */
     public Boolean prijmiPoziadvku(){
         if(piseKnihu) return false;
         piseKnihu = true;
@@ -40,6 +44,13 @@ public abstract class Autor {
                     @Override
                     public void run() {
                         nazov = autor.vymysliKnihu();
+                    }
+                };
+
+                Runnable hotovo = new Runnable() {
+                    @Override
+                    public void run() {
+                        Controller.printline("Autor odoslal knihu vydavatelovi");
                     }
                 };
 
@@ -58,6 +69,7 @@ public abstract class Autor {
                     e.printStackTrace();
                 }
                 autor.odosliVydavatelovi(text);
+                Platform.runLater(hotovo);
             }
         });
 

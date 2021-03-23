@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -142,6 +143,14 @@ public class Controller {
     private static StringProperty textRecu = new SimpleStringProperty();
 
 
+    private EventHandler<MouseEvent> info =  new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            pouzivatel.spracuj("info-me | plat | zarobene | odrobene".split(" "),null);
+        }
+    };
+
+
     public Controller(StackPane pane, Vydavatelstvo vydavatelstvo){
         this.pane = pane;
         this.vydavatelstvo = vydavatelstvo;
@@ -205,10 +214,8 @@ public class Controller {
             pouzivatel.spracuj(new String[]{"predaj"},null);
         });
 
-        Button plat = new Button("Plat");
-        plat.setOnMouseClicked(e -> {
-            pouzivatel.spracuj("plat | zarobene | odrobene".split(" "),null);
-        });
+        Button plat = new Button("info-me");
+        plat.setOnMouseClicked(info);
 
         Button katalog = new Button("Katalog");
         katalog.setOnMouseClicked(e -> {
@@ -252,6 +259,9 @@ public class Controller {
             }
         });
 
+        Button plat = new Button("info-me");
+        plat.setOnMouseClicked(info);
+
         Button katalog = new Button("Katalog");
         katalog.setOnMouseClicked(e -> {
             pouzivatel.spracuj(new String[]{"katalog"},null);
@@ -286,6 +296,7 @@ public class Controller {
         zakaznikOkno.getChildren().add(predaj);
         zakaznikOkno.getChildren().add(kosik);
         zakaznikOkno.getChildren().add(prines);
+        zakaznikOkno.getChildren().add(plat);
 
 
     }
@@ -323,7 +334,7 @@ public class Controller {
         Button vypisAutorov = new Button("Autori");
         Button pisat = new Button("Daj Napisat Knihu");
         Button text = new Button("Texty na vydanie");
-        Button vydaj = new Button("Vydaj text na vrchu zoznamu");
+        Button vydaj = new Button("Vydaj text");
         Button strategia = new Button("Vydavanie po jednom");
 
 
@@ -347,20 +358,25 @@ public class Controller {
             if(strategia.getText().compareTo("Vydavanie po jednom") == 0){
                 pouzivatel.spracuj("Strategia true".split(" "),vydavatelstvo);
                 strategia.setText("Vydavanie vsetkych");
+                vydaj.setText("Vydaj texty");
             }else{
                 pouzivatel.spracuj("Strategia false".split(" "),vydavatelstvo);
                 strategia.setText("Vydavanie po jednom");
+                vydaj.setText("Vydaj text");
             }
         });
 
+        Button plat = new Button("info-me");
+        plat.setOnMouseClicked(info);
 
-
+        manazerOkno.setSpacing(5);
         manazerOkno.getChildren().add(menuBar);
         manazerOkno.getChildren().add(vypisAutorov);
         manazerOkno.getChildren().add(pisat);
         manazerOkno.getChildren().add(text);
         manazerOkno.getChildren().add(vydaj);
         manazerOkno.getChildren().add(strategia);
+        manazerOkno.getChildren().add(plat);
     }
 
     private void createSkladnikButtons(){
@@ -404,11 +420,15 @@ public class Controller {
             pouzivatel.spracuj(new String[]{"max-miesto"},null);
         });
 
+        Button plat = new Button("info-me");
+        plat.setOnMouseClicked(info);
+
         skladnikOkno.setSpacing(20);
         skladnikOkno.getChildren().add(predaj);
         skladnikOkno.getChildren().add(prines);
         skladnikOkno.getChildren().add(objednaj);
         skladnikOkno.getChildren().add(miesto);
+        skladnikOkno.getChildren().add(plat);
 
     }
 
@@ -437,7 +457,11 @@ public class Controller {
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu2);
 
+        Button plat = new Button("info-me");
+        plat.setOnMouseClicked(info);
+
         distibutorOkno.getChildren().add(menuBar);
+        distibutorOkno.getChildren().add(plat);
     }
 
 

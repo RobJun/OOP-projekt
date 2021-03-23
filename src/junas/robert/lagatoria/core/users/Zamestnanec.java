@@ -2,6 +2,9 @@ package junas.robert.lagatoria.core.users;
 
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
+import junas.robert.lagatoria.gui.Controller;
+
+import javax.sound.sampled.Control;
 
 public abstract class Zamestnanec extends Pouzivatel{
     protected double plat;
@@ -14,9 +17,9 @@ public abstract class Zamestnanec extends Pouzivatel{
         odrobene = 0;
 
         //pridavanie akcii ktore moze spravit trieda
-        inlineAkcie.put("plat", ((args, kh, vy) ->  System.out.println("Tvoj plat je: " + getPlat())));
-        inlineAkcie.put("zarobene", ((args, kh, vy) -> System.out.println("zarobil si: " + vypocitajPlat())));
-        inlineAkcie.put("odrobene", ((args, kh, vy) -> System.out.println("odrobil si: " + getOdrobene())));
+        inlineAkcie.put("plat", ((args, kh, vy) ->  Controller.printline("Tvoj plat je: " + getPlat())));
+        inlineAkcie.put("zarobene", ((args, kh, vy) -> Controller.printline("zarobil si: " + vypocitajPlat())));
+        inlineAkcie.put("odrobene", ((args, kh, vy) -> Controller.printline("odrobil si: " + getOdrobene())));
     }
 
     public double getPlat(){
