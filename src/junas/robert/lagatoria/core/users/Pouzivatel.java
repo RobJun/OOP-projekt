@@ -81,7 +81,7 @@ public abstract class Pouzivatel implements InputProcess {
 
     public Kniha najdiReferenciuNaKnihu(Miestnost s, String id){
         for(Kniha kp : s.getKatalog()){
-            if(kp.getISBN().toLowerCase().equals(id) || kp.getBasicInfo()[0].toLowerCase().equals(id)){
+            if(kp.getISBN().toLowerCase().equals(id.toLowerCase()) || kp.getBasicInfo()[0].toLowerCase().equals(id.toLowerCase())){
                 return kp;
             }
         }

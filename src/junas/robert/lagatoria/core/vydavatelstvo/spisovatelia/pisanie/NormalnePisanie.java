@@ -13,22 +13,22 @@ public class NormalnePisanie implements Pisanie{
         Thread.sleep(8000);
         int pocetStran = (int)(Math.random()*(1200-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov Historickej knihy","Slovensky",pocetStran, Kategoria.HISTORIA);
+        return new Text(meno, "Nazov Historickej knihy: ","Slovensky",pocetStran, Kategoria.HISTORIA);
     }
 
     @Override
     public Text visit(FantasyAutor autor) throws InterruptedException {
-        Thread.sleep(2500);
+        Thread.sleep(5000);
         int pocetStran = (int)(Math.random()*(700-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov romanu","Slovensky",pocetStran, Kategoria.FANTASY);
+        return new Text(meno, "Nazov romanu: ","Slovensky",pocetStran, Kategoria.FANTASY);
     }
 
     @Override
     public Text visit(PoetryAutor autor) throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(7000);
         int pocetStran = (int)(Math.random()*(200-50+1)+50);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov basniciek","Slovensky",pocetStran, Kategoria.POEZIA);
+        return new Text(meno, "Nazov basniciek: ","Slovensky",pocetStran, Kategoria.POEZIA);
     }
 }

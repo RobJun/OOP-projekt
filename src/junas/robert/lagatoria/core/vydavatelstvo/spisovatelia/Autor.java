@@ -6,6 +6,7 @@ import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.Pisanie;
+import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.RychlePisanie;
 import junas.robert.lagatoria.gui.Controller;
 
 import java.util.Random;
@@ -34,6 +35,9 @@ public abstract class Autor {
         if(piseKnihu) return false;
         piseKnihu = true;
         Autor autor = this;
+        if((int)(Math.random()*5) == 0){
+            pisanie = new RychlePisanie();
+        }
         Thread thread = new Thread(new Runnable() {
             String nazov = "";
             @Override
@@ -70,6 +74,8 @@ public abstract class Autor {
                 }
                 autor.odosliVydavatelovi(text);
                 Platform.runLater(hotovo);
+                if(pisanie instanceof RychlePisanie)
+                    pisanie = new NormalnePisanie();
             }
         });
 
@@ -97,7 +103,7 @@ public abstract class Autor {
         return null;
     };
 
-    public void odosliVydavatelovi(Text text){
+    public synchronized void odosliVydavatelovi(Text text){
         vydavatelstvo.prijmiText(text);
         piseKnihu = false;
     }

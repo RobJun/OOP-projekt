@@ -167,7 +167,7 @@ public class Vydavatelstvo {
      * Prida text do radu, z ktoreho sa neskor kniha vyda
      * @param text text na pridanie do radu prijatychtextov
      */
-    public void prijmiText(Text text){
+    public synchronized void prijmiText(Text text){
         prijateTexty.add(text);
     }
 

@@ -34,7 +34,7 @@ public class Controller {
     class AutorCreation {
         private TextField menoAutora = new TextField();
         private TextField prievzisko = new TextField();
-        AutorCreation(String title, String autor){
+        AutorCreation(String autor){
             Stage subStage = new Stage();
             subStage.setTitle(autor);
 
@@ -362,7 +362,7 @@ public class Controller {
         EventHandler<ActionEvent> vytvor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                new AutorCreation("pridanie", ((MenuItem)event.getSource()).getText());
+                new AutorCreation(((MenuItem)event.getSource()).getText());
             }
         };
 

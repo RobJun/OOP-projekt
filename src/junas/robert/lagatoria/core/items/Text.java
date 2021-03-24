@@ -17,7 +17,7 @@ public class Text implements InfoKniha{
         this.dlzka = dlzka;
         this.kategoria = kategoria;
     }
-    public Text(String autor, String nazov, String jazyk, int dlzka, Kategoria kategoria){
+    public Text(String nazov,String autor, String jazyk, int dlzka, Kategoria kategoria){
         this.opravene = false;
         this.autor = autor;
         this.nazov = nazov;
@@ -31,7 +31,7 @@ public class Text implements InfoKniha{
     }
 
     public void setNazov(String nazov) {
-        this.nazov = nazov;
+        this.nazov += nazov;
     }
 
     public String getNazov() {

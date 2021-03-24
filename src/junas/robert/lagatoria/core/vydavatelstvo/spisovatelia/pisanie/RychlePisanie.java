@@ -9,25 +9,25 @@ import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
 public class RychlePisanie implements Pisanie {
     @Override
     public Text visit(HistoryAutor autor) throws InterruptedException {
-        Thread.sleep(10000);
-        int pocetStran = (int)(Math.random()*(1200-300+1)+300);
+        Thread.sleep(5000);
+        int pocetStran = (int)(Math.random()*(900-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov Historickej knihy","Slovensky",pocetStran, Kategoria.HISTORIA);
+        return new Text(meno, "Nazov Historickej knihy: ","Slovensky",pocetStran, Kategoria.HISTORIA);
     }
 
     @Override
     public Text visit(FantasyAutor autor) throws InterruptedException {
-        Thread.sleep(5000);
-        int pocetStran = (int)(Math.random()*(700-300+1)+300);
+        Thread.sleep(2500);
+        int pocetStran = (int)(Math.random()*(500-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov romanu","Slovensky",pocetStran, Kategoria.FANTASY);
+        return new Text(meno, "Nazov romanu: ","Slovensky",pocetStran, Kategoria.FANTASY);
     }
 
     @Override
     public Text visit(PoetryAutor autor) throws InterruptedException {
-        Thread.sleep(7000);
-        int pocetStran = (int)(Math.random()*(200-50+1)+50);
+        Thread.sleep(3000);
+        int pocetStran = (int)(Math.random()*(100-50+1)+50);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov basniciek","Slovensky",pocetStran, Kategoria.POEZIA);
+        return new Text(meno, "Nazov basniciek: ","Slovensky",pocetStran, Kategoria.POEZIA);
     }
 }

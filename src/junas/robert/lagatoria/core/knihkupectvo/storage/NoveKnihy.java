@@ -82,7 +82,7 @@ public class NoveKnihy extends Regal{
                }
                row++;
 
-               Text text = new Text(kniha[0],kniha[1],kniha[7],Integer.parseInt(kniha[4]), Kategoria.valueOf(kniha[6]));
+               Text text = new Text(kniha[0],kniha[1],kniha[7],Integer.parseInt(kniha[4]), Kategoria.valueOf(kniha[6]),true);
 
                Obalka obalka = null;
                if(Vazba.valueOf(kniha[8]) == Vazba.BROZOVANA){
