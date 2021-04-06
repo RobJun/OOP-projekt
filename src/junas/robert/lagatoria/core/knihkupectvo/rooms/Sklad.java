@@ -3,7 +3,7 @@ package junas.robert.lagatoria.core.knihkupectvo.rooms;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class Sklad  extends Miestnost {
 
         public void objednatKnihy(String path){
             novyTovar = new NoveKnihy(path);
-            Controller.printline("Novy tovar obsahuje: ");
+            View.printline("Novy tovar obsahuje: ");
             for(Kniha K : novyTovar.getZoznamKnih()){
                 katalog.add(K);
             }
@@ -43,7 +43,7 @@ public class Sklad  extends Miestnost {
 
     public void objednatKnihy(NoveKnihy noveKnihy){
         novyTovar = noveKnihy;
-        Controller.printline("Novy tovar obsahuje: ");
+        View.printline("Novy tovar obsahuje: ");
         for(Kniha K : novyTovar.getZoznamKnih()){
             katalog.add(K);
         }
@@ -54,7 +54,7 @@ public class Sklad  extends Miestnost {
 
         public void umiestniNovyTovar(){
             if(novyTovar == null) {
-                Controller.printline("Novy tovar nebol objednany");
+                View.printline("Novy tovar nebol objednany");
                 return;
             }
             for(int i = 0; i < novyTovar.getZoznamKnih().size(); i++){
@@ -72,8 +72,8 @@ public class Sklad  extends Miestnost {
         private int umiestniKnihy(Kniha k, int pocet, int[]pozicia){
             if(pozicia != null){
                 sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet);
-                Controller.printline("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
-                Controller.printline("");
+                View.printline("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
+                View.printline("");
                 return 1;
             }
             return 0;
@@ -116,11 +116,11 @@ public class Sklad  extends Miestnost {
         public Sekcia getSekcie(int i) {return sekcie[i];}
 
         public void printSklad(){
-            Controller.printline("Sklad:");
+            View.printline("Sklad:");
             for(int i = 0; i < sekcie.length;i++){
-                Controller.printline("Sekcia: " + i);
+                View.printline("Sekcia: " + i);
                 sekcie[i].printSekcia();
-                Controller.printline("");
+                View.printline("");
             }
         }
 }

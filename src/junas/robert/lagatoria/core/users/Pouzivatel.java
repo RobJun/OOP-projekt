@@ -7,7 +7,7 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.HashMap;
 
@@ -45,7 +45,7 @@ public abstract class Pouzivatel implements InputProcess {
 
     ///vypise meno a id uzivatela
     public void vypisInfo(){
-        Controller.printline(meno + " ["+ id+"]");
+        View.printline(meno + " ["+ id+"]");
     }
 
 

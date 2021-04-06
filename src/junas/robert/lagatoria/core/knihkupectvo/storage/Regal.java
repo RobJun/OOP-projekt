@@ -1,7 +1,7 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.*;
 
@@ -50,7 +50,7 @@ public class Regal implements java.io.Serializable{
 
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){
-            Controller.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
+            View.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
             zoznamKnih.get(i).printContent();
         }
     }

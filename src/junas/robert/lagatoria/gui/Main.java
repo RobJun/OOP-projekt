@@ -22,7 +22,6 @@ public class Main extends Application {
     private Button manazerButton = new Button("Manažer");
     private Button distriButton = new Button("Distributor");
 
-    private Controller controller;
 
     public static boolean enabled = false;
 
@@ -33,88 +32,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        Model model = new Model();
+        Controller controller = new Controller(model);
+        View view = new View(controller,model);
+
         enabled = true;
-        stage.setTitle("Lagatoria");
-
-        Manazer manazer = new Manazer("Hlavny manazer", 2032, 20);
-        Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer, 10);
-
-        BorderPane root = new BorderPane();
-
-        BorderPane mainWindow = new BorderPane();
-
-        StackPane work = new StackPane();
-        mainWindow.setTop(work);
-
-        BorderPane center = new BorderPane();
-        HBox input = new HBox();
-        Text textInput = new Text("input");
-        input.getChildren().addAll(textInput, Controller.input);
-        HBox.setMargin(textInput, new Insets(0,10,0,20));
-        input.maxWidth(500);
-        center.setTop(input);
-        center.setCenter(controller.out);
-
-        mainWindow.setCenter(center);
-
-        controller = new Controller(work, vydavatelstvo);
-
-        VBox menu= new VBox(20);
-        menu.setStyle("-fx-border-style: solid;" +
-                      "-fx-border-color: black");
-        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
-        menu.setMaxWidth(150);
-        menu.setAlignment(Pos.TOP_CENTER);
-        menu.setPrefWidth(100);
-
-        zakaznikButton.setMinWidth(menu.getPrefWidth());
-        skladnikButton.setMinWidth(menu.getPrefWidth());
-        predajcaButton.setMinWidth(menu.getPrefWidth());
-        manazerButton.setMinWidth(menu.getPrefWidth());
-        distriButton.setMinWidth(menu.getPrefWidth());
-
-        Text text = new Text();
-        text.setText("prihlasiť sa ako:");
-
-        Text prihlaseny = new Text();
-        prihlaseny.setText("(" + controller.getPouzivatel()+")");
-        prihlaseny.setTextAlignment(TextAlignment.CENTER);
-
-        menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,distriButton,prihlaseny);
-
-        zakaznikButton.setOnMouseClicked(e -> {
-            controller.update(prihlaseny,LoggedIn.ZAKAZNIK);
-        });
-
-        skladnikButton.setOnMouseClicked(e -> {
-            controller.update(prihlaseny,LoggedIn.SKLADNIK);
-        });
-
-        predajcaButton.setOnMouseClicked(e -> {
-            controller.update(prihlaseny,LoggedIn.PREDAJCA);
-        });
-
-        manazerButton.setOnMouseClicked(e -> {
-            controller.update(prihlaseny,LoggedIn.MANAZER);
-        });
-
-        distriButton.setOnMouseClicked(e -> {
-            controller.update(prihlaseny,LoggedIn.DISTRI);
-        });
-
-
-
-        root.setLeft(menu);
-        root.getLeft().maxHeight(150);
-        root.setCenter(mainWindow);
-
-        Scene scene = new Scene(root,800,600);
+        controller.setView(view);
 
         stage.setOnCloseRequest(e -> {
-            Knihkupectvo.serialize("./res/knihkupectvo_oop.ser");
+            controller.serialize();
         });
 
-        stage.setScene(scene);
+        stage.setScene(view.getMainScene());
         stage.sizeToScene();
         stage.show();
     }

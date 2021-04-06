@@ -1,6 +1,6 @@
 package junas.robert.lagatoria.core.items;
 
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 /**
  * Obalka a cast knihy
@@ -17,7 +17,7 @@ public abstract class Obalka implements InfoKniha {
 
     @Override
     public void getInfo() {
-        Controller.printline("\tObalka:");
-        Controller.printline("\t\tdizajn: " + dizajn + ", farba: " + farba);
+        View.printline("\tObalka:");
+        View.printline("\t\tdizajn: " + dizajn + ", farba: " + farba);
     }
 }

@@ -4,3 +4,7 @@ out/
 .idea/
 *.ser
 *.mp4
+/.metadata/
+.project
+.classpath
+*.eml

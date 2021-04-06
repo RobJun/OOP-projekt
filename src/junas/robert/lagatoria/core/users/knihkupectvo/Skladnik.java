@@ -5,8 +5,7 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.Controller;
-import org.jetbrains.annotations.NotNull;
+import junas.robert.lagatoria.gui.View;
 
 public class Skladnik extends Zamestnanec {
     private Kniha kniha;
@@ -32,12 +31,12 @@ public class Skladnik extends Zamestnanec {
         inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh.getSklad())));
         inlineAkcie.put("max-miesto", ((args, kh, vy) -> {
             int[] miesto = kh.getSklad().najdiNajvacsieMiesto();
-            Controller.printline("Sekcia:" + miesto[0] + " Polička: " +miesto[1]);
+            View.printline("Sekcia:" + miesto[0] + " Polička: " +miesto[1]);
         }));
 
     }
 
-    public void objednajtovar(@NotNull Sklad s,@NotNull String path){
+    public void objednajtovar(Sklad s,String path){
         s.objednatKnihy(path);
     }
 
@@ -65,11 +64,11 @@ public class Skladnik extends Zamestnanec {
 
     public void umiestniKnihyDoRegalu(Sklad s, int[] pozicia, int pocet){
         if(pozicia == null) {
-            Controller.printline("Neplatna pozicia");
+            View.printline("Neplatna pozicia");
             return;
         }
         if(kniha == null){
-            Controller.printline("Nemas knihy u seba");
+            View.printline("Nemas knihy u seba");
             return;
         }
         if(this.pocet < pocet) pocet = this.pocet;
@@ -95,7 +94,7 @@ public class Skladnik extends Zamestnanec {
     public void vypisInfo(){
         if(kniha == null) {super.vypisInfo();}
         else {
-            Controller.printline(meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]");
+            View.printline(meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]");
         }
     }
 
@@ -148,12 +147,12 @@ public class Skladnik extends Zamestnanec {
 
 
         if(kniha != null && zober != null){
-            Controller.printline("Uz mas knihy v inventari, najprv umiestni tie");
+            View.printline("Uz mas knihy v inventari, najprv umiestni tie");
         }else if(kniha != null && k == null){
             if(p ==0) p = this.pocet;
             umiestniKnihyDoRegalu(sklad,umiestni,p);
         }else if(k == null){
-            Controller.printline("nezadal si knihu");
+            View.printline("nezadal si knihu");
         }else if(kniha == null && umiestni == null) {
             odoberKnihyZRegalu(sklad,k,p, zober);
         }else{

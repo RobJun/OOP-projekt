@@ -1,6 +1,6 @@
 package junas.robert.lagatoria.core.items;
 
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,8 @@ public class Kniha implements InfoKniha{
     @Override
     public void getInfo() {
         casti.get(0).getInfo();
-        Controller.printline("\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok);
+        View.printline("ISBN: " + isbn);
+        View.printline("\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok);
         casti.get(1).getInfo();
     }
 

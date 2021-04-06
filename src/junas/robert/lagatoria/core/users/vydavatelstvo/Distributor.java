@@ -6,7 +6,7 @@ import junas.robert.lagatoria.core.Stanok;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class Distributor extends Zamestnanec {
                         zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(),p);
                         pocetKnih++;
                     }
-                    Controller.printline("Knihkupectvo prijalo "+pocetKnih+"knih ["+celkovyPocet+"] vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€");
+                    View.printline("Knihkupectvo prijalo "+pocetKnih+"knih ["+celkovyPocet+"] vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€");
                     kapital += zaplatene;
                 }
             }else{
@@ -74,12 +74,12 @@ public class Distributor extends Zamestnanec {
                 stanok.odober(kniha,(int)(pocet*pomer.get(o)));
                 nepredane -= (int)(pocet*pomer.get(o));
                 double zaplatene = stanok.zaplatVydavatelovi(kniha,(int)(pocet*pomer.get(o)));
-                Controller.printline("Stanok prijal knihy ["+(int)(pocet*pomer.get(o))+"] a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
+                View.printline("Stanok prijal knihy ["+(int)(pocet*pomer.get(o))+"] a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
                 kapital += zaplatene;
             }
         }
-        Controller.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
-        Controller.printline("Nepredalo sa: "+ nepredane + " kusov");
+        View.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
+        View.printline("Nepredalo sa: "+ nepredane + " kusov");
     }
 
     public void DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, ArrayList<Kniha> knihy, ArrayList<Integer> pocet) {
@@ -107,7 +107,7 @@ public class Distributor extends Zamestnanec {
                         zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(), p);
                         pocetKnih++;
                     }
-                    Controller.printline("Knihkupectvo prijalo " + pocetKnih + "knih [" + celkovyPocet + "] vsetky knihy a zaplatilo: " + String.format("%.2f", zaplatene) + "€");
+                    View.printline("Knihkupectvo prijalo " + pocetKnih + "knih [" + celkovyPocet + "] vsetky knihy a zaplatilo: " + String.format("%.2f", zaplatene) + "€");
                     kapital += zaplatene;
                     }
             }else{
@@ -120,12 +120,12 @@ public class Distributor extends Zamestnanec {
                     zaplatene += stanok.zaplatVydavatelovi(knihy.get(i), (int)(pocet.get(i)*pomer.get(o)));
                     nepredane -= (int)(pocet.get(i)*pomer.get(o));
                 }
-                Controller.printline("Stanok prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
+                View.printline("Stanok prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
                 kapital += zaplatene;
             }
         }
-        Controller.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
-        Controller.printline("Nepredalo sa: "+ nepredane + " kusov");
+        View.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
+        View.printline("Nepredalo sa: "+ nepredane + " kusov");
     }
 
 

@@ -5,7 +5,7 @@ import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.io.*;
 
@@ -75,7 +75,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
             fileIn.close();
             return;
         } catch (IOException e) {
-            Controller.printline("Nenasiel sa subor '"+path+"' -- vytvara sa nove knihkupectvo'");
+            View.printline("Nenasiel sa subor '"+path+"' -- vytvara sa nove knihkupectvo'");
         } catch (ClassNotFoundException e) {
         }
         getInstance();

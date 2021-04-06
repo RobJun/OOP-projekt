@@ -12,7 +12,7 @@ import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ public class Vydavatelstvo {
         }
 
         private void najdiChybyVTexte(Text text){
-            Controller.printline("Najedenych a opravenych " + text.oprav() + " chyb");
+            View.printline("Najedenych a opravenych " + text.oprav() + " chyb");
         }
 
         private Text skratText(Text text){
@@ -117,26 +117,26 @@ public class Vydavatelstvo {
                 ArrayList<Kniha> vytlaceneKnihy = new ArrayList<>();
                 ArrayList<Integer> pocetVytlackov = new ArrayList<>();
                 if(prijateTexty.isEmpty()){
-                    Controller.printline("ziadna kniha na vydanie");
+                    View.printline("ziadna kniha na vydanie");
                     return;
                 }
                 while(!prijateTexty.isEmpty()) {
                     Text vydavana = prijateTexty.remove();
 
-                    Controller.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
+                    View.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
 
                     Obalka obalka = dizajner.navrhniObalku();
                     vydavana = korektor.precitajText(vydavana);
 
                     double feedback = manazer.ziskajFeedback(vydavana);
 
-                    Controller.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
+                    View.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
 
                     int pocet = distributor.urciPocet(feedback);
 
                     pocetVytlackov.add(pocet);
 
-                    Controller.printline("Naplanovany pocet vytlackov: " + pocet);
+                    View.printline("Naplanovany pocet vytlackov: " + pocet);
 
                     int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
                     int i = 0;
@@ -149,7 +149,7 @@ public class Vydavatelstvo {
                     String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
                     double cena = manazer.navrhniCenu(feedback);
 
-                    Controller.printline("cena knihy: " + cena);
+                    View.printline("cena knihy: " + cena);
 
 
                     Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
@@ -180,7 +180,7 @@ public class Vydavatelstvo {
             try {
                 manazer.pridajAutora(autor);
             } catch (AutorExistujeException e) {
-                Controller.printline(e.getMessage());
+                View.printline(e.getMessage());
             }
         }
     }
@@ -195,23 +195,23 @@ public class Vydavatelstvo {
 
     private void vydanie(){
         if(prijateTexty.isEmpty()){
-            Controller.printline("ziadna kniha na vydanie");
+            View.printline("ziadna kniha na vydanie");
             return;
         }
         Text vydavana = prijateTexty.remove();
 
-        Controller.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
+        View.printline("Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]");
 
         Obalka obalka = dizajner.navrhniObalku();
         vydavana = korektor.precitajText(vydavana);
 
         double feedback = manazer.ziskajFeedback(vydavana);
 
-        Controller.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
+        View.printline("recenzia textu: " + String.format("%.2f",feedback) + "%");
 
         int pocet = distributor.urciPocet(feedback);
 
-        Controller.printline("Naplanovany pocet vytlackov: " + pocet);
+        View.printline("Naplanovany pocet vytlackov: " + pocet);
 
         int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
         int i = 0;
@@ -224,7 +224,7 @@ public class Vydavatelstvo {
         String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
         double cena = manazer.navrhniCenu(feedback);
 
-        Controller.printline("cena knihy: " + cena);
+        View.printline("cena knihy: " + cena);
 
 
         Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
@@ -254,11 +254,11 @@ public class Vydavatelstvo {
     public void vypisAutorov() {
         int i = 0;
         for(Autor a: autori){
-            Controller.printline(i +": "+a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
+            View.printline(i +": "+a.getMeno() +" "+a.getPrievzisko() + " [" + a.getClass().getSimpleName()+
                     "] Je v zozname: " + ((manazer.existujeAutor(a)) ? "✓": "x"));
             i++;
         }
-        Controller.printline("");
+        View.printline("");
     }
 
     public Manazer getManazer() {
@@ -273,7 +273,7 @@ public class Vydavatelstvo {
      */
     public void vypisTexty(){
         if(prijateTexty.isEmpty()){
-            Controller.printline("Ziadne texty na vydanie");
+            View.printline("Ziadne texty na vydanie");
             return;
         }
 
@@ -281,9 +281,11 @@ public class Vydavatelstvo {
         Iterator<Text> it = prijateTexty.iterator();
         while(it.hasNext()){
             Text current = it.next();
-            if(current !=null)
-            Controller.printline(i +": " + current.getAutor() + ": " +current.getNazov());
-            i++;
+            if(current !=null) {
+                View.print(i + ": ");
+                current.getInfo();
+                i++;
+            }
         }
     }
 
@@ -302,11 +304,11 @@ public class Vydavatelstvo {
      */
     public void odoberOdoberatela(int index) {
         if(odoberatelia.get(index) instanceof Knihkupectvo){
-            Controller.printline("Knihkupectvo sa neda odstranit zo zoznamu");
+            View.printline("Knihkupectvo sa neda odstranit zo zoznamu");
             return;
         }
         if(index >= odoberatelia.size()) {
-            Controller.printline("neplatny index");
+            View.printline("neplatny index");
             return;
         }
         odoberatelia.remove(index);
@@ -315,7 +317,7 @@ public class Vydavatelstvo {
     public void vypisOdoberatelov() {
         int index = 0;
         for (Odoberatel o: odoberatelia) {
-            Controller.printline(index+": "+o.getClass().getSimpleName() + ": " + ((o instanceof Knihkupectvo) ? ("Minerva") : ((Stanok)o).getNazov()));
+            View.printline(index+": "+o.getClass().getSimpleName() + ": " + ((o instanceof Knihkupectvo) ? ("Minerva") : ((Stanok)o).getNazov()));
             index++;
         }
     }

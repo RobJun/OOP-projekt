@@ -1,13 +1,12 @@
 package junas.robert.lagatoria.core.users.vydavatelstvo;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.utils.exceptions.AutorNieJeNaZozname;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +48,7 @@ public class Manazer extends Zamestnanec {
                 odoberAutora(vy.getAutor(Integer.valueOf(args[1])));
             } catch (AutorNieJeNaZozname autorNieJeNaZozname) {
                 autorNieJeNaZozname.printStackTrace();
-                Controller.printline(autorNieJeNaZozname.getMessage());
+                View.printline(autorNieJeNaZozname.getMessage());
             }
         }));
     }
@@ -76,10 +75,10 @@ public class Manazer extends Zamestnanec {
     }
 
     public void dajNapisatKnihu(){
-        Controller.printline("Manazer rozposiela ziadosti o knihu");
+        View.printline("Manazer rozposiela ziadosti o knihu");
         for (Autor autor: autori) {
             if(autor.prijmiPoziadvku()) {
-                Controller.printline(autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku");
+                View.printline(autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku");
             }
         }
     }

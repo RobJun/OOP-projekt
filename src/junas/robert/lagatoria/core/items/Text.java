@@ -1,7 +1,7 @@
 package junas.robert.lagatoria.core.items;
 
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 public class Text implements InfoKniha{
     private String autor, nazov, jazyk;
@@ -27,7 +27,7 @@ public class Text implements InfoKniha{
     }
     @Override
     public void getInfo() {
-        Controller.printline("\t["+kategoria.toString()+"] "+autor + ": " + nazov + " [" + jazyk+ "]");
+        View.printline("\t["+kategoria.toString()+"] "+autor + ": " + nazov + " [" + jazyk+ "]");
     }
 
     public void setNazov(String nazov) {

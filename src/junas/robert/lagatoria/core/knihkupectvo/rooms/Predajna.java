@@ -7,7 +7,7 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,9 +65,9 @@ public class Predajna extends Miestnost {
 
     public void vypisPredajnu(){
             int i = 0;
-        Controller.printline("Predajna");
+        View.printline("Predajna");
             for(Map.Entry<Kategoria,OrganizovanaSekcia> entry : sekcie.entrySet()){
-                Controller.printline("Sekcia: " + i);
+                View.printline("Sekcia: " + i);
                 entry.getValue().printSekcia();
                 i++;
             }

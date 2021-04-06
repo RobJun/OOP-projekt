@@ -12,7 +12,7 @@ public class RychlePisanie implements Pisanie {
         Thread.sleep(5000);
         int pocetStran = (int)(Math.random()*(900-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov Historickej knihy: ","Slovensky",pocetStran, Kategoria.HISTORIA);
+        return new Text("Nazov Historickej knihy: ",meno,"Slovensky",pocetStran, Kategoria.HISTORIA);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class RychlePisanie implements Pisanie {
         Thread.sleep(2500);
         int pocetStran = (int)(Math.random()*(500-300+1)+300);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov romanu: ","Slovensky",pocetStran, Kategoria.FANTASY);
+        return new Text( "Nazov romanu: ",meno,"Slovensky",pocetStran, Kategoria.FANTASY);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class RychlePisanie implements Pisanie {
         Thread.sleep(3000);
         int pocetStran = (int)(Math.random()*(100-50+1)+50);
         String meno = autor.getMeno() + " " + autor.getPrievzisko();
-        return new Text(meno, "Nazov basniciek: ","Slovensky",pocetStran, Kategoria.POEZIA);
+        return new Text("Nazov basniciek: ",meno, "Slovensky",pocetStran, Kategoria.POEZIA);
     }
 }

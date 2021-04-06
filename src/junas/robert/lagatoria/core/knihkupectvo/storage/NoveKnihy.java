@@ -4,7 +4,7 @@ import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.enums.Vazba;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,9 +19,9 @@ public class NoveKnihy extends Regal{
         try {
             minute = !nacitajKnihy(path);
         } catch (InvalidFormatException e) {
-            Controller.printline(e.getMessage());
+            View.printline(e.getMessage());
             if(e.getLoadedRows() > 0){
-                Controller.printline("podarilo sa nacitat " + e.getLoadedRows() + " riadkov");
+                View.printline("podarilo sa nacitat " + e.getLoadedRows() + " riadkov");
                 minute = false;
             }
             else{
@@ -52,14 +52,14 @@ public class NoveKnihy extends Regal{
     public void vyhodPaletu(){
         if(isMinute()){
             try {
-                Controller.printline("Paletu sme vyhodili");
-                Controller.printline("");
+                View.printline("Paletu sme vyhodili");
+                View.printline("");
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                Controller.printline("");
+                View.printline("");
             }
         }else{
-            Controller.printline("Na palete su stale knihy\n");
+            View.printline("Na palete su stale knihy\n");
         }
     }
 
@@ -102,7 +102,7 @@ public class NoveKnihy extends Regal{
             reader.close();
             return true;
         } catch (FileNotFoundException e) {
-            Controller.printline("Novy tovar sa nepodarilo nacitat");
+            View.printline("Novy tovar sa nepodarilo nacitat");
             return false;
         }
     }
@@ -110,7 +110,7 @@ public class NoveKnihy extends Regal{
     public void printContent(){
         for(int i = 0; i < zoznamKnih.size(); i++){
 
-            Controller.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
+            View.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
                 zoznamKnih.get(i).printContent();
         }
     }
@@ -125,7 +125,7 @@ public class NoveKnihy extends Regal{
 
     @Override
     public int pridajKnihy(Kniha k, int p){
-        Controller.printline("Na paletu sa nedaju dat knihy");
+        View.printline("Na paletu sa nedaju dat knihy");
         return -1;
     }
 

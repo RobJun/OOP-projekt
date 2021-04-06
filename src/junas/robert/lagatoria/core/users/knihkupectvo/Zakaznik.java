@@ -3,7 +3,7 @@ package junas.robert.lagatoria.core.users.knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,12 +33,12 @@ public class Zakaznik extends Pouzivatel {
 
     public void vypisKosik(){
         if(kosik.isEmpty()) {
-            Controller.printline("kosik je prazdny");
+            View.printline("kosik je prazdny");
             return;
         }
         for(int i = 0; i < kosik.size(); i++){
             kosik.get(i).printContent();
-            Controller.printline(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
+            View.printline(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
         }
     }
 
@@ -80,13 +80,13 @@ public class Zakaznik extends Pouzivatel {
         }
 
         if(k == null || p < 1){
-            Controller.printline("Kniha neexistuje alebo si zadal zly pocet");
+            View.printline("Kniha neexistuje alebo si zadal zly pocet");
             return;
         }
 
         int z = pr.odoberKnihy(k,p);
         if(z == -1){
-            Controller.printline("Kniha nie je na predajni");
+            View.printline("Kniha nie je na predajni");
             return;
         }
 
