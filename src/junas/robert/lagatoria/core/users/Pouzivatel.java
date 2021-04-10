@@ -2,12 +2,10 @@ package junas.robert.lagatoria.core.users;
 
 import junas.robert.lagatoria.core.utils.InlineCommand;
 import junas.robert.lagatoria.core.utils.InputProcess;
-import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
-import junas.robert.lagatoria.gui.View;
 
 import java.util.HashMap;
 
@@ -24,18 +22,19 @@ public abstract class Pouzivatel implements InputProcess {
         inlineAkcie = new HashMap<>();
 
         //pridavanie akcii ktore moze spravit trieda
-        inlineAkcie.put("help", (args, kh, vy) -> help());
-        inlineAkcie.put("exit", (args, kh, vy) -> exit());
-        inlineAkcie.put("logout", (args, kh, vy) -> kh.setPrihlaseny(LoggedIn.NONE));
-        inlineAkcie.put("info-me", (args, kh, vy) -> vypisInfo());
-        inlineAkcie.put("katalog", (args, kh, vy) -> kh.getSklad().printKatalog());
+        inlineAkcie.put("help", (args, kh, vy) -> {return help();});
+        inlineAkcie.put("exit", (args, kh, vy) -> {return exit();});
+        //inlineAkcie.put("logout", (args, kh, vy) -> kh.setPrihlaseny(LoggedIn.NONE));
+        inlineAkcie.put("info-me", (args, kh, vy) -> {return vypisInfo();});
+        inlineAkcie.put("katalog", (args, kh, vy) -> {return kh.getSklad().printKatalog();});
     };
 
 
 
     ///funkcia ktora povie programu nech hlavny loop programu ukonci
-    public void exit(){
+    public String exit(){
         close = true;
+        return  "";
     }
 
     ///funckia ktora zistuje ci sa hlavny loop konci
@@ -44,33 +43,40 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
     ///vypise meno a id uzivatela
-    public void vypisInfo(){
-        View.printline(meno + " ["+ id+"]");
+    public String vypisInfo(){
+        return  meno + " ["+ id+"]";
     }
 
 
-    public void help(){
+    public String help(){
         System.out.println("---Vseobecne prikazy---");
         System.out.println("info-me - informacie o mne");
         System.out.println("katalog - vypise katalog predajne");
         System.out.println("logout - odhlasit sa");
         System.out.println("help - vypis pomocky");
         System.out.println("exit - vypni system");
+        return "";
     }
 
-    @Override
-    public void spracuj(String[] args, Vydavatelstvo vydavatelstvo){
+    @Override //Pouzivatel.java
+    public String spracuj(String[] args, Vydavatelstvo vydavatelstvo){
+        String res = "";
         int index = 0;
+            //prejde vsetky slova zadane na vstupe
             while(index < args.length) {
+                //ak sa slovo nachadza v zavolatelnych funkciach
                 if (inlineAkcie.containsKey(args[index])) {
-                    inlineAkcie.get(args[index]).process(args, Knihkupectvo.getInstance(), vydavatelstvo);
+                    //zavola sa funkcia
+                    res += inlineAkcie.get(args[index]).process(args, Knihkupectvo.getInstance(), vydavatelstvo) + "\n";
                 }
                 int k;
+                //najde dalsi prikaz rozdeleny |
                 for (k = index + 1; k < args.length; k++) {
                     if (args[k].equals("|")) break;
                 }
                 index = k + 1;
             }
+            return res;
     }
 
 

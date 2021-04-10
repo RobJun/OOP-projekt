@@ -18,8 +18,9 @@ public class PevnaVazba extends Obalka{
     }
 
     @Override
-    public void getInfo() {
-        super.getInfo();
-        View.printline("\t\ttyp vazby: " + typObalky + " ["+material+"]");
+    public String getInfo() {
+        String res = super.getInfo();
+        res += "\t\ttyp vazby: " + typObalky + " ["+material+"]" +"\n";
+        return res;
     }
 }

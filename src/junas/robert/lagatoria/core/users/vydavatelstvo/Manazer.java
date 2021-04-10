@@ -6,6 +6,7 @@ import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.utils.exceptions.AutorNieJeNaZozname;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.lang.reflect.Constructor;
@@ -20,8 +21,8 @@ public class Manazer extends Zamestnanec {
         super(m, id, plat);
 
         //pridavanie akcii ktore moze spravit trieda
-        inlineAkcie.put("dajNapisat", (args, kh, vy) -> dajNapisatKnihu());
-        inlineAkcie.put("vydajKnihy", (args, kh, vy) -> vy.vydajKnihy());
+        inlineAkcie.put("dajNapisat", (args, kh, vy) -> {return dajNapisatKnihu();});
+        inlineAkcie.put("vydajKnihy", (args, kh, vy) -> {return vy.vydajKnihy();});
         inlineAkcie.put("pridajA", (args,kh,vy) -> {
             try {
                 Constructor c = Class.forName(args[1]).getConstructor(String.class, String.class, Vydavatelstvo.class);
@@ -38,18 +39,20 @@ public class Manazer extends Zamestnanec {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-        });
-        inlineAkcie.put("vypisAutor", (args,kh,vy) -> vy.vypisAutorov());
-        inlineAkcie.put("Pzoznam", ((args, kh, vy) -> vy.dajAutorovManazerovi()));
-        inlineAkcie.put("Queue", ((args, kh, vy) -> vy.vypisTexty()));
-        inlineAkcie.put("Strategia", (args,kh,vy) -> vy.typVydavania(Boolean.valueOf(args[1])));
+        return "";
+            });
+        inlineAkcie.put("vypisAutor", (args,kh,vy) -> {return vy.vypisAutorov();});
+        inlineAkcie.put("Pzoznam", ((args, kh, vy) -> {return vy.dajAutorovManazerovi();}));
+        inlineAkcie.put("Queue", ((args, kh, vy) -> {return vy.vypisTexty();}));
+        inlineAkcie.put("Strategia", (args,kh,vy) -> {vy.typVydavania(Boolean.valueOf(args[1])); return "";});
         inlineAkcie.put("odoberA", ((args, kh, vy) -> {
             try {
                 odoberAutora(vy.getAutor(Integer.valueOf(args[1])));
             } catch (AutorNieJeNaZozname autorNieJeNaZozname) {
                 autorNieJeNaZozname.printStackTrace();
-                View.printline(autorNieJeNaZozname.getMessage());
+                return autorNieJeNaZozname.getMessage();
             }
+            return "";
         }));
     }
 
@@ -74,13 +77,15 @@ public class Manazer extends Zamestnanec {
         return autori.contains(autor);
     }
 
-    public void dajNapisatKnihu(){
-        View.printline("Manazer rozposiela ziadosti o knihu");
+    public String dajNapisatKnihu(){
+        String res = "";
+        res +="Manazer rozposiela ziadosti o knihu\n";
         for (Autor autor: autori) {
             if(autor.prijmiPoziadvku()) {
-                View.printline(autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku");
+               res+="\t" + autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku\n";
             }
         }
+        return res;
     }
 
 

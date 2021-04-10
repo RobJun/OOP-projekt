@@ -3,7 +3,7 @@ package junas.robert.lagatoria.core.users.knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.gui.View;
+import junas.robert.lagatoria.gui.Controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,22 +24,26 @@ public class Zakaznik extends Pouzivatel {
     }
 
     @Override
-    public void help() {
+    public String help() {
         super.help();
         System.out.println("---Zakaznicke prikazy---");
         System.out.println("kosik - vypise knihy v kosiku");
         System.out.println("predajna - vypise predajnu");
+        return "";
     }
 
-    public void vypisKosik(){
+    public String vypisKosik(){
+        String res = "";
         if(kosik.isEmpty()) {
-            View.printline("kosik je prazdny");
-            return;
+            res += "kosik je prazdny";
+            return res;
         }
         for(int i = 0; i < kosik.size(); i++){
-            kosik.get(i).printContent();
-            View.printline(" [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n");
+            res += kosik.get(i).getInfo() + '\n';
+            res += " [" + pocetKnih.get(kosik.get(i).getISBN()) + "]\n";
         }
+
+        return res;
     }
 
     public ArrayList<Kniha> getKosik() { return kosik; }
@@ -66,7 +70,7 @@ public class Zakaznik extends Pouzivatel {
         }
     }
 
-    private void dajDoKosika(String[] args, Predajna pr){
+    private String dajDoKosika(String[] args, Predajna pr){
         Kniha k = null;
         int p = -1;
         for(String f : args){
@@ -80,17 +84,16 @@ public class Zakaznik extends Pouzivatel {
         }
 
         if(k == null || p < 1){
-            View.printline("Kniha neexistuje alebo si zadal zly pocet");
-            return;
+            return"Kniha neexistuje alebo si zadal zly pocet";
         }
 
         int z = pr.odoberKnihy(k,p);
         if(z == -1){
-            View.printline("Kniha nie je na predajni");
-            return;
+            return "Kniha nie je na predajni";
         }
 
         pridajKnihy(k,z);
+        return "Kniha bola uspesne zobrata";
     }
 
 }

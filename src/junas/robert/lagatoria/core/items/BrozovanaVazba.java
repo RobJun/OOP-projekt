@@ -20,8 +20,9 @@ public class BrozovanaVazba extends Obalka{
      * Vypis informacii o obalke
      */
     @Override
-    public void getInfo() {
-        super.getInfo();
-        View.printline("\t\ttyp vazby: " + typObalky + " ["+obrazok+"]");
+    public String getInfo() {
+        String res = super.getInfo();
+        res+="\t\ttyp vazby: " + typObalky + " ["+obrazok+"]\n";
+        return res;
     }
 }

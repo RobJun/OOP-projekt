@@ -16,8 +16,11 @@ public abstract class Obalka implements InfoKniha {
     }
 
     @Override
-    public void getInfo() {
-        View.printline("\tObalka:");
-        View.printline("\t\tdizajn: " + dizajn + ", farba: " + farba);
+    public String getInfo() {
+        String res = "";
+        res+="\tObalka:\n";
+        res+="\t\tdizajn: " + dizajn + ", farba: " + farba + "\n";
+
+        return res;
     }
 }

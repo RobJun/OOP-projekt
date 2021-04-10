@@ -48,11 +48,13 @@ public class Regal implements java.io.Serializable{
     public int getPocetKnih(String isbn){ return pocetKnih.get(isbn);}
     public int getPocetKnih(Kniha k){ return pocetKnih.get(k.getISBN());}
 
-    public void printContent(){
+    public String printContent(){
+        String res = "";
         for(int i = 0; i < zoznamKnih.size(); i++){
-            View.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
-            zoznamKnih.get(i).printContent();
+            res +=" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n" +
+            zoznamKnih.get(i).getInfo();
         }
+        return res;
     }
 
     public boolean existujeKniha(Kniha k){

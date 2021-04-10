@@ -4,6 +4,7 @@ import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.enums.Vazba;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.io.File;
@@ -14,19 +15,21 @@ import java.util.Scanner;
 public class NoveKnihy extends Regal{
     private boolean minute;
 
-    public NoveKnihy(String path){
+    public NoveKnihy(String path) throws FileNotFoundException, InvalidFormatException{
         super();
         try {
             minute = !nacitajKnihy(path);
         } catch (InvalidFormatException e) {
-            View.printline(e.getMessage());
             if(e.getLoadedRows() > 0){
-                View.printline("podarilo sa nacitat " + e.getLoadedRows() + " riadkov");
                 minute = false;
             }
             else{
                 minute = true;
             }
+            throw e;
+        } catch (FileNotFoundException e){
+            minute = true;
+            throw e;
         }
     }
 
@@ -49,23 +52,21 @@ public class NoveKnihy extends Regal{
         return -1;
     }
 
-    public void vyhodPaletu(){
+    public String vyhodPaletu(){
         if(isMinute()){
             try {
-                View.printline("Paletu sme vyhodili");
-                View.printline("");
+                return "Paletu sme vyhodili";
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                View.printline("");
             }
         }else{
-            View.printline("Na palete su stale knihy\n");
+           return "Na palete su stale knihy\n";
         }
+        return "nastal problem s vyhadzovanim";
     }
 
 
-    public boolean nacitajKnihy(String path) throws InvalidFormatException {
-        try {
+    public boolean nacitajKnihy(String path) throws InvalidFormatException, FileNotFoundException {
             File zoznam = new File(path);
             Scanner reader = new Scanner(zoznam);
             int row = 1;
@@ -101,18 +102,15 @@ public class NoveKnihy extends Regal{
             System.out.println();
             reader.close();
             return true;
-        } catch (FileNotFoundException e) {
-            View.printline("Novy tovar sa nepodarilo nacitat");
-            return false;
-        }
     }
 
-    public void printContent(){
+    public String printContent(){
+        String s = "";
         for(int i = 0; i < zoznamKnih.size(); i++){
-
-            View.printline(" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n");
-                zoznamKnih.get(i).printContent();
+            s +=" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n" +
+             zoznamKnih.get(i).getInfo();
         }
+        return s;
     }
 
     @Override
@@ -125,7 +123,6 @@ public class NoveKnihy extends Regal{
 
     @Override
     public int pridajKnihy(Kniha k, int p){
-        View.printline("Na paletu sa nedaju dat knihy");
         return -1;
     }
 

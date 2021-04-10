@@ -1,5 +1,6 @@
 package junas.robert.lagatoria.core.items;
 
+import javafx.beans.property.StringProperty;
 import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
@@ -35,20 +36,15 @@ public class Kniha implements InfoKniha{
         setBestseller();
     }
 
-    public void printContent() {
-        /*System.out.print("\t"+ kategoria.toString() +": ("+jazyk+") "+ autor + ": " +
-                nazov +" ("+ isbn + ") - cena: " + cena + "€ - " + pocetStran +
-                " stran - " + vazba.toString() + " vazba - vydavatel: " + vydavatelstvo + " " + rok);*/
-
-        getInfo();
-    }
-
     @Override
-    public void getInfo() {
-        casti.get(0).getInfo();
-        View.printline("ISBN: " + isbn);
-        View.printline("\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok);
-        casti.get(1).getInfo();
+    public String getInfo() {
+        String res = "";
+        res += casti.get(0).getInfo();
+        res += "\tISBN: " + isbn + '\n';
+        res += "\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok +"\n";
+        res += casti.get(1).getInfo();
+
+        return res;
     }
 
     public void pridajSucast(InfoKniha cast){

@@ -5,7 +5,8 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.View;
+import junas.robert.lagatoria.gui.Controller;
+import sun.font.CreatedFontTracker;
 
 public class Skladnik extends Zamestnanec {
     private Kniha kniha;
@@ -21,27 +22,30 @@ public class Skladnik extends Zamestnanec {
         inlineAkcie.put("n-umiestni", (args, kh, vy) -> umiestniNovyT(kh.getSklad()));
         inlineAkcie.put("info-n", (args, kh, vy) -> {
             if( (kh.getSklad()).getNovyTovar() != null) {
-                (kh.getSklad()).getNovyTovar().printContent();
-            }});
-        inlineAkcie.put("katalog", (args, kh, vy) -> (kh.getSklad()).printKatalog());
+               return  (kh.getSklad()).getNovyTovar().printContent();
+            }
+            return "problem so skladom";
+        }
+            );
         inlineAkcie.put("objednaj", ((args, kh, vy)-> {
-            objednaj(args,kh.getSklad());
+            String res = objednaj(args,kh.getSklad());
             kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
+            return res;
         }));
         inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh.getSklad())));
         inlineAkcie.put("max-miesto", ((args, kh, vy) -> {
             int[] miesto = kh.getSklad().najdiNajvacsieMiesto();
-            View.printline("Sekcia:" + miesto[0] + " Polička: " +miesto[1]);
+            return "Sekcia:" + miesto[0] + " Polička: " +miesto[1];
         }));
 
     }
 
-    public void objednajtovar(Sklad s,String path){
-        s.objednatKnihy(path);
+    public String objednajtovar(Sklad s,String path){
+        return s.objednatKnihy(path);
     }
 
-    public void umiestniNovyT(Sklad s){
-        s.umiestniNovyTovar();
+    public String umiestniNovyT(Sklad s){
+        return s.umiestniNovyTovar();
     }
 
 
@@ -62,19 +66,21 @@ public class Skladnik extends Zamestnanec {
          }
     }
 
-    public void umiestniKnihyDoRegalu(Sklad s, int[] pozicia, int pocet){
+    public String umiestniKnihyDoRegalu(Sklad s, int[] pozicia, int pocet){
         if(pozicia == null) {
-            View.printline("Neplatna pozicia");
-            return;
+            return "Neplatna pozicia";
         }
         if(kniha == null){
-            View.printline("Nemas knihy u seba");
-            return;
+            return "Nemas knihy u seba";
         }
         if(this.pocet < pocet) pocet = this.pocet;
         int pridane  = s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(kniha,pocet);
         this.pocet -= pridane;
-        if(this.pocet == 0) kniha = null;
+        if(this.pocet == 0) {
+            kniha = null;
+            return "vsetky knihy si ulozil";
+        }
+        return "knihy boli umiestnene a zostali ti knihy v inventari";
     }
 
     private void pridajKnihy(Kniha k,int pocet){
@@ -91,15 +97,15 @@ public class Skladnik extends Zamestnanec {
     }
 
     @Override
-    public void vypisInfo(){
-        if(kniha == null) {super.vypisInfo();}
+    public String vypisInfo(){
+        if(kniha == null) { return super.vypisInfo();}
         else {
-            View.printline(meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]");
+            return meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]";
         }
     }
 
     @Override
-    public void help() {
+    public String help() {
         super.help();
         System.out.println("---prikazy skladu---");
         System.out.println("objednaj \"path\" - informacie o mne");
@@ -114,9 +120,10 @@ public class Skladnik extends Zamestnanec {
                 "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat");
         System.out.println("max-miesto - najde najvacsie miesto na ulozenie");
         System.out.println("");
+        return "";
     }
 
-    private void premiestni(String[] com, Sklad sklad){
+    private String premiestni(String[] com, Sklad sklad){
         int[] zober = new int[] {-1,-1};
         int[] umiestni = new int[] {-1,-1};
         int p = -1;
@@ -147,23 +154,24 @@ public class Skladnik extends Zamestnanec {
 
 
         if(kniha != null && zober != null){
-            View.printline("Uz mas knihy v inventari, najprv umiestni tie");
+            return "Uz mas knihy v inventari, najprv umiestni tie";
         }else if(kniha != null && k == null){
             if(p ==0) p = this.pocet;
-            umiestniKnihyDoRegalu(sklad,umiestni,p);
+            return umiestniKnihyDoRegalu(sklad,umiestni,p);
         }else if(k == null){
-            View.printline("nezadal si knihu");
+            return "nezadal si knihu";
         }else if(kniha == null && umiestni == null) {
             odoberKnihyZRegalu(sklad,k,p, zober);
+            return "odobral si knihy z regalu";
         }else{
             odoberKnihyZRegalu(sklad,k,p, zober);
-            umiestniKnihyDoRegalu(sklad,umiestni,p);
+            return umiestniKnihyDoRegalu(sklad,umiestni,p);
         }
     }
 
-    private void objednaj(String[] s, Sklad sklad){
+    private String objednaj(String[] s, Sklad sklad){
         String f = s[1];
         f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
-        this.objednajtovar(sklad, f);
+        return this.objednajtovar(sklad, f);
     }
 }

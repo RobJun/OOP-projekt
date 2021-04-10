@@ -7,6 +7,7 @@ import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.Pisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.RychlePisanie;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.util.Random;
@@ -54,7 +55,7 @@ public abstract class Autor {
                 Runnable hotovo = new Runnable() {
                     @Override
                     public void run() {
-                        View.printline("Autor ["+getMeno()+" "+getPrievzisko()+"] dokoncil knihu a odoslal ju vydavatelovi");
+                        Controller.updateViews( "Autor ["+getMeno()+" "+getPrievzisko()+"] dokoncil knihu a odoslal ju vydavatelovi");
                     }
                 };
 
@@ -85,7 +86,7 @@ public abstract class Autor {
     }
 
     public String vymysliKnihu() {
-        View.printline("Autor ["+getMeno()+" "+getPrievzisko()+"] vymyslel Knihu");
+        Controller.updateViews("Autor ["+getMeno()+" "+getPrievzisko()+"] vymyslel Knihu");
         int targetStringLength = 10;
         Random random = new Random();
 

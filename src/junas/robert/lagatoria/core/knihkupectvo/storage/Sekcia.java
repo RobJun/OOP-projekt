@@ -1,5 +1,6 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
+import javafx.beans.property.StringProperty;
 import junas.robert.lagatoria.gui.View;
 
 public class Sekcia implements java.io.Serializable{
@@ -53,11 +54,13 @@ public class Sekcia implements java.io.Serializable{
     }
 
 
-    public void printSekcia(){
+    public String printSekcia(){
+        String res = "";
         for(int i = 0; i < regale.length;i++){
-            View.printline("regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto);
+            res += "regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto + "\n" +
             regale[i].printContent();
         }
-        System.out.println();
+        res += "\n";
+        return res;
     }
 }

@@ -1,6 +1,7 @@
 package junas.robert.lagatoria.core.knihkupectvo.rooms;
 
 import junas.robert.lagatoria.core.items.Kniha;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
@@ -14,12 +15,14 @@ public abstract class Miestnost implements java.io.Serializable{
 
     public final ArrayList<Kniha> getKatalog() { return katalog;};
 
-    public final void printKatalog() {
+    public final String printKatalog() {
         int i = 0;
+        String res = "";
         for(Kniha k : katalog){
             String[] s = k.getBasicInfo();
-            View.printline(i++ + ": " + s[0] + " - " + s[1] + " - { " +s[2] + " - " +s[3] + " }");
-
+            res +=i++ + ": " + s[0] + " - " + s[1] + " - { " +s[2] + " - " +s[3] + " }\n";
         }
+
+        return res;
     }
 }

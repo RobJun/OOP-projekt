@@ -1,4 +1,4 @@
-Hlava 22///Joseph Heller///ISBN-978-80-556-4294-9///455///406///19.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2019
+Hlava 22///Joseph Heller///ISBN-978-80-556-4294-9///200///406///19.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2019
 Dnešok nie je naposledy///Elan Mastai///ISBN-978-80-551-5360-5///200///421///19.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///ikar///2017
 Mengeleho Dievča///Viola Stern Fischerová; Veronika Homolová Tothová///ISBN-978-80-551-5188-5///200///367///19.99///HISTORIA///Slovensky jazyk///PEVNA///ikar///2016
 Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016
@@ -8,8 +8,8 @@ Treasure island///Robert Louis Stevenson///ISBN-978-1-784-87175-8///30///323///9
 Great Tales of Horror///Howard Phillips Lovecraft///ISBN-978-1-4351-4037-0///60///600///17.49///SVETOVA_LIT///Anglicky jazyk///PEVNA///fall river///2012
 Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016
 Bitunok čislo 5///Kurt Vonnegut///ISBN-978-80-556-2373-3///50///167///9.99///SVETOVA_LIT///Slovensky jazyk///PEVNA///slovart///2016
-Pán Prsteňov 1: spoločenstvo presteňa///J.R.R. Tolkien///ISBN-978-80-556-0634-7///600///453///17.99///FANTASY///Slovensky jazyk///PEVNA///slovart///2012
-Pán Prsteňov 2: dve veže///J.R.R. Tolkien///ISBN-978-80-556-0633-0///500///375///11.99///FANTASY///Slovensky jazyk///BROZOVANA///slovart///2012
-Hobit///J.R.R. Tolkien///ISBN-978-80-556-0637-8///550///229///7.95///FANTASY///Slovensky jazyk///BROZOVANA///slovart///2012
-Harry Potter a prekliate dieťa///J.K. Rowling///ISBN-978-80-551-5162-5///900///359///14.99///PRE_MLADEZ///Slovensky jazyk///PEVNA///ikar///2016
-Man's Search For Meaning///Viktor E. Frankl///ISBN-978-18-460-4284-3///330///176///16.50///HISTORIA///Anglicky jazyk///PEVNA///Ebury///2011
+Pán Prsteňov 1: spoločenstvo presteňa///J.R.R. Tolkien///ISBN-978-80-556-0634-7///200///453///17.99///FANTASY///Slovensky jazyk///PEVNA///slovart///2012
+Pán Prsteňov 2: dve veže///J.R.R. Tolkien///ISBN-978-80-556-0633-0///20///375///11.99///FANTASY///Slovensky jazyk///BROZOVANA///slovart///2012
+Hobit///J.R.R. Tolkien///ISBN-978-80-556-0637-8///200///229///7.95///FANTASY///Slovensky jazyk///BROZOVANA///slovart///2012
+Harry Potter a prekliate dieťa///J.K. Rowling///ISBN-978-80-551-5162-5///30///359///14.99///PRE_MLADEZ///Slovensky jazyk///PEVNA///ikar///2016
+Man's Search For Meaning///Viktor E. Frankl///ISBN-978-18-460-4284-3///40///176///16.50///HISTORIA///Anglicky jazyk///PEVNA///Ebury///2011

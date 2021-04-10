@@ -7,6 +7,7 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.items.Kniha;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public class Predajna extends Miestnost {
     private HashMap<Kategoria, OrganizovanaSekcia> sekcie;
-    private boolean otvorene;
+    private boolean otvorene = false;
     private transient Zakaznik zakaznik;
 
 
@@ -63,14 +64,16 @@ public class Predajna extends Miestnost {
         return otvorene;
     }
 
-    public void vypisPredajnu(){
+    public String  vypisPredajnu(){
             int i = 0;
-        View.printline("Predajna");
+            String s = "";
+            s += "Predajna ["+((isOtvorene()) ?"Otvorene" : "Zatvorene") +"]\n";
             for(Map.Entry<Kategoria,OrganizovanaSekcia> entry : sekcie.entrySet()){
-                View.printline("Sekcia: " + i);
-                entry.getValue().printSekcia();
+                s += ("Sekcia: " + i + "\n");
+                s+= entry.getValue().printSekcia();
                 i++;
             }
+            return s;
     }
 
     public void setZakaznik(Zakaznik z ){ zakaznik = z; }

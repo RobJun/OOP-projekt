@@ -3,8 +3,11 @@ package junas.robert.lagatoria.core.knihkupectvo.rooms;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.items.Kniha;
+import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Sklad  extends Miestnost {
@@ -31,31 +34,38 @@ public class Sklad  extends Miestnost {
             }
         }
 
-        public void objednatKnihy(String path){
-            novyTovar = new NoveKnihy(path);
-            View.printline("Novy tovar obsahuje: ");
-            for(Kniha K : novyTovar.getZoznamKnih()){
-                katalog.add(K);
+        public String objednatKnihy(String path){
+            try {
+                String res = "";
+                novyTovar = new NoveKnihy(path);
+                res +="Novy tovar obsahuje: \n";
+                for(Kniha K : novyTovar.getZoznamKnih()){
+                    katalog.add(K);
+                }
+                res+= novyTovar.printContent();
+                return res;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return "nepodarilo sa nacitat subor";
+            } catch (InvalidFormatException e) {
+                return  e.getMessage() + "\npodarilo sa nacitat " + e.getLoadedRows() + " riadkov";
             }
-            novyTovar.printContent();
-            System.out.println();
         }
 
-    public void objednatKnihy(NoveKnihy noveKnihy){
+    public String objednatKnihy(NoveKnihy noveKnihy){
         novyTovar = noveKnihy;
-        View.printline("Novy tovar obsahuje: ");
+        String res = "Novy tovar obsahuje: +\n";
         for(Kniha K : novyTovar.getZoznamKnih()){
             katalog.add(K);
         }
-        //novyTovar.printContent();
-        System.out.println();
+        res += novyTovar.printContent();
+        return res;
     }
 
 
-        public void umiestniNovyTovar(){
+        public String umiestniNovyTovar(){
             if(novyTovar == null) {
-                View.printline("Novy tovar nebol objednany");
-                return;
+                return "Novy tovar nebol objednany";
             }
             for(int i = 0; i < novyTovar.getZoznamKnih().size(); i++){
                 Kniha k = novyTovar.getZoznamKnih().get(i);
@@ -65,15 +75,18 @@ public class Sklad  extends Miestnost {
                     i--;
                 }
             }
-            novyTovar.vyhodPaletu();
-
+            return novyTovar.vyhodPaletu();
         }
 
         private int umiestniKnihy(Kniha k, int pocet, int[]pozicia){
             if(pozicia != null){
-                sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet);
-                View.printline("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
-                View.printline("");
+                if(sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet) == -1)
+                {
+                    Controller.updateViews("Na paletu sa nedaju dat knihy");
+                    return -1;
+                };
+                Controller.updateViews("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
+                Controller.updateViews("");
                 return 1;
             }
             return 0;
@@ -115,12 +128,16 @@ public class Sklad  extends Miestnost {
         public Sekcia[] getSekcie() {return sekcie;}
         public Sekcia getSekcie(int i) {return sekcie[i];}
 
-        public void printSklad(){
-            View.printline("Sklad:");
+        public String printSklad(){
+            String res = "";
+            res += "Sklad:\n";
             for(int i = 0; i < sekcie.length;i++){
-                View.printline("Sekcia: " + i);
-                sekcie[i].printSekcia();
-                View.printline("");
+                res+=("Sekcia: " + i + "\n");
+                res+=sekcie[i].printSekcia();
+                res += ("\n");
             }
+            if(novyTovar != null)
+                res += novyTovar.printContent();
+            return res;
         }
 }

@@ -53,8 +53,7 @@ public class View {
 
             Button submit = new Button("Submit");
             submit.setOnMouseClicked(e->{
-                controller.createAutor(menoAutora,prievzisko,autor);
-                subStage.close();
+                controller.createAutor(menoAutora,prievzisko,autor, subStage,"out");
             });
             root.getChildren().addAll(new Text("Prve meno"), menoAutora);
             root.getChildren().addAll(new Text("Prievzisko"), prievzisko);
@@ -77,8 +76,7 @@ public class View {
 
             Button submit = new Button("Submit");
             submit.setOnMouseClicked(e->{
-                controller.removeAutor(index);
-                subStage.close();
+                controller.removeAutor(index, subStage,"out");
             });
 
             index.textProperty().addListener(new ChangeListener<String>() {
@@ -109,10 +107,7 @@ public class View {
             Scene scene = new Scene(root, 250, 200);
 
             Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{
-                controller.createOdoberatel(nazovStanku);
-                subStage.close();
-            });
+            submit.setOnMouseClicked(e->{ controller.createOdoberatel(nazovStanku, subStage,"out"); });
             root.getChildren().addAll(new Text("Nazov Stanku"), nazovStanku);
             root.getChildren().add(submit);
             subStage.setScene(scene);
@@ -132,10 +127,7 @@ public class View {
             Scene scene = new Scene(root, 250, 200);
 
             Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{
-                controller.odstranOdoberatela(index);
-                subStage.close();
-            });
+            submit.setOnMouseClicked(e->{ controller.odstranOdoberatela(index, subStage,"out"); });
             index.textProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -166,10 +158,10 @@ public class View {
     private HBox distibutorOkno = new HBox();
 
 
-    public static TextArea out = new TextArea();
-    public static TextField inputText = new TextField();
+    public TextArea out = new TextArea();
+    public TextField inputText = new TextField();
 
-    private static StringProperty textRecu = new SimpleStringProperty();
+    private StringProperty textRecu = new SimpleStringProperty();
 
     private Text prihlaseny = new Text();
 
@@ -180,8 +172,9 @@ public class View {
         this.controller = controller;
         this.model = model;
 
-        createMainScene();
+        controller.addUpdatableView("out",out);
 
+        createMainScene();
         createSkladnikButtons();
         createManazerButtons();
         createDistributorButtons();
@@ -191,30 +184,6 @@ public class View {
 
     public void setPrihlaseny(String prihlaseny) {
         this.prihlaseny.setText(prihlaseny);
-    }
-
-    public static void printline(String s){
-        if(Main.enabled) {
-            if (textRecu.getValue() == null)
-                textRecu.setValue(s + '\n');
-            else {
-                textRecu.setValue(textRecu.getValue() + s + '\n');
-            }
-        }
-        else
-            System.out.println(s);
-    }
-
-    public static void print(String s){
-        if(Main.enabled) {
-            if (textRecu.getValue() == null)
-                textRecu.setValue(s + '\n');
-            else {
-                textRecu.setValue(textRecu.getValue() + s);
-            }
-        }
-        else
-            System.out.println(s);
     }
 
     public Scene getMainScene() {
@@ -238,7 +207,7 @@ public class View {
         BorderPane center = new BorderPane();
         HBox input = new HBox();
         Text textInput = new Text("input");
-        input.getChildren().addAll(textInput, View.inputText);
+        input.getChildren().addAll(textInput, inputText);
         HBox.setMargin(textInput, new Insets(0,10,0,20));
 
         inputText.maxWidth(1000);
@@ -251,7 +220,6 @@ public class View {
         VBox menu= new VBox(20);
         menu.setStyle("-fx-border-style: solid;" +
                 "-fx-border-color: black");
-        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
         menu.setMaxWidth(150);
         menu.setAlignment(Pos.TOP_CENTER);
         menu.setPrefWidth(100);
@@ -276,7 +244,7 @@ public class View {
         prihlaseny.setText("(" + controller.getPrihlaseny()+")");
         prihlaseny.setTextAlignment(TextAlignment.CENTER);
 
-        out.textProperty().bind(textRecu);
+        //out.textProperty().bind(textRecu);
         textRecu.addListener((InvalidationListener) e -> {
             out.selectPositionCaret(out.getLength());
             out.deselect();
@@ -306,22 +274,23 @@ public class View {
 
     private void createPredajcaButtons(){
         Button otvor = new Button("Otvor");
-        otvor.setOnMouseClicked(e ->{ controller.otvorZatvor(otvor); });
+        controller.addUpdatableView("otvorBtn",otvor);
+        otvor.setOnMouseClicked(e ->{ controller.otvorZatvor("otvorBtn"); });
 
         Button vypis = new Button("Vypis");
-        vypis.setOnMouseClicked(e -> { controller.spracuj("predajna | sklad"); });
+        vypis.setOnMouseClicked(e -> { controller.spracuj("predajna | sklad","out"); });
 
         Button predaj = new Button("Predaj");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("predaj"); });
+        predaj.setOnMouseClicked(e -> { controller.spracuj("predaj","out"); });
 
         Button plat = new Button("info-me");
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog"); });
+        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
 
         Button prines = new Button("Prines");
-        prines.setOnMouseClicked(e->{ controller.prines(inputText);});
+        prines.setOnMouseClicked(e->{ controller.prines(inputText,"out");});
 
 
         predajcaOkno.setSpacing(20);
@@ -336,25 +305,25 @@ public class View {
 
     private void createZakaznikButtons(){
         Button vstup = new Button("Vstup");
-        vstup.setOnMouseClicked(e ->{ controller.Zakaznik_vstup(); });
+        vstup.setOnMouseClicked(e ->{ controller.Zakaznik_vstup("out"); });
 
         Button plat = new Button("info-me");
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog"); });
+        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
 
         Button predaj = new Button("Predajna");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("predajna"); });
+        predaj.setOnMouseClicked(e -> { controller.spracuj("predajna","out"); });
 
         Button prines = new Button("Pridaj");
         prines.setOnMouseClicked(e->{
-
+                controller.prines(inputText,"out");
         });
 
         Button kosik = new Button("Kosik");
         kosik.setOnMouseClicked(e -> {
-            controller.spracuj("kosik");
+            controller.spracuj("kosik","out");
         });
 
         zakaznikOkno.setSpacing(20);
@@ -390,7 +359,7 @@ public class View {
         poetryAutor.setOnAction(vytvor);
 
         addAutors.setOnAction(e -> {
-            controller.spracuj("Pzoznam");
+            controller.spracuj("Pzoznam","out");
         });
 
         removeAutors.setOnAction(e->{
@@ -410,15 +379,15 @@ public class View {
         Button strategia = new Button("Vydavanie po jednom");
 
 
-        vypisAutorov.setOnMouseClicked(e->{ controller.spracuj("vypisAutor"); });
+        vypisAutorov.setOnMouseClicked(e->{ controller.spracuj("vypisAutor","out"); });
 
-        pisat.setOnMouseClicked(e->{ controller.spracuj("dajNapisat"); });
+        pisat.setOnMouseClicked(e->{ controller.spracuj("dajNapisat","out"); });
 
-        text.setOnMouseClicked(e->{ controller.spracuj("Queue"); });
+        text.setOnMouseClicked(e->{ controller.spracuj("Queue","out"); });
 
-        vydaj.setOnMouseClicked(e->{ controller.spracuj("vydajKnihy"); });
+        vydaj.setOnMouseClicked(e->{ controller.spracuj("vydajKnihy","out"); });
 
-        strategia.setOnMouseClicked(e->{ controller.changeStrategy(strategia,vydaj); });
+        strategia.setOnMouseClicked(e->{ controller.changeStrategy(strategia,vydaj, "out"); });
 
         Button plat = new Button("info-me");
         plat.setOnMouseClicked(controller.getInfoHandler());
@@ -435,19 +404,19 @@ public class View {
 
     private void createSkladnikButtons(){
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog"); });
+        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
 
         Button predaj = new Button("Sklad");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("sklad | info-n"); });
+        predaj.setOnMouseClicked(e -> { controller.spracuj("sklad | info-n","out"); });
 
         Button prines = new Button("Premiestni");
-        prines.setOnMouseClicked(e->{ controller.prines(inputText); });
+        prines.setOnMouseClicked(e->{ controller.prines(inputText,"out"); });
 
         Button objednaj = new Button("Objednaj");
-        objednaj.setOnMouseClicked(e->{ controller.objednaj(inputText);});
+        objednaj.setOnMouseClicked(e->{ controller.objednaj(inputText,"out");});
 
         Button miesto = new Button("najdiMiesto");
-        miesto.setOnMouseClicked(e->{ controller.spracuj("max-miesto"); });
+        miesto.setOnMouseClicked(e->{ controller.spracuj("max-miesto","out"); });
 
         Button plat = new Button("info-me");
         plat.setOnMouseClicked(controller.getInfoHandler());
@@ -468,10 +437,12 @@ public class View {
         MenuItem pridajOdoberatela = new MenuItem("pridaj odoberatela");
         MenuItem vypisOdoberatlov = new MenuItem("vypisOdoberatelov");
         MenuItem odoberOdoberatela = new MenuItem("odober odoberatela");
+        Button knihy = new Button("Knihy pre Knihkupetvo");
+        knihy.setOnMouseClicked(e->{ controller.spracuj("knihyPreKnihkupectvo","out"); });
 
         pridajOdoberatela.setOnAction(e->{ new OdoberatelCreation(); });
 
-        vypisOdoberatlov.setOnAction(e->{ controller.spracuj("vypisOdoberatelov"); });
+        vypisOdoberatlov.setOnAction(e->{ controller.spracuj("vypisOdoberatelov","out"); });
 
         odoberOdoberatela.setOnAction(e->{
            new removeOdoberatel();
@@ -488,5 +459,6 @@ public class View {
 
         distibutorOkno.getChildren().add(menuBar);
         distibutorOkno.getChildren().add(plat);
+        distibutorOkno.getChildren().add(knihy);
     }
 }

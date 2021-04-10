@@ -1,11 +1,13 @@
 package junas.robert.lagatoria.core.users.vydavatelstvo;
 
+import javafx.scene.control.ControlBuilder;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.Odoberatel;
 import junas.robert.lagatoria.core.Stanok;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.gui.Controller;
 import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
@@ -23,9 +25,19 @@ public class Distributor extends Zamestnanec {
         knihyPripraveneNaOdoslanie = new LinkedList<>();
         poctyKnih = new LinkedList<>();
 
-        inlineAkcie.put("pridajOdoberatela", ((args, kh, vy) -> vy.pridajOdoberatela(new Stanok(args[1]))));
-        inlineAkcie.put("vypisOdoberatelov", ((args, kh, vy) -> vy.vypisOdoberatelov()));
-        inlineAkcie.put("odstranOdoberatela", ((args, kh, vy) -> vy.odoberOdoberatela(Integer.valueOf(args[1]))));
+        inlineAkcie.put("pridajOdoberatela", ((args, kh, vy) -> {vy.pridajOdoberatela(new Stanok(args[1]));
+                                                                    return "";}));
+        inlineAkcie.put("vypisOdoberatelov", ((args, kh, vy) -> {return vy.vypisOdoberatelov();}));
+        inlineAkcie.put("odstranOdoberatela", ((args, kh, vy) -> {return vy.odoberOdoberatela(Integer.valueOf(args[1]));}));
+        inlineAkcie.put("knihyPreKnihkupectvo", ((args, kh, vy) -> {return knihyPripravenePreKnihkupetvo();}));
+    }
+
+    private String knihyPripravenePreKnihkupetvo() {
+        String res = "";
+        for(Kniha k : knihyPripraveneNaOdoslanie){
+            res += k.getBasicInfo()[0] + "\n";
+        }
+        return res;
     }
 
     public int urciPocet(double feedback) {
@@ -46,16 +58,17 @@ public class Distributor extends Zamestnanec {
         return pomery;
     }
 
-    public void DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, Kniha kniha, int pocet) {
+    public String DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, Kniha kniha, int pocet) {
         HashMap<Odoberatel, Double> pomer = pomerKnih(odoberatelia);
         double kapital = 0;
         int nepredane = pocet;
+        String res ="";
         for (Odoberatel o : odoberatelia){
             if(o instanceof Knihkupectvo){
                 knihyPripraveneNaOdoslanie.add(kniha);
                 nepredane -= (int)(pocet*pomer.get(o));
                 poctyKnih.add((int)(pocet*pomer.get(o)));
-                if(knihyPripraveneNaOdoslanie.size() == 4 && Knihkupectvo.getInstance().prijmameTovar()){
+                if(knihyPripraveneNaOdoslanie.size() > 4 && Knihkupectvo.getInstance().prijmameTovar()){
                     Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie,new LinkedList<>(poctyKnih)));
                     double zaplatene = 0;
                     int pocetKnih = 0;
@@ -66,7 +79,7 @@ public class Distributor extends Zamestnanec {
                         zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(),p);
                         pocetKnih++;
                     }
-                    View.printline("Knihkupectvo prijalo "+pocetKnih+"knih ["+celkovyPocet+"] vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€");
+                    res+= "Knihkupectvo prijalo "+pocetKnih+" roznych knih ["+celkovyPocet+"] vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€\n";
                     kapital += zaplatene;
                 }
             }else{
@@ -74,15 +87,18 @@ public class Distributor extends Zamestnanec {
                 stanok.odober(kniha,(int)(pocet*pomer.get(o)));
                 nepredane -= (int)(pocet*pomer.get(o));
                 double zaplatene = stanok.zaplatVydavatelovi(kniha,(int)(pocet*pomer.get(o)));
-                View.printline("Stanok prijal knihy ["+(int)(pocet*pomer.get(o))+"] a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
+                res +="Stanok prijal knihy ["+(int)(pocet*pomer.get(o))+"] a zaplatil: " +String.format("%.2f",zaplatene)+ "\n";
                 kapital += zaplatene;
             }
         }
-        View.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
-        View.printline("Nepredalo sa: "+ nepredane + " kusov");
+        res += "\nCelkovo zarobene: "+ String.format("%.2f",kapital) + "€\n";
+        res += "Nepredalo sa: "+ nepredane + " kusov\n";
+
+        return res;
     }
 
-    public void DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, ArrayList<Kniha> knihy, ArrayList<Integer> pocet) {
+    public String DajOdoberatlom(ArrayList<Odoberatel> odoberatelia, ArrayList<Kniha> knihy, ArrayList<Integer> pocet) {
+        String res ="";
         HashMap<Odoberatel, Double> pomer = pomerKnih(odoberatelia);
         double kapital = 0;
         int nepredane = 0;
@@ -107,7 +123,7 @@ public class Distributor extends Zamestnanec {
                         zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(), p);
                         pocetKnih++;
                     }
-                    View.printline("Knihkupectvo prijalo " + pocetKnih + "knih [" + celkovyPocet + "] vsetky knihy a zaplatilo: " + String.format("%.2f", zaplatene) + "€");
+                    res += "Knihkupectvo prijalo " + pocetKnih + " roznych knih [" + celkovyPocet + "] vsetky knihy a zaplatilo: " + String.format("%.2f", zaplatene) + "€\n";
                     kapital += zaplatene;
                     }
             }else{
@@ -120,12 +136,13 @@ public class Distributor extends Zamestnanec {
                     zaplatene += stanok.zaplatVydavatelovi(knihy.get(i), (int)(pocet.get(i)*pomer.get(o)));
                     nepredane -= (int)(pocet.get(i)*pomer.get(o));
                 }
-                View.printline("Stanok prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€");
+                res+= "Stanok prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€\n";
                 kapital += zaplatene;
             }
         }
-        View.printline("Celkovo zarobene: "+ String.format("%.2f",kapital) + "€");
-        View.printline("Nepredalo sa: "+ nepredane + " kusov");
+        res+= "Celkovo zarobene: "+ String.format("%.2f",kapital) + "€\n";
+        res+= "Nepredalo sa: "+ nepredane + " kusov\n";
+        return res;
     }
 
 

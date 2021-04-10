@@ -16,16 +16,7 @@ import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public class Main extends Application {
 
-    private Button zakaznikButton = new Button("Zákazník");
-    private Button skladnikButton = new Button("Skladník");
-    private Button predajcaButton = new Button("Predajca");
-    private Button manazerButton = new Button("Manažer");
-    private Button distriButton = new Button("Distributor");
-
-
     public static boolean enabled = false;
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -35,9 +26,9 @@ public class Main extends Application {
         Model model = new Model();
         Controller controller = new Controller(model);
         View view = new View(controller,model);
+        controller.setView(view);
 
         enabled = true;
-        controller.setView(view);
 
         stage.setOnCloseRequest(e -> {
             controller.serialize();

@@ -26,8 +26,8 @@ public class Text implements InfoKniha{
         this.kategoria = kategoria;
     }
     @Override
-    public void getInfo() {
-        View.printline("\t["+kategoria.toString()+"] "+autor + ": " + nazov + " [" + jazyk+ "]");
+    public String getInfo() {
+        return "\t["+kategoria.toString()+"] "+autor + ": " + nazov + " [" + jazyk+ "]\n";
     }
 
     public void setNazov(String nazov) {

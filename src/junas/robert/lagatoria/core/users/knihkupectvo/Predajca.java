@@ -6,7 +6,8 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.View;
+import junas.robert.lagatoria.gui.Controller;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 public class Predajca extends Zamestnanec {
     private Kniha kniha;
@@ -26,34 +27,36 @@ public class Predajca extends Zamestnanec {
         inlineAkcie.put("prines", ((args, kh, vy) -> prines(args,kh)));
     }
 
-    public void otvorPredajnu(Predajna p){
+    public String otvorPredajnu(Predajna p){
         p.setOtvorene(true);
+        return "otovorene";
     }
 
-    public void zavriPredajnu(Predajna p){
+    public String  zavriPredajnu(Predajna p){
         p.setOtvorene(false);
+        return "zatvorene";
     }
 
-    public void predajKnihy(Zakaznik z) {
+    public String predajKnihy(Zakaznik z) {
         if(z == null) {
-            View.printline("Ziadny zakaznik nie je v predajni");
-            return;
+            return "Ziadny zakaznik nie je v predajni";
         }
         if(z.getKosik().isEmpty()){
-            View.printline("Zakaznik nema nic v kosiku");
-            return;
+            return "Zakaznik nema nic v kosiku";
         }
+        String res = "";
         while(!z.getKosik().isEmpty()){
             Kniha k = z.getKosik().get(0);
             int p = z.getPocetKnih(k.getISBN());
             k.predaj(p);
             z.odoberKnihy(k,p);
-            View.printline("Zakaznik si kupil: " + k.getBasicInfo()[0] + " ["+p+ "] ["+ p*k.getCena()+ "]");
+            res+="Zakaznik si kupil: " + k.getBasicInfo()[0] + " ["+p+ "] ["+ p*k.getCena()+ "]\n" ;
         }
+        return res;
     }
 
     @Override
-    public void help(){
+    public String help(){
         super.help();
         System.out.println("---Prikazy predajcu---");
         System.out.println("otvor - otvor predajnu");
@@ -61,10 +64,11 @@ public class Predajca extends Zamestnanec {
         System.out.println("predajna - vypis predajnu");
         System.out.println("sklad - vypis sklad");
         System.out.println("predaj - preda knihy v kosiku zakaznika");
+        return "";
     }
 
 
-    private void prines(String[] args, Knihkupectvo kh){
+    private String prines(String[] args, Knihkupectvo kh){
         int p = -1;
         Kniha k = null;
         for(String f : args){
@@ -77,8 +81,7 @@ public class Predajca extends Zamestnanec {
             }
         }
         if((k == null && kniha == null) || p < 1){
-            View.printline("Zadana kniha neexistuje alebo si zadal zly pocet");
-            return;
+            return "Zadana kniha neexistuje alebo si zadal zly pocet";
         }
         if(kniha == null) {
             for (Sekcia s : kh.getSklad().getSekcie()) {
@@ -91,13 +94,13 @@ public class Predajca extends Zamestnanec {
             }
         }
         if(kniha == null || pocet < 1){
-            View.printline("Kniha nie je v invetnari/nenachadzala sa v sklade)");
-            return;
+            return "Kniha nie je v invetnari/nenachadzala sa v sklade)";
         }
         int umies =  kh.getPredajna().umiestniKnihy(kniha,pocet);
         if(umies == 0){
             pocet = 0;
             kniha = null;
         }
+        return "podarilo sa zobrat knihu";
     }
 }

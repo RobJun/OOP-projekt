@@ -20,28 +20,18 @@ public class Model {
     private Skladnik skladnik = new Skladnik("Skladnik", 23);
     private Manazer manazer = new Manazer("Manazer",111,22.4);
     private Distributor distributor = new Distributor("Distributor",123,15);
-    private Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer,10);
+    private Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer,distributor,10);
 
 
     private String strategyText = "Vydavanie po jednom";
     private String strategyVText = "Vydaj text";
 
-    private String getStrategyText(){
-        return strategyText;
-    }
-
-    private String getStrategyVText(){
-        return strategyVText;
-    }
-
-
-
     Model(){
         Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
     }
 
-    public void serialize(){
-        Knihkupectvo.serialize("./res/knihkupectvo_oop.ser");
+    public String serialize(){
+        return Knihkupectvo.serialize("./res/knihkupectvo_oop.ser");
     }
 
 
@@ -49,17 +39,16 @@ public class Model {
         return pouzivatel;
     }
 
-    public void spracuj(String command){
-        pouzivatel.spracuj(command.split(" "),vydavatelstvo);
+    public String spracuj(String command){
+        return pouzivatel.spracuj(command.split(" "),vydavatelstvo);
     }
 
 
-    public boolean objednaj(String command){
+    public String objednaj(String command){
         if(command.length() == 0){
-            return false;
+            return "";
         }
-        pouzivatel.spracuj(("objednaj \"" + command +"\" | n-umiestni").split(" "),null);
-        return true;
+        return pouzivatel.spracuj(("objednaj \"" + command +"\" | n-umiestni").split(" "),null);
     }
 
     public String[] changeStrategy(){
@@ -77,7 +66,7 @@ public class Model {
     }
 
     public String otvorZatvor(){
-        if(Knihkupectvo.getInstance().getPredajna().isOtvorene()){
+        if(!Knihkupectvo.getInstance().getPredajna().isOtvorene()){
             spracuj("otvor");
             return "Zavri";
         }else{
@@ -129,7 +118,7 @@ public class Model {
                         "\t\t\t\t\t\t\t\t\t\t- uX-X = pozicia na ktoru umiestnujeme \n" +
                         "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat";
             }
-            spracuj("premiestni " + text);
+            return spracuj("premiestni " + text);
         }else if(pouzivatel instanceof Zakaznik){
             if(text.length() == 0) {
                 return "do input:  n/ref /pocet  \n" +
@@ -137,7 +126,7 @@ public class Model {
                         "\t\t\t\t\t\t\t\t\t\t\t [s/ = nazov/isbn [medzery == _]; i/ = katalogove cislo;\n" +
                         "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat";
             }
-            spracuj("zober " + text);
+            return spracuj("zober " + text);
         }else if(pouzivatel instanceof Predajca){
             if(text.length() == 0) {
                 return "do input:  n/ref /pocet \n" +
@@ -146,17 +135,16 @@ public class Model {
                         "\t\t\t\t\t\t\t\t\t\t\t moze byt null ak mas knihu v inventari] \n" +
                         "\t\t\t\t\t\t\t\t\t\t- pocet = kolko kniha z policky zobrat";
             }
-            spracuj("prines " + text);
+            return spracuj("prines " + text);
         }
-        return "";
+        return "error -- neplatny pouzivatel";
     }
 
     public String odstranOdoberatela(String text) {
         if(text == null || text.length() == 0 || !text.matches("[0-9]+")){
             return "Nepodarilo sa odstranit odoberatela";
         }
-        spracuj("odstranOdoberatela " + text);
-        return  "Podarilo sa odstranit odoberatela";
+        return spracuj("odstranOdoberatela " + text);
     }
 
     public String pridajOdoberatela(String text) {
@@ -189,5 +177,9 @@ public class Model {
         }
         spracuj("pridajA " + typCreate + " " + meno + " " + prievzisko);
         return "Podarilo sa vytvorit autora";
+    }
+
+    public void deserilize() {
+        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
     }
 }

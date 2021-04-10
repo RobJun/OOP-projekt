@@ -9,5 +9,5 @@ public interface InfoKniha extends Serializable {
     /**
      * vypisuje informacie o knihe
      */
-    void getInfo();
+    String getInfo();
 }
