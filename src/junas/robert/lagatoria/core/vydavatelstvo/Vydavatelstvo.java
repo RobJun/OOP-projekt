@@ -34,14 +34,17 @@ public class Vydavatelstvo {
         }
 
         public String najdiChybyVTexte(Text text){
+            pridajHodinu();
             return "Najedenych a opravenych " + text.oprav() + efektivnost + " chyb" + "\n";
         }
 
         private Text skratText(Text text) {
+            pridajHodinu();
             text.setDlzka(text.getDlzka() - ((int) (text.getDlzka() * 0.1)+efektivnost));
             return text;
         }
         public Text precitajText(Text text) {
+            pridajHodinu();
             return skratText(text);
         }
     }
@@ -56,6 +59,7 @@ public class Vydavatelstvo {
         }
 
         public Obalka navrhniObalku() {
+            pridajHodinu();
             if((int)(Math.random()*2) == 0) {
                 return new BrozovanaVazba(osobnyStyl[(int)(Math.random()*osobnyStyl.length)],
                             farby[(int)(Math.random()*farby.length)],
