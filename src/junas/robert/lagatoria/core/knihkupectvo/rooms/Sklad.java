@@ -67,29 +67,29 @@ public class Sklad  extends Miestnost {
             if(novyTovar == null) {
                 return "Novy tovar nebol objednany";
             }
+            String res = "";
             for(int i = 0; i < novyTovar.getZoznamKnih().size(); i++){
                 Kniha k = novyTovar.getZoznamKnih().get(i);
                 int pocet = novyTovar.getPocetKnih(k.getISBN());
-                if(umiestniKnihy(k, pocet,najdiMiestoKniham(pocet)) == 1) {
+                String ul = umiestniKnihy(k, pocet,najdiMiestoKniham(pocet));
+                if(!ul.isEmpty()) {
                     novyTovar.odoberKnihy(k,pocet);
                     i--;
+                    res += ul + "\n";
                 }
             }
-            return novyTovar.vyhodPaletu();
+            return res + novyTovar.vyhodPaletu();
         }
 
-        private int umiestniKnihy(Kniha k, int pocet, int[]pozicia){
+        private String umiestniKnihy(Kniha k, int pocet, int[]pozicia){
             if(pozicia != null){
                 if(sekcie[pozicia[0]].getRegal(pozicia[1]).pridajKnihy(k,pocet) == -1)
                 {
-                    Controller.updateViews("Na paletu sa nedaju dat knihy");
-                    return -1;
+                    return "Na paletu sa nedaju dat knihy\n" ;
                 };
-                Controller.updateViews("Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1]);
-                Controller.updateViews("");
-                return 1;
+                return "Knihy { "+k.getBasicInfo()[0]+" } su umiestnene v " +pozicia[0]+"-"+pozicia[1] + "\n";
             }
-            return 0;
+            return "";
         }
 
         private int[] najdiMiestoKniham(int pocet){

@@ -56,7 +56,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
             e.printStackTrace();
             return "nepodarilo sa najst subor";
         }
-        return "Knihkupecvto sa nacitalo";
+        return "Knihkupecvto sa ulozilo do /res/knihkupectvo_oop.ser";
     }
 
     /**

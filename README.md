@@ -11,9 +11,11 @@ Program je z veľkej časti funkčný. Funguje pridávanie a odoberanie ako auto
 Používateľské rozhranie je rozdelené podľa vzoru MVC . Funguje vydávanie kníh ako aj ich distribúcia medzi odoberateľov.
 Dokážeme zmeniť stratégiu ako sa knihy vydávajú. Čo sa týka kníhkupectva, tak dokážeme objednať knihy. Premiestňovať ich do rôznych sekcií a pod.
 
-hlavný súbor s metodou main() je **junas.robert.lagatoria.gui.Main.java**
+Hlavný súbor s metódou main() je **junas.robert.lagatoria.gui.Main.java** 
 
-parametre na spustenie nie sú žiadne, treba mať povolene **javaFx**
+Parametre na spustenie nie sú žiadne, treba mať povolene **javaFx**
+
+Pravdepodobne je potrebné si vytvoriť priečinok /res/, kde sa uloží serializacia
 
 ## Dedenie
 lagatoria.utils.InputProcess ten je implementovaný abstraktnou triedou lagatoria.users.Pouzivatel,
