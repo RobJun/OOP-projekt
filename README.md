@@ -42,7 +42,7 @@ class Korektor extends Zamestnanec {...}
 class Dizajner extends Zamestnanec {...}
 ```
 
-##Polymorfizmus
+## Polymorfizmus
 Polymorfizmus je napríklad v tom ako sa spracovávajú vstupy v triede Pouzivatel.java sa definuje spôsob akým sa spracováva vstup a následne Zamestnanec.java
 prekonáva funkciu tým že s ňou ešte volá pridajHodinu(), čo pridá zamestnancovi jednu odrobenú hodinu, za použitie metódy.
 
@@ -172,7 +172,7 @@ Nakoniec sa všetky časti prepájajú v [Main.java](src/junas/robert/lagatoria/
 
 ## Ďalšie podrobnosti
 
-Máme navyše implementovanú sterilizáciu na strane kníhkupectva, kde si ukladáme stav všetkých poličiek a kníh v kníhkupectve súbor s dátami ukladáme do zložky res/.
+Máme navyše implementovanú serilizáciu na strane kníhkupectva, kde si ukladáme stav všetkých poličiek a kníh v kníhkupectve súbor s dátami ukladáme do zložky res/.
 
 Ďalej máme implementovaný návrhový vzor observer medzi Manazer a Autor. Ďalším implementovaným návrhovým vzorom je Composite a je spojený s vytváraním kníh.
 Ďalej sme implementovali model Visitor a to pri implementácií Autora.  Ako posledný sme implantovali Strategy vo Vydavatelstvo.java, kde sa mení metóda vydávania kníh.
