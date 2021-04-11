@@ -10,6 +10,11 @@ zistenie aký je dopyt po knihe, vytlačenie kníh s tým spojené rozhodovanie 
 Program je z veľkej časti funkčný. Funguje pridávanie a odoberanie ako autorov, tak aj odoberateľov,
 Používateľské rozhranie je rozdelené podľa vzoru MVC . Funguje vydávanie kníh ako aj ich distribúcia medzi odoberateľov.
 Dokážeme zmeniť stratégiu ako sa knihy vydávajú. Čo sa týka kníhkupectva, tak dokážeme objednať knihy. Premiestňovať ich do rôznych sekcií a pod.
+
+hlavný súbor s metodou main() je **junas.robert.lagatoria.gui.Main.java**
+
+parametre na spustenie nie sú žiadne, treba mať povolene **javaFx**
+
 ## Dedenie
 lagatoria.utils.InputProcess ten je implementovaný abstraktnou triedou lagatoria.users.Pouzivatel,
 Pouzivatel je dedený triedou Zakaznik a abstraktnou triedou Zamestanec. Nakoniec triedy Skladnik, Predajca, Distributor, Manazer
