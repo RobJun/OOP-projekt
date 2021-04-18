@@ -1,15 +1,13 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.items.*;
+import junas.robert.lagatoria.core.users.info.RadKnih;
 import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.enums.Vazba;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class NoveKnihy extends Regal{
@@ -33,11 +31,11 @@ public class NoveKnihy extends Regal{
         }
     }
 
-    public NoveKnihy(Queue<Kniha> knihy, Queue<Integer> pocetKnih){
+    public NoveKnihy(RadKnih knihy){
         super();
         minute = knihy.isEmpty();
-        for (Kniha k : knihy){
-            this.pridajKnihyP(k,pocetKnih.remove());
+        for (BalikKnih k : knihy.getKnihy()){
+            this.pridajKnihyP(k.getKniha(),k.getPocet());
         }
     }
 

@@ -8,7 +8,6 @@ import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePi
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.Pisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.RychlePisanie;
 import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 import java.util.Random;
 

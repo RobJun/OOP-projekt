@@ -1,16 +1,16 @@
 package junas.robert.lagatoria.core.users;
 
+import junas.robert.lagatoria.core.users.info.UdajeOZamestnancovi;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public abstract class Zamestnanec extends Pouzivatel{
-    protected double plat;
-    protected double odrobene;
+    private UdajeOZamestnancovi udajeOZamestnancovi;
 
 
     public Zamestnanec(String m, long id, double plat) {
         super(m, id);
-        this.plat = plat;
-        odrobene = 0;
+        udajeOZamestnancovi = new UdajeOZamestnancovi(plat);
+
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("plat", ((args, kh, vy) -> { return "Tvoj plat je: " + getPlat();}));
@@ -19,16 +19,16 @@ public abstract class Zamestnanec extends Pouzivatel{
     }
 
     public double getPlat(){
-        return plat;
+        return udajeOZamestnancovi.getPlat();
     }
     public double getOdrobene(){
-        return odrobene;
+        return udajeOZamestnancovi.getOdrobene();
     }
 
     public double vypocitajPlat(){
-        return odrobene*plat;
+        return udajeOZamestnancovi.Vypocitaj_zarobok();
     }
-    public void pridajHodinu(){ odrobene++; }
+    public void pridajHodinu(){ udajeOZamestnancovi.odrobHodinu(); }
 
     @Override
     public String help() {

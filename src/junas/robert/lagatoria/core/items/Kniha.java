@@ -1,17 +1,13 @@
 package junas.robert.lagatoria.core.items;
 
-import javafx.beans.property.StringProperty;
-import junas.robert.lagatoria.gui.View;
-
-import java.util.ArrayList;
-
 public class Kniha implements InfoKniha{
     private String  isbn, vydavatelstvo;
     private int rok, predaneKusy;
     private double cena;
     private Boolean bestseller;
 
-    private ArrayList<InfoKniha> casti = new ArrayList<InfoKniha>();
+    private Text text;
+    private Obalka obalka;
 
     public Kniha(String isbn, String vydavatelstvo, int rok, double cena){
         this.isbn = isbn;
@@ -25,7 +21,6 @@ public class Kniha implements InfoKniha{
         return isbn;
     }
     public String[] getBasicInfo() {
-        Text text =  (Text)casti.get(0);
         return new String[] {text.getNazov(),text.getAutor(),isbn,vydavatelstvo};
     }
     public double getCena(){ return cena;}
@@ -39,18 +34,27 @@ public class Kniha implements InfoKniha{
     @Override
     public String getInfo() {
         String res = "";
-        res += casti.get(0).getInfo();
+        res += text.getInfo();
         res += "\tISBN: " + isbn + '\n';
         res += "\tcena: " + String.format("%.2f",cena) + "€ - vydavatel: " + vydavatelstvo + " " + rok +"\n";
-        res += casti.get(1).getInfo();
+        res += obalka.getInfo();
 
         return res;
     }
 
     public void pridajSucast(InfoKniha cast){
-        casti.add(cast);
+        if(cast instanceof Text){
+            text = (Text)cast;
+        }else if(cast instanceof Obalka){
+            obalka = (Obalka)cast;
+        }
     }
-    public InfoKniha getSucast(int index){
-        return casti.get(index);
+    public InfoKniha getSucast(Class t){
+        if(t == text.getClass()){
+            return text;
+        }else if(t == obalka.getClass()){
+            return obalka;
+        }
+        return null;
     }
 }

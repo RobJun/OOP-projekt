@@ -10,6 +10,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import junas.robert.lagatoria.core.users.Pouzivatel;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
+import junas.robert.lagatoria.gui.substages.AutorCreation;
+import junas.robert.lagatoria.gui.substages.AutorRemove;
+import junas.robert.lagatoria.gui.substages.OdoberatelCreation;
+import junas.robert.lagatoria.gui.substages.OdoberatelRemove;
 
 import java.util.HashMap;
 
@@ -19,9 +23,9 @@ public class Controller {
     private View view;
 
     Controller(Model model){
+
         this.model = model;
     }
-
 
     private HashMap<String,Node> updatableViews = new HashMap<>();
     private static Node desiredOutput = null;
@@ -106,6 +110,18 @@ public class Controller {
         stage.close();
     }
 
+    public void createOdoberatelKateg(TextField nazovStanku, TextField dalsie, Stage subStage, String out) {
+        Controller.desiredOutput = updatableViews.get(out);
+        Controller.updateViews(model.pridajOdoberatelaKategorizovaneho(nazovStanku.getText(),dalsie.getText()));
+        subStage.close();
+    }
+
+    public void createOdoberatelMin(TextField nazovStanku, TextField dalsie, Stage subStage, String out) {
+        Controller.desiredOutput = updatableViews.get(out);
+        Controller.updateViews(model.pridajOdoberatelaMinimum(nazovStanku.getText(),dalsie.getText()));
+        subStage.close();
+    }
+
     public void removeAutor(TextField text, Stage stage, String key){
         Controller.desiredOutput = updatableViews.get(key);
         Controller.updateViews(model.removeAutor(text.getText()));
@@ -135,4 +151,22 @@ public class Controller {
             return "Nikto";
         return p.getClass().getSimpleName();
     }
+
+
+    public void autorCreateStage(String autor){
+        new AutorCreation(autor,this);
+    }
+
+    public void autorRemoveStage(){
+        new AutorRemove(this);
+    }
+
+    public void odoberatelCreateStage(int k){
+        new OdoberatelCreation(k,this);
+    }
+
+    public void odoberaltelRemoveStage(){
+        new OdoberatelRemove(this);
+    }
+
 }

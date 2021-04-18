@@ -6,15 +6,13 @@ import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.utils.exceptions.AutorNieJeNaZozname;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Manazer extends Zamestnanec {
-    ArrayList<Autor> autori = new ArrayList<Autor>();
+    private ArrayList<Autor> autori = new ArrayList<Autor>();
 
     public Manazer(String m, long id, double plat) {
 

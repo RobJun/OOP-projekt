@@ -1,8 +1,6 @@
 package junas.robert.lagatoria.core.knihkupectvo.rooms;
 
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 import java.util.ArrayList;
 

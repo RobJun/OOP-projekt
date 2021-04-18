@@ -23,26 +23,15 @@ public abstract class Pouzivatel implements InputProcess {
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("help", (args, kh, vy) -> {return help();});
-        inlineAkcie.put("exit", (args, kh, vy) -> {return exit();});
+        //inlineAkcie.put("exit", (args, kh, vy) -> {return exit();});
         //inlineAkcie.put("logout", (args, kh, vy) -> kh.setPrihlaseny(LoggedIn.NONE));
         inlineAkcie.put("info-me", (args, kh, vy) -> {return vypisInfo();});
         inlineAkcie.put("katalog", (args, kh, vy) -> {return kh.getSklad().printKatalog();});
     };
 
-
-
-    ///funkcia ktora povie programu nech hlavny loop programu ukonci
-    public String exit(){
-        close = true;
-        return  "";
-    }
-
-    ///funckia ktora zistuje ci sa hlavny loop konci
-    public boolean closeCallback(){
-        return close;
-    }
-
-    ///vypise meno a id uzivatela
+    /**
+     * @return "meno [id]"
+     */
     public String vypisInfo(){
         return  meno + " ["+ id+"]";
     }

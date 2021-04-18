@@ -1,7 +1,5 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
-import javafx.beans.property.StringProperty;
-import junas.robert.lagatoria.gui.View;
 
 public class Sekcia implements java.io.Serializable{
     protected Regal[] regale;

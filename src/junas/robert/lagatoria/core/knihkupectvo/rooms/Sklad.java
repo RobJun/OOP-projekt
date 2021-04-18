@@ -4,8 +4,6 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

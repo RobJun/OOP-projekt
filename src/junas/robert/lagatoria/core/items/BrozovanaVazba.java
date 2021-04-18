@@ -1,7 +1,5 @@
 package junas.robert.lagatoria.core.items;
 
-import junas.robert.lagatoria.gui.View;
-
 public class BrozovanaVazba extends Obalka{
     private String obrazok;
 

@@ -1,8 +1,6 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
 
 public class OrganizovanaSekcia extends Sekcia{
     private Kategoria nazov;

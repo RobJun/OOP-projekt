@@ -1,7 +1,6 @@
 package junas.robert.lagatoria.core.knihkupectvo.storage;
 
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.gui.View;
 
 import java.util.*;
 

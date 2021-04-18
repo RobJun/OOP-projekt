@@ -1,12 +1,14 @@
 package junas.robert.lagatoria.core.vydavatelstvo;
 
+import junas.robert.lagatoria.core.stanky.StanokPreKategoriu;
 import junas.robert.lagatoria.core.items.*;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.Odoberatel;
-import junas.robert.lagatoria.core.Stanok;
+import junas.robert.lagatoria.core.stanky.Stanok;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
@@ -17,16 +19,14 @@ import java.util.*;
 
 public class Vydavatelstvo {
 
-    private Korektor korektor;
-    private Dizajner dizajner;
-    private Manazer manazer;
-    private Distributor distributor;
-
 
     interface VydavanieStrategy{
         String vydajKnihy();
     }
 
+    /**
+     * Inner class Korektor služi na opravenie chýb v texte
+     */
     class Korektor extends Zamestnanec {
         private int efektivnost = 31;
         public Korektor(String m, long id, double plat) {
@@ -49,6 +49,9 @@ public class Vydavatelstvo {
         }
     }
 
+    /**
+     * inner class dizajner, ma na starosti vymyslenie obalky
+     */
     class Dizajner extends Zamestnanec {
         private String[] osobnyStyl = {"minimalisticky","fotka","kresba"};
         private String[] obrazky = {"papagaj","dievca","carodejnik","lampa"};
@@ -58,18 +61,31 @@ public class Vydavatelstvo {
             super(m, id, plat);
         }
 
+        /**
+         * Navrhnutie obalky
+         * @return vracia obalku, ktoru vymyslel
+         */
         public Obalka navrhniObalku() {
-            pridajHodinu();
+            pridajHodinu(); //prida odpracovanu hodinu dizajnerovy
+
+            //rozhodnutie ci vazba bude Brozovana alebo Pevna
             if((int)(Math.random()*2) == 0) {
+                //nahodny vyber vlastnosti obalky
                 return new BrozovanaVazba(osobnyStyl[(int)(Math.random()*osobnyStyl.length)],
                             farby[(int)(Math.random()*farby.length)],
                             obrazky[(int)(Math.random()*obrazky.length)]);
             }else{
+                //nahodny vyber vlastnosti obalky
                 return new PevnaVazba(osobnyStyl[(int)(Math.random()*osobnyStyl.length)],
                         farby[(int)(Math.random()*farby.length)], material[(int)(Math.random()*material.length)]);
             }
         }
     }
+
+    private Korektor korektor;
+    private Dizajner dizajner;
+    private Manazer manazer;
+    private Distributor distributor;
 
     private Tlaciaren tlaciaren;
     private ArrayList<Autor> autori = new ArrayList<Autor>();
@@ -79,7 +95,6 @@ public class Vydavatelstvo {
     private HashMap<Integer, Integer> pouziteKody = new HashMap<Integer, Integer>();
 
     private String nazov;
-    private String code;
     private String group;
 
 
@@ -93,7 +108,6 @@ public class Vydavatelstvo {
      */
     public Vydavatelstvo(Manazer manazer,Distributor distributor, int pocetStankov){
         nazov = "Dalakan";
-        code = "3315";
         group = "80";
         this.manazer = manazer;
         korektor = new Korektor("Jozo",332,10.9);
@@ -109,6 +123,10 @@ public class Vydavatelstvo {
         for(int i = 0; i < pocetStankov;i++){
             odoberatelia.add(new Stanok("stanok"+i));
         }
+
+        odoberatelia.add(new StanokPreKategoriu("StanokSHistorickymiKnihami", Kategoria.HISTORIA));
+
+
         odoberatelia.add(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
 
@@ -207,6 +225,10 @@ public class Vydavatelstvo {
         autori.add(autor);
     }
 
+    /**
+     * vydanie prave jedneho textu, ktory je na vrchu radu.
+     * @return vracia output string
+     */
     private String vydanie(){
         if(prijateTexty.isEmpty()){
 
@@ -341,9 +363,5 @@ public class Vydavatelstvo {
         }
 
         return res;
-    }
-
-    public Distributor getDistibutor() {
-        return distributor;
     }
 }

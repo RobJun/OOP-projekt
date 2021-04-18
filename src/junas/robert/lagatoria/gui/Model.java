@@ -7,6 +7,7 @@ import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
@@ -154,6 +155,31 @@ public class Model {
         spracuj("pridajOdoberatela " + text);
         return  "Podarilo sa vytvorit odoberatela";
     }
+
+    private boolean containsKategoria(String text){
+        for(Kategoria c : Kategoria.values()){
+            if(c.name().equals(text))
+                return true;
+        }
+        return false;
+    }
+
+    public String pridajOdoberatelaKategorizovaneho(String text, String text1) {
+        if( text == null || text.length() == 0 || text1 == null || text1.length() == 0 || !containsKategoria(text1.toUpperCase())){
+            return "Nepodarilo sa vytovit odoberatela";
+        }
+        spracuj("pridajOdoberatelaKat " + text + " " + text1.toUpperCase());
+        return  "Podarilo sa vytvorit odoberatela";
+    }
+
+    public String pridajOdoberatelaMinimum(String text, String text1) {
+        if( text == null || text.length() == 0 || text1 == null || text1.length() == 0 || !text1.matches("[0-9]+")){
+            return "Nepodarilo sa vytovit odoberatela";
+        }
+        spracuj("pridajOdoberatelaMin " + text + " " + text1);
+        return  "Podarilo sa vytvorit odoberatela";
+    }
+
 
     public String removeAutor(String text) {
         if(text == null || text.length() == 0 || !text.matches("[0-9]+") ){

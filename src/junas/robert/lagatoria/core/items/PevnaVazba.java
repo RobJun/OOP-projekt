@@ -1,6 +1,5 @@
 package junas.robert.lagatoria.core.items;
 
-import junas.robert.lagatoria.gui.View;
 
 public class PevnaVazba extends Obalka{
     private String material;

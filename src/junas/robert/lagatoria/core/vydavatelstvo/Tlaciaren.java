@@ -5,7 +5,6 @@ import junas.robert.lagatoria.core.items.Obalka;
 import junas.robert.lagatoria.core.items.Text;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class Tlaciaren {
     private Vydavatelstvo vydavatelstvo;

@@ -6,17 +6,13 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.Controller;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import junas.robert.lagatoria.core.users.info.Inventar;
 
 public class Predajca extends Zamestnanec {
-    private Kniha kniha;
-    private int pocet;
+    private Inventar inventar = new Inventar();
 
     public Predajca(String meno, long id){
         super(meno, id, 3.8);
-        kniha = null;
-        pocet =0;
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("otvor", (args, kh, vy) -> otvorPredajnu(kh.getPredajna()));
@@ -80,26 +76,24 @@ public class Predajca extends Zamestnanec {
                 p = Integer.parseInt(f.substring(1));
             }
         }
-        if((k == null && kniha == null) || p < 1){
+        if((k == null && inventar.getKniha() == null) || p < 1){
             return "Zadana kniha neexistuje alebo si zadal zly pocet";
         }
-        if(kniha == null) {
+        if(inventar.getKniha() == null) {
             for (Sekcia s : kh.getSklad().getSekcie()) {
                 for (Regal r : s.getRegal()) {
                     if (r.existujeKniha(k)) {
-                        kniha = k;
-                        pocet = r.odoberKnihy(k, p);
+                        inventar.set(k,r.odoberKnihy(k,p));
                     }
                 }
             }
         }
-        if(kniha == null || pocet < 1){
+        if(inventar.getKniha() == null || inventar.getPocet() < 1){
             return "Kniha nie je v invetnari/nenachadzala sa v sklade)";
         }
-        int umies =  kh.getPredajna().umiestniKnihy(kniha,pocet);
+        int umies =  kh.getPredajna().umiestniKnihy(inventar.getKniha(),inventar.getPocet());
         if(umies == 0){
-            pocet = 0;
-            kniha = null;
+            inventar.resetInventar();
         }
         return "podarilo sa zobrat knihu";
     }

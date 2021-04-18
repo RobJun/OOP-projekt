@@ -5,13 +5,11 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.Controller;
-import sun.font.CreatedFontTracker;
+import junas.robert.lagatoria.core.users.info.Inventar;
 
 public class Skladnik extends Zamestnanec {
-    private Kniha kniha;
-    private int pocet;
 
+    private Inventar inventar = new Inventar();
 
     public Skladnik(String meno, long id){
         super(meno, id, 4.5);
@@ -50,7 +48,7 @@ public class Skladnik extends Zamestnanec {
 
 
     public void odoberKnihyZRegalu(Sklad s, Kniha k, int pocet, int[] pozicia){
-        if(kniha != null) return;
+        if(inventar.getKniha() != null) return;
          if(pozicia == null){
              NoveKnihy r = s.getNovyTovar();
              if(r != null && r.existujeKniha(k)) {
@@ -70,37 +68,36 @@ public class Skladnik extends Zamestnanec {
         if(pozicia == null) {
             return "Neplatna pozicia";
         }
-        if(kniha == null){
+        if(inventar.getKniha() == null){
             return "Nemas knihy u seba";
         }
-        if(this.pocet < pocet) pocet = this.pocet;
-        int pridane  = s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(kniha,pocet);
-        this.pocet -= pridane;
-        if(this.pocet == 0) {
-            kniha = null;
+        if(inventar.getPocet() < pocet) pocet = inventar.getPocet();
+        int pridane  = s.getSekcie(pozicia[0]).getRegal(pozicia[1]).pridajKnihy(inventar.getKniha(),pocet);
+        inventar.odoberZKnih(pridane);
+        if(inventar.getPocet() == 0) {
+            inventar.resetInventar();
             return "vsetky knihy si ulozil";
         }
         return "knihy boli umiestnene a zostali ti knihy v inventari";
     }
 
     private void pridajKnihy(Kniha k,int pocet){
-        kniha = k;
-        this.pocet = pocet;
+        inventar.set(k,pocet);
     }
 
 
     public int getPocetNosenych() {
-        return pocet;
+        return inventar.getPocet();
     }
     public Kniha getKniha(){
-        return kniha;
+        return inventar.getKniha();
     }
 
     @Override
     public String vypisInfo(){
-        if(kniha == null) { return super.vypisInfo();}
+        if(inventar.getKniha() == null) { return super.vypisInfo();}
         else {
-            return meno + " [" + id + "]\n" + "V inventari mas: " + kniha.getBasicInfo()[0] + "[" + pocet + " kusov]";
+            return meno + " [" + id + "]\n" + "V inventari mas: " + inventar.getKniha().getBasicInfo()[0] + "[" + inventar.getPocet() + " kusov]";
         }
     }
 
@@ -153,14 +150,14 @@ public class Skladnik extends Zamestnanec {
         if(p == -1) {p = 0;}
 
 
-        if(kniha != null && zober != null){
+        if(inventar.getKniha() != null && zober != null){
             return "Uz mas knihy v inventari, najprv umiestni tie";
-        }else if(kniha != null && k == null){
-            if(p ==0) p = this.pocet;
+        }else if(inventar.getKniha() != null && k == null){
+            if(p ==0) p = inventar.getPocet();
             return umiestniKnihyDoRegalu(sklad,umiestni,p);
         }else if(k == null){
             return "nezadal si knihu";
-        }else if(kniha == null && umiestni == null) {
+        }else if(inventar.getKniha() == null && umiestni == null) {
             odoberKnihyZRegalu(sklad,k,p, zober);
             return "odobral si knihy z regalu";
         }else{

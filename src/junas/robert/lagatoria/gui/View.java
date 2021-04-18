@@ -40,110 +40,6 @@ public class View {
             pane.getChildren().add(distibutorOkno);
     }
 
-    class AutorCreation {
-        private TextField menoAutora = new TextField();
-        private TextField prievzisko = new TextField();
-        AutorCreation(String autor){
-            Stage subStage = new Stage();
-            subStage.setTitle(autor);
-
-            FlowPane root = new FlowPane();
-            root.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(root, 250, 200);
-
-            Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{
-                controller.createAutor(menoAutora,prievzisko,autor, subStage,"out");
-            });
-            root.getChildren().addAll(new Text("Prve meno"), menoAutora);
-            root.getChildren().addAll(new Text("Prievzisko"), prievzisko);
-            root.getChildren().add(submit);
-            subStage.setScene(scene);
-            subStage.show();
-        }
-    }
-
-    class RemoveAutor {
-        private TextField index = new TextField();
-
-        RemoveAutor(){
-            Stage subStage = new Stage();
-            subStage.setTitle("nepisuci autor");
-
-            FlowPane root = new FlowPane();
-            root.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(root, 250, 200);
-
-            Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{
-                controller.removeAutor(index, subStage,"out");
-            });
-
-            index.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        index.setText(newValue.replaceAll("[^\\d]", ""));
-                    }
-                }
-            });
-            root.getChildren().addAll(new Text("index"), index);
-            root.getChildren().add(submit);
-            subStage.setScene(scene);
-            subStage.show();
-        }
-    }
-
-
-    class OdoberatelCreation{
-        private TextField nazovStanku = new TextField();
-
-        OdoberatelCreation(){
-            Stage subStage = new Stage();
-            subStage.setTitle("Pridanie Odoberatela");
-
-            FlowPane root = new FlowPane();
-            root.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(root, 250, 200);
-
-            Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{ controller.createOdoberatel(nazovStanku, subStage,"out"); });
-            root.getChildren().addAll(new Text("Nazov Stanku"), nazovStanku);
-            root.getChildren().add(submit);
-            subStage.setScene(scene);
-            subStage.show();
-        }
-    }
-
-    class removeOdoberatel{
-        private TextField index = new TextField();
-
-        removeOdoberatel(){
-            Stage subStage = new Stage();
-            subStage.setTitle("Odstranenie Odoberatela");
-
-            FlowPane root = new FlowPane();
-            root.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(root, 250, 200);
-
-            Button submit = new Button("Submit");
-            submit.setOnMouseClicked(e->{ controller.odstranOdoberatela(index, subStage,"out"); });
-            index.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        index.setText(newValue.replaceAll("[^\\d]", ""));
-                    }
-                }
-            });
-
-
-            root.getChildren().addAll(new Text("Index: "), index);
-            root.getChildren().add(submit);
-            subStage.setScene(scene);
-            subStage.show();
-        }
-    }
 
     private Controller controller;
     private Model model;
@@ -350,7 +246,7 @@ public class View {
         EventHandler<ActionEvent> vytvor = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                new AutorCreation(((MenuItem)event.getSource()).getText());
+                controller.autorCreateStage(((MenuItem)event.getSource()).getText());
             }
         };
 
@@ -363,7 +259,7 @@ public class View {
         });
 
         removeAutors.setOnAction(e->{
-            new RemoveAutor();
+            controller.autorRemoveStage();
         });
 
         menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors, removeAutors);
@@ -435,20 +331,25 @@ public class View {
     private void createDistributorButtons(){
         Menu menu2 = new Menu("Odoberatelia");
         MenuItem pridajOdoberatela = new MenuItem("pridaj odoberatela");
+        MenuItem pridajOdoberatelaK = new MenuItem("pridaj odoberatela so specifikovanou kategoriu");
+        MenuItem pridajOdoberatelaM = new MenuItem("pridaj odoberatela so specifikovanym minimom");
+
         MenuItem vypisOdoberatlov = new MenuItem("vypisOdoberatelov");
         MenuItem odoberOdoberatela = new MenuItem("odober odoberatela");
         Button knihy = new Button("Knihy pre Knihkupetvo");
         knihy.setOnMouseClicked(e->{ controller.spracuj("knihyPreKnihkupectvo","out"); });
 
-        pridajOdoberatela.setOnAction(e->{ new OdoberatelCreation(); });
+        pridajOdoberatela.setOnAction(e->{ controller.odoberatelCreateStage(0); });
+        pridajOdoberatelaK.setOnAction(e-> controller.odoberatelCreateStage(1));
+        pridajOdoberatelaM.setOnAction(e-> controller.odoberatelCreateStage(2));
 
         vypisOdoberatlov.setOnAction(e->{ controller.spracuj("vypisOdoberatelov","out"); });
 
         odoberOdoberatela.setOnAction(e->{
-           new removeOdoberatel();
+           controller.odoberaltelRemoveStage();
         });
 
-        menu2.getItems().addAll(pridajOdoberatela,odoberOdoberatela,vypisOdoberatlov);
+        menu2.getItems().addAll(pridajOdoberatela,pridajOdoberatelaK,pridajOdoberatelaM,odoberOdoberatela,vypisOdoberatlov);
 
 
         MenuBar menuBar = new MenuBar();

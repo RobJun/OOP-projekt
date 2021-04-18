@@ -3,7 +3,6 @@ package junas.robert.lagatoria.core.users.knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.gui.Controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;

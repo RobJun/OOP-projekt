@@ -4,7 +4,6 @@ import junas.robert.lagatoria.core.Odoberatel;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
-import junas.robert.lagatoria.gui.Controller;
 
 import java.io.*;
 

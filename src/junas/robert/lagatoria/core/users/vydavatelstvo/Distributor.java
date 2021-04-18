@@ -1,32 +1,32 @@
 package junas.robert.lagatoria.core.users.vydavatelstvo;
 
-import javafx.scene.control.ControlBuilder;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.Odoberatel;
-import junas.robert.lagatoria.core.Stanok;
+import junas.robert.lagatoria.core.stanky.Stanok;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
+import junas.robert.lagatoria.core.stanky.StanokPreKategoriu;
+import junas.robert.lagatoria.core.stanky.StanokSMinimom;
 import junas.robert.lagatoria.core.users.Zamestnanec;
-import junas.robert.lagatoria.gui.Controller;
-import junas.robert.lagatoria.gui.View;
+import junas.robert.lagatoria.core.items.BalikKnih;
+import junas.robert.lagatoria.core.users.info.RadKnih;
+import junas.robert.lagatoria.core.utils.enums.Kategoria;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Distributor extends Zamestnanec {
-    private Queue<Kniha> knihyPripraveneNaOdoslanie;
-    private Queue<Integer> poctyKnih;
+
+    private RadKnih knihyPripraveneNaOdoslanie;
 
 
     public Distributor(String m, long id, double plat) {
         super(m, id, plat);
-        knihyPripraveneNaOdoslanie = new LinkedList<>();
-        poctyKnih = new LinkedList<>();
+        knihyPripraveneNaOdoslanie = new RadKnih();
 
-        inlineAkcie.put("pridajOdoberatela", ((args, kh, vy) -> {vy.pridajOdoberatela(new Stanok(args[1]));
-                                                                    return "";}));
+        inlineAkcie.put("pridajOdoberatela", ((args, kh, vy) -> {vy.pridajOdoberatela(new Stanok(args[1]));return "";}));
+        inlineAkcie.put("pridajOdoberatelaKat", ((args, kh, vy) -> {vy.pridajOdoberatela(new StanokPreKategoriu(args[1], Kategoria.valueOf(args[2])));return "";}));
+        inlineAkcie.put("pridajOdoberatelaMin", ((args, kh, vy) -> {vy.pridajOdoberatela(new StanokSMinimom(args[1], Integer.parseInt(args[2])));return "";}));
         inlineAkcie.put("vypisOdoberatelov", ((args, kh, vy) -> {return vy.vypisOdoberatelov();}));
         inlineAkcie.put("odstranOdoberatela", ((args, kh, vy) -> {return vy.odoberOdoberatela(Integer.valueOf(args[1]));}));
         inlineAkcie.put("knihyPreKnihkupectvo", ((args, kh, vy) -> {return knihyPripravenePreKnihkupetvo();}));
@@ -34,8 +34,8 @@ public class Distributor extends Zamestnanec {
 
     private String knihyPripravenePreKnihkupetvo() {
         String res = "";
-        for(Kniha k : knihyPripraveneNaOdoslanie){
-            res += k.getBasicInfo()[0] + "\n";
+        for(BalikKnih k : knihyPripraveneNaOdoslanie.getKnihy()){
+            res += k.getInfo() + "\n";
         }
         return res;
     }
@@ -65,18 +65,18 @@ public class Distributor extends Zamestnanec {
         String res ="";
         for (Odoberatel o : odoberatelia){
             if(o instanceof Knihkupectvo){
-                knihyPripraveneNaOdoslanie.add(kniha);
+                knihyPripraveneNaOdoslanie.addKniha(kniha,(int)(pocet*pomer.get(o)));
                 nepredane -= (int)(pocet*pomer.get(o));
-                poctyKnih.add((int)(pocet*pomer.get(o)));
-                if(knihyPripraveneNaOdoslanie.size() > 4 && Knihkupectvo.getInstance().prijmameTovar()){
-                    Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie,new LinkedList<>(poctyKnih)));
+                if(knihyPripraveneNaOdoslanie.getSize() > 4 && Knihkupectvo.getInstance().prijmameTovar()){
+                    Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie));
                     double zaplatene = 0;
                     int pocetKnih = 0;
                     int celkovyPocet =0;
                     while(!knihyPripraveneNaOdoslanie.isEmpty()){
-                        int p = poctyKnih.remove();
+                        BalikKnih k = knihyPripraveneNaOdoslanie.popKniha();
+                        int p = k.getPocet();
                         celkovyPocet += p;
-                        zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(),p);
+                        zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(k.getKniha(),p);
                         pocetKnih++;
                     }
                     res+= "Knihkupectvo prijalo "+pocetKnih+" roznych knih ["+celkovyPocet+"] vsetky knihy a zaplatilo: " + String.format("%.2f",zaplatene)+ "€\n";
@@ -84,11 +84,15 @@ public class Distributor extends Zamestnanec {
                 }
             }else{
                 Stanok stanok = (Stanok) o;
-                stanok.odober(kniha,(int)(pocet*pomer.get(o)));
-                nepredane -= (int)(pocet*pomer.get(o));
-                double zaplatene = stanok.zaplatVydavatelovi(kniha,(int)(pocet*pomer.get(o)));
-                res +="Stanok prijal knihy ["+(int)(pocet*pomer.get(o))+"] a zaplatil: " +String.format("%.2f",zaplatene)+ "\n";
-                kapital += zaplatene;
+                if(stanok.odober(kniha,(int)(pocet*pomer.get(o))) == 1) {
+                    nepredane -= (int) (pocet * pomer.get(o));
+                    double zaplatene = stanok.zaplatVydavatelovi(kniha, (int) (pocet * pomer.get(o)));
+                    res += "Stanok "+ stanok.getNazov() + " prijal knihy [" + (int) (pocet * pomer.get(o)) + "] a zaplatil: "
+                            + String.format("%.2f", zaplatene) + "\n";
+                    kapital += zaplatene;
+                }else{
+                    res+= "Stanok " +stanok.getNazov()+ " neprijal knihy\n";
+                }
             }
         }
         res += "\nCelkovo zarobene: "+ String.format("%.2f",kapital) + "€\n";
@@ -108,19 +112,19 @@ public class Distributor extends Zamestnanec {
         for (Odoberatel o : odoberatelia){
             if(o instanceof Knihkupectvo){
                 for(int i = 0; i < knihy.size();i++) {
-                    knihyPripraveneNaOdoslanie.add(knihy.get(i));
-                    poctyKnih.add((int)(pocet.get(i)*pomer.get(o)));
+                    knihyPripraveneNaOdoslanie.addKniha(knihy.get(i),(int)(pocet.get(i)*pomer.get(o)));
                     nepredane -= (int)(pocet.get(i)*pomer.get(o));
                 }
-                if (knihyPripraveneNaOdoslanie.size() > 4 && Knihkupectvo.getInstance().prijmameTovar()) {
-                    Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie, new LinkedList<>(poctyKnih)));
+                if (knihyPripraveneNaOdoslanie.getSize() > 4 && Knihkupectvo.getInstance().prijmameTovar()) {
+                    Knihkupectvo.getInstance().getSklad().objednatKnihy(new NoveKnihy(knihyPripraveneNaOdoslanie));
                     double zaplatene = 0;
                     int pocetKnih = 0;
                     int celkovyPocet = 0;
                     while (!knihyPripraveneNaOdoslanie.isEmpty()) {
-                        int p = poctyKnih.remove();
+                        BalikKnih k = knihyPripraveneNaOdoslanie.popKniha();
+                        int p = k.getPocet();
                         celkovyPocet += p;
-                        zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(knihyPripraveneNaOdoslanie.remove(), p);
+                        zaplatene += Knihkupectvo.getInstance().zaplatVydavatelovi(k.getKniha(), p);
                         pocetKnih++;
                     }
                     res += "Knihkupectvo prijalo " + pocetKnih + " roznych knih [" + celkovyPocet + "] vsetky knihy a zaplatilo: " + String.format("%.2f", zaplatene) + "€\n";
@@ -130,13 +134,18 @@ public class Distributor extends Zamestnanec {
                 Stanok stanok = (Stanok) o;
                 double zaplatene = 0;
                 int pocetPredanych = 0;
+                int pocetNeprijatych = 0;
                 for(int i = 0; i < knihy.size();i++) {
-                    pocetPredanych+=(int)(pocet.get(i)*pomer.get(o));
-                    stanok.odober(knihy.get(i), (int)(pocet.get(i)*pomer.get(o)));
-                    zaplatene += stanok.zaplatVydavatelovi(knihy.get(i), (int)(pocet.get(i)*pomer.get(o)));
-                    nepredane -= (int)(pocet.get(i)*pomer.get(o));
+                    if(stanok.odober(knihy.get(i), (int)(pocet.get(i)*pomer.get(o))) == 1) {
+                        pocetPredanych += (int) (pocet.get(i) * pomer.get(o));
+                        zaplatene += stanok.zaplatVydavatelovi(knihy.get(i), (int) (pocet.get(i) * pomer.get(o)));
+                        nepredane -= (int) (pocet.get(i) * pomer.get(o));
+                    }else{
+                        pocetNeprijatych++;
+                    }
                 }
-                res+= "Stanok prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€\n";
+                res+= "Stanok "+ stanok.getNazov() + " prijal knihy ["+pocetPredanych+"]a zaplatil: " +String.format("%.2f",zaplatene)+ "€\n";
+                res+= "\t a neprijal "+pocetNeprijatych +"\n";
                 kapital += zaplatene;
             }
         }

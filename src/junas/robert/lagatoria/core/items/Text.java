@@ -1,7 +1,6 @@
 package junas.robert.lagatoria.core.items;
 
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
-import junas.robert.lagatoria.gui.View;
 
 public class Text implements InfoKniha{
     private String autor, nazov, jazyk;
