@@ -6,9 +6,10 @@ import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Inventar;
 
-public class Predajca extends Zamestnanec {
+public class Predajca extends Zamestnanec implements Premiestnovanie {
     private Inventar inventar = new Inventar();
 
     public Predajca(String meno, long id){
@@ -20,7 +21,7 @@ public class Predajca extends Zamestnanec {
         inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu());
         inlineAkcie.put("sklad", (args, kh, vy) -> kh.getSklad().printSklad());
         inlineAkcie.put("predaj", (args, kh, vy)->  predajKnihy(kh.getPredajna().getZakaznik()));
-        inlineAkcie.put("prines", ((args, kh, vy) -> prines(args,kh)));
+        inlineAkcie.put("prines", ((args, kh, vy) -> premiestni(args,kh)));
     }
 
     public String otvorPredajnu(Predajna p){
@@ -63,8 +64,8 @@ public class Predajca extends Zamestnanec {
         return "";
     }
 
-
-    private String prines(String[] args, Knihkupectvo kh){
+    @Override
+    public String premiestni(String[] args, Knihkupectvo kh){
         int p = -1;
         Kniha k = null;
         for(String f : args){

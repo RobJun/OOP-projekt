@@ -16,6 +16,7 @@ public class OdoberatelCreation {
     public OdoberatelCreation(int k, Controller controller){
         Stage subStage = new Stage();
         subStage.setTitle("Pridanie Odoberatela");
+        subStage.setResizable(false);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);

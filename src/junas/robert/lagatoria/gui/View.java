@@ -23,22 +23,12 @@ import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
+import junas.robert.lagatoria.gui.CustomElements.InfoPrihlaseny;
+import junas.robert.lagatoria.gui.CustomElements.MyPane;
+import junas.robert.lagatoria.gui.CustomElements.OtvorButton;
+import junas.robert.lagatoria.gui.CustomElements.OutText;
 
 public class View {
-
-    public void updateTools(Pouzivatel p) {
-        pane.getChildren().remove(0);
-        if(p instanceof Zakaznik)
-            pane.getChildren().add(zakaznikOkno);
-        else if(p instanceof Skladnik)
-            pane.getChildren().add(skladnikOkno);
-        else if(p instanceof Predajca)
-            pane.getChildren().add(predajcaOkno);
-        else if(p instanceof Manazer)
-            pane.getChildren().add(manazerOkno);
-        else if(p instanceof Distributor)
-            pane.getChildren().add(distibutorOkno);
-    }
 
 
     private Controller controller;
@@ -46,29 +36,35 @@ public class View {
 
 
 
-    private StackPane pane;
     private HBox manazerOkno = new HBox();
     private HBox zakaznikOkno = new HBox();
     private HBox predajcaOkno = new HBox();
     private HBox skladnikOkno = new HBox();
     private HBox distibutorOkno = new HBox();
 
+    private MyPane pane = new MyPane(zakaznikOkno,skladnikOkno,predajcaOkno,manazerOkno,distibutorOkno);
 
-    public TextArea out = new TextArea();
-    public TextField inputText = new TextField();
+
+    private OutText out = new OutText();
+    private TextField inputText = new TextField();
+
+    private TableView tableView = new TableView();
 
     private StringProperty textRecu = new SimpleStringProperty();
 
-    private Text prihlaseny = new Text();
+    private InfoPrihlaseny prihlaseny = new InfoPrihlaseny();
+
+    private FlowPane center = new FlowPane();
 
 
     private Scene mainScene;
 
-    View(Controller controller, Model model){
+    View(Controller controller){
         this.controller = controller;
-        this.model = model;
 
         controller.addUpdatableView("out",out);
+        controller.addUpdatableView("pane",pane);
+        controller.addUpdatableView("prih",prihlaseny);
 
         createMainScene();
         createSkladnikButtons();
@@ -78,14 +74,10 @@ public class View {
         createPredajcaButtons();
     }
 
-    public void setPrihlaseny(String prihlaseny) {
-        this.prihlaseny.setText(prihlaseny);
-    }
-
     public Scene getMainScene() {
         return mainScene;
     }
-
+    
     void createMainScene(){
         Button zakaznikButton = new Button("Zákazník");
         Button skladnikButton = new Button("Skladník");
@@ -97,19 +89,22 @@ public class View {
 
         BorderPane mainWindow = new BorderPane();
 
-        pane = new StackPane();
         mainWindow.setTop(pane);
 
         BorderPane center = new BorderPane();
         HBox input = new HBox();
-        Text textInput = new Text("input");
+        Text textInput = new Text("Input:");
         input.getChildren().addAll(textInput, inputText);
         HBox.setMargin(textInput, new Insets(0,10,0,20));
 
-        inputText.maxWidth(1000);
-        inputText.setPrefWidth(1000);
+        inputText.setPrefWidth(800);
+        this.center.setPadding(new Insets(5,0,5,0));
+        this.center.prefWidth(850);
+        this.center.prefHeight(500);
+        this.center.setAlignment(Pos.CENTER);
+        this.center.getChildren().add(out);
         center.setTop(input);
-        center.setCenter(out);
+        center.setCenter(this.center);
 
         mainWindow.setCenter(center);
 
@@ -129,23 +124,6 @@ public class View {
         Text text = new Text();
         text.setText("prihlasiť sa ako:");
 
-        Text text2 = new Text("Prihlaste sa");
-        StackPane def = new StackPane();
-        def.getChildren().add(text2);
-        def.setAlignment(Pos.CENTER);
-
-        pane.getChildren().add(def);
-
-
-        prihlaseny.setText("(" + controller.getPrihlaseny()+")");
-        prihlaseny.setTextAlignment(TextAlignment.CENTER);
-
-        //out.textProperty().bind(textRecu);
-        textRecu.addListener((InvalidationListener) e -> {
-            out.selectPositionCaret(out.getLength());
-            out.deselect();
-        });
-
 
         menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,distriButton,prihlaseny);
 
@@ -160,16 +138,15 @@ public class View {
         distriButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.DISTRI); });
 
 
-
+        menu.setPrefWidth(150);
         root.setLeft(menu);
-        root.getLeft().maxHeight(150);
         root.setCenter(mainWindow);
 
-        mainScene = new Scene(root,800,600);
+        mainScene = new Scene(root,1000,600);
     }
 
     private void createPredajcaButtons(){
-        Button otvor = new Button("Otvor");
+        OtvorButton otvor = new OtvorButton();
         controller.addUpdatableView("otvorBtn",otvor);
         otvor.setOnMouseClicked(e ->{ controller.otvorZatvor("otvorBtn"); });
 
@@ -183,7 +160,7 @@ public class View {
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
+        katalog.setOnMouseClicked(e -> { controller.openKatalog();});
 
         Button prines = new Button("Prines");
         prines.setOnMouseClicked(e->{ controller.prines(inputText,"out");});
@@ -207,7 +184,7 @@ public class View {
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
+        katalog.setOnMouseClicked(e -> { controller.openKatalog(); });
 
         Button predaj = new Button("Predajna");
         predaj.setOnMouseClicked(e -> { controller.spracuj("predajna","out"); });
@@ -279,7 +256,7 @@ public class View {
 
         pisat.setOnMouseClicked(e->{ controller.spracuj("dajNapisat","out"); });
 
-        text.setOnMouseClicked(e->{ controller.spracuj("Queue","out"); });
+        text.setOnMouseClicked(e->{ controller.openTextyNaVydanie(); });
 
         vydaj.setOnMouseClicked(e->{ controller.spracuj("vydajKnihy","out"); });
 
@@ -300,7 +277,7 @@ public class View {
 
     private void createSkladnikButtons(){
         Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.spracuj("katalog","out"); });
+        katalog.setOnMouseClicked(e -> { controller.openKatalog(); });
 
         Button predaj = new Button("Sklad");
         predaj.setOnMouseClicked(e -> { controller.spracuj("sklad | info-n","out"); });
@@ -343,7 +320,7 @@ public class View {
         pridajOdoberatelaK.setOnAction(e-> controller.odoberatelCreateStage(1));
         pridajOdoberatelaM.setOnAction(e-> controller.odoberatelCreateStage(2));
 
-        vypisOdoberatlov.setOnAction(e->{ controller.spracuj("vypisOdoberatelov","out"); });
+        vypisOdoberatlov.setOnAction(e->{ controller.openOdoberatelovNaVydanie(); });
 
         odoberOdoberatela.setOnAction(e->{
            controller.odoberaltelRemoveStage();

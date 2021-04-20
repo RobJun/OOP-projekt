@@ -8,17 +8,26 @@ import junas.robert.lagatoria.core.stanky.Stanok;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
+import junas.robert.lagatoria.gui.Model;
 
 import java.util.*;
 
-public class Vydavatelstvo {
+public class Vydavatelstvo implements Observer {
 
+    public void notify(Object object, Object s) {
+        if(s instanceof Text){
+            prijmiText((Text)s);
+            return;
+        }
+        model.notify(object,s);
+    }
 
     interface VydavanieStrategy{
         String vydajKnihy();
@@ -39,7 +48,6 @@ public class Vydavatelstvo {
         }
 
         private Text skratText(Text text) {
-            pridajHodinu();
             text.setDlzka(text.getDlzka() - ((int) (text.getDlzka() * 0.1)+efektivnost));
             return text;
         }
@@ -96,9 +104,12 @@ public class Vydavatelstvo {
 
     private String nazov;
     private String group;
+    private int code = 81;
 
 
     private VydavanieStrategy strategia;
+
+    private Model model;
 
     /**
      * Vytvori instanciu Vydavatela Dalakan a zaroven sa prida instancia vydavatelovho knihkupectva
@@ -106,13 +117,16 @@ public class Vydavatelstvo {
      * @param distributor distributor, ktory pracuje vo vydavatelstve
      * @param pocetStankov incializacn pocet Odoberatlov typu Stanok
      */
-    public Vydavatelstvo(Manazer manazer,Distributor distributor, int pocetStankov){
+    public Vydavatelstvo(Manazer manazer, Distributor distributor, int pocetStankov, Model parent){
         nazov = "Dalakan";
         group = "80";
         this.manazer = manazer;
+        manazer.setObserver(this);
         korektor = new Korektor("Jozo",332,10.9);
         dizajner = new Dizajner("Fero", 333, 20);
         this.distributor = distributor;
+
+        model = parent;
 
         tlaciaren = new Tlaciaren(this);
 
@@ -121,13 +135,13 @@ public class Vydavatelstvo {
         autori.add(new PoetryAutor("Peter", "Nagy",this));
 
         for(int i = 0; i < pocetStankov;i++){
-            odoberatelia.add(new Stanok("stanok"+i));
+            pridajOdoberatela(new Stanok("stanok"+i));
         }
 
-        odoberatelia.add(new StanokPreKategoriu("StanokSHistorickymiKnihami", Kategoria.HISTORIA));
+        pridajOdoberatela(new StanokPreKategoriu("StanokSHistorickymiKnihami", Kategoria.HISTORIA));
 
 
-        odoberatelia.add(Knihkupectvo.getInstance());
+        pridajOdoberatela(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
 
         strategia = this::vydanie;
@@ -198,7 +212,9 @@ public class Vydavatelstvo {
      * @param text text na pridanie do radu prijatychtextov
      */
     public synchronized void prijmiText(Text text){
+
         prijateTexty.add(text);
+        model.notify(this, "001::"+vypisTexty());
     }
 
     /**
@@ -258,7 +274,7 @@ public class Vydavatelstvo {
         }else{
             pouziteKody.put(titleCode, 0);
         }
-        String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
+        String isbn = "ISBN-977-"+code+"-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
         double cena = manazer.navrhniCenu(feedback);
 
         res +="cena knihy: " + cena + '\n';
@@ -277,7 +293,9 @@ public class Vydavatelstvo {
      * @return
      */
     public String vydajKnihy(){
-        return strategia.vydajKnihy();
+        String result = strategia.vydajKnihy();
+        model.notify(this, "001::"+vypisTexty());
+        return result;
     }
 
 
@@ -322,7 +340,7 @@ public class Vydavatelstvo {
         while(it.hasNext()){
             Text current = it.next();
             if(current !=null) {
-                res += i + ": ";
+                res += i + "|";
                 res += current.getInfo();
                 i++;
             }
@@ -337,6 +355,7 @@ public class Vydavatelstvo {
      */
     public void pridajOdoberatela(Odoberatel odoberatel){
         odoberatelia.add(odoberatel);
+        vypisOdoberatelov();
     }
 
     /**
@@ -351,6 +370,7 @@ public class Vydavatelstvo {
             return "neplatny index";
         }
         odoberatelia.remove(index);
+        vypisOdoberatelov();
         return "Podarilo sa odstranit odoberatela";
     }
 
@@ -361,7 +381,8 @@ public class Vydavatelstvo {
             res += index+": "+o.getClass().getSimpleName() + ": " + ((o instanceof Knihkupectvo) ? ("Minerva") : ((Stanok)o).getNazov()) + "\n";
             index++;
         }
-
+        model.notify(this,"002::"+res);
         return res;
     }
+
 }

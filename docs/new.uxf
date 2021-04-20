@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>112</y>
+      <w>256</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>/Pouzivatel/
+core.users
+Abstract
+--
+#id: Long
+#meno: String
+#inlineAkcie: HashMap&lt;String,InlineCommand&gt;
+--
++vypisInfo() : String
++help () : String
++spracuj(String[], Vydavatelstvo)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>248</x>
+      <y>80</y>
+      <w>24</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>336</y>
+      <w>216</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>/Zamestnanec/
+core.users
+Abstract
+--
+-udaj : UdajeOZamestnancovi
+--
++getPlat() : Double
++getOdrobene() : Double
++vypocitajPlat() : Double
++pridajHodinu() : Void
++help() : String
++spracuj(String[],Vydavatelstvo) : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>248</x>
+      <y>240</y>
+      <w>440</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;530.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>752</y>
+      <w>248</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Zakaznik
+core.users.knihkupectvo
+--
+-kosik : Kosik
+--
++help() : String
++vypisKosik() : String
++getKosik() : ArrayList&lt;Kniha&gt;
++getPocet(String) : Int
++odoberKnihy(Kniha, pocet) : Void
++pridajKnihy(Kniha, pocet) : Void
++premiestni(String[], Knihkupectvo) : String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>240</y>
+      <w>160</w>
+      <h>528</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;640.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>752</y>
+      <w>256</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Skladnik
+core.users.knihkupectvo
+--
+-inventar : Inventar
+--
++objednajtovar(Sklad, String) : String
++umiestniNovyT(Sklad) : String
++odoberKnihyZregalu(Sklad,Kniha,Int,Int[]) : Void
++umiestniKnihyDoRegalu(Sklad,Int,Int[]) : Void
++getKniha() : Kniha
++vypisInfo() : String
++help()
++premiestni(String[], Knihkupectvo) : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>8</y>
+      <w>232</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>*InputProcess*
+core.utils
+Interface
+--
++spracuj(String[], Vydavatelstvo) : string
++help(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>752</y>
+      <w>216</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Predajca
+core.users.knihkupectvo
+{Some Properties}
+--
+-inventar : Inventar
+--
++otvorPredajnu(Predajna) : String
++zavriPredajnu(Predajna) : String
++predajKnihy(Zakaznik) ; String
++help() : String
++premiestni(String[],Knihkupectvo)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>752</x>
+      <y>752</y>
+      <w>256</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Manazer
+core.users.vydavatelstvo
+--
+-autori : ArrayList&lt;Autor&gt;
+--
++pridajAutora(ArrayList&lt;Autor&gt;) : Void
++pridajAutora(Autor) : Void
++odoberAutora(Autor) :  Void
++exitujeAutor(Autor) : Bool
++dajNapisatKnihu() : String
++ziskajFeedBack(Text) : Double
++navrhniCenu(Double) : Double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1016</x>
+      <y>752</y>
+      <w>312</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Distributor
+core.users.vydavatelstvo
+--
+-knihyPripraveneNaOdoslanie : RadKnih
+--
++knihyPripravenePreKnihkupectvo() : String
++urciPocet(Double) : Int
++pomerKnih(Odoberatel[]) : HashMap&lt;Odoberatel,Double&gt;
++DajOdoberatelom(Odoberatel[], Kniha, Int) : String
++DajOdoberatelom(Odoberatel[],Kniha[],Int[]) : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>480</y>
+      <w>296</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>350.0;10.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>624</x>
+      <y>480</y>
+      <w>56</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>256</x>
+      <y>504</y>
+      <w>288</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Premiesnotvanie
+core.users.info
+Interface
+--
++najdiReferenciuNaKnihu(Miestnost, Int) : Kniha
++najdiReferenciuNaKnihu(Miestnost, String) : Kniha
++premiestni(String[],Knihkupectvo) : String
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>592</y>
+      <w>304</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>360.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>592</y>
+      <w>32</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>20.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>392</x>
+      <y>592</y>
+      <w>256</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;300.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>656</x>
+      <y>480</y>
+      <w>240</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>656</x>
+      <y>480</y>
+      <w>528</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;640.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1024</x>
+      <y>576</y>
+      <w>192</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>Dizajner
+core.vydavatelstvo.Vydavatelstvo
+--
+-osobnyStyl : String[]
+-obrazky : String[]
+-farby : String[]
+-material : String[]
+--
++navrhniObalku() : Obalka</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>944</x>
+      <y>464</y>
+      <w>192</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Korektor
+core.vydavatelstvo.Vydavatelstvo
+--
+-efektivnost : Int
+--
++najdiChybyVTexte(Text) : String
+-skratText(Text) : Text
++precitajText(Text) : Text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>664</x>
+      <y>480</y>
+      <w>296</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;350.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>656</x>
+      <y>480</y>
+      <w>384</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;460.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1264</x>
+      <y>104</y>
+      <w>240</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>*Odoberatel*
+core
+Interface
+--
++zaplatVydavatelovi(Kniha, Int) : Double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1120</x>
+      <y>232</y>
+      <w>216</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Knihkupectvo
+--
+-knihkupectvo : Knihkupectvo
+-sklad : Sklad
+-predajna : Predajna
+--
++getInstnace() : Knihkupectvo
++getSklad() : Sklad
++getPredajna() : Predajna
++serialize(String) : String
++deserialize(String) : String
++prijmameTovar() : Bool
++zaplatVydavatelovi(Kniha, Int) : double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1192</x>
+      <y>160</y>
+      <w>208</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1416</x>
+      <y>232</y>
+      <w>168</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Stanok
+core.stanky
+--
+-nazov : String
+-inventar : Inventar
+--
++odober(Kniha, Int) : Int
++getNazov() : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1376</x>
+      <y>160</y>
+      <w>136</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1328</x>
+      <y>432</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>StanokPreKategoriu
+core.stanky
+--
+-kategoria : Kategoria
+--
++odober(Kniha, Int) : Int
++getKategoria() : Kategoria
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1504</x>
+      <y>432</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>StanokSMinimom
+core.stanky
+--
+-minimum : Int
+--
++odober(Kniha, Int) : Int
++getMinimum() : Int
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1400</x>
+      <y>320</y>
+      <w>120</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1496</x>
+      <y>320</y>
+      <w>104</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;140.0</additional_attributes>
+  </element>
+</diagram>

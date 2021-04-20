@@ -1,39 +1,51 @@
 package junas.robert.lagatoria.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
 import junas.robert.lagatoria.core.users.Pouzivatel;
 import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
 import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
+import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
+import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
+import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
 
-public class Model {
+public class Model implements Observer {
+
+    private ObservableList<TextyNaVydanieData> texty = FXCollections.observableArrayList();
+    private ObservableList<OdoberatelData> data = FXCollections.observableArrayList();
+    private ObservableList<KatalogData> katalogData = FXCollections.observableArrayList();
+
     private Pouzivatel pouzivatel;
     private Zakaznik zakaznik = new Zakaznik();
     private Predajca predajca = new Predajca("Predavac",22);
     private Skladnik skladnik = new Skladnik("Skladnik", 23);
     private Manazer manazer = new Manazer("Manazer",111,22.4);
     private Distributor distributor = new Distributor("Distributor",123,15);
-    private Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer,distributor,10);
+    private Vydavatelstvo vydavatelstvo = new Vydavatelstvo(manazer,distributor,10, this);
 
 
     private String strategyText = "Vydavanie po jednom";
     private String strategyVText = "Vydaj text";
 
+    private Controller controller;
+
     Model(){
-        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
+        deserialize();
     }
 
-    public String serialize(){
-        return Knihkupectvo.serialize("./res/knihkupectvo_oop.ser");
-    }
+    public String serialize(){ return Knihkupectvo.serialize("./res/knihkupectvo_oop.ser"); }
 
 
     public Pouzivatel getPouzivatel() {
@@ -76,7 +88,6 @@ public class Model {
         }
 
     }
-
 
     public String zakaznikVstup(){
         if(Knihkupectvo.getInstance().getPredajna().getZakaznik() != null) return "";
@@ -205,7 +216,58 @@ public class Model {
         return "Podarilo sa vytvorit autora";
     }
 
-    public void deserilize() {
+    public void deserialize() {
         Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
+        Knihkupectvo.getInstance().setObserver(this);
     }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public void notify(Object objekt, Object msg) {
+        String vypisTexty = (String)msg;
+        if(objekt instanceof Miestnost){
+            String[] strings = vypisTexty.split("\n");
+            katalogData.remove(0,katalogData.size());
+            for(String d : strings){
+                katalogData.add(KatalogData.parseText(d));
+            }
+        }
+        else if(vypisTexty.contains("001::")){
+            String data = vypisTexty.replace("001::", "");
+            texty.remove(0,texty.size());
+            String[] strings = data.split("\n");
+            if(data.contains("Ziadne texty na vydanie"))
+                return;
+            for(String d : strings){
+                texty.add(TextyNaVydanieData.parseText(d));
+            }
+            return;
+        }else if(vypisTexty.contains("002::")){
+            String data = vypisTexty.replace("002::","");
+            this.data.remove(0,this.data.size());
+            String[] strings = data.split("\n");
+            if(data.contains("Ziadne texty na vydanie"))
+                return;
+            for(String d : strings){
+                this.data.add(OdoberatelData.parseText(d));
+            }
+            return;
+        }
+        controller.notify(objekt,vypisTexty);
+    }
+
+    public ObservableList<TextyNaVydanieData> getTexty() {
+        return texty;
+    }
+
+    public ObservableList<OdoberatelData> getData() {
+        return data;
+    }
+
+    public ObservableList<KatalogData> getKatalogData() {
+        Knihkupectvo.getInstance().printKatalog();
+        return katalogData;}
+
 }

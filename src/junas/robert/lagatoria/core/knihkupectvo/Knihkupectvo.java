@@ -4,27 +4,34 @@ import junas.robert.lagatoria.core.Odoberatel;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
+import junas.robert.lagatoria.core.utils.Observer;
 
 import java.io.*;
 
 /**
  * Singleton trieda
  */
-public class Knihkupectvo implements java.io.Serializable, Odoberatel {
+public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer {
     private static Knihkupectvo instancia = null;
-    private Sklad sklad;
+    private Sklad    sklad;
     private Predajna predajna;
-
-
-    private Boolean prijma;
+    transient Observer observer;
 
     private Knihkupectvo(){
-        sklad = new Sklad();
-        predajna = new Predajna();
-
-        prijma = false;
+        sklad = new Sklad(this);
+        predajna = new Predajna(this);
     }
 
+    public void printKatalog(){
+        sklad.printKatalog();
+    }
+
+
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+        sklad.setObserver(this);
+        predajna.setObserver(this);
+    }
 
     /**
      * @return vracia instanciu na Singleton Knihkupectvo
@@ -99,4 +106,8 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel {
         return kniha.getCena()*0.50*pocet;
     }
 
+    @Override
+    public void notify(Object o, Object s) {
+        observer.notify(o,s);
+    }
 }

@@ -15,6 +15,7 @@ public class AutorCreation {
     public AutorCreation(String autor, Controller controller){
         Stage subStage = new Stage();
         subStage.setTitle(autor);
+        subStage.setResizable(false);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);

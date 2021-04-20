@@ -2,6 +2,7 @@ package junas.robert.lagatoria.core.users.vydavatelstvo;
 
 import junas.robert.lagatoria.core.items.Text;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.exceptions.AutorExistujeException;
 import junas.robert.lagatoria.core.utils.exceptions.AutorNieJeNaZozname;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
@@ -13,13 +14,15 @@ import java.util.ArrayList;
 
 public class Manazer extends Zamestnanec {
     private ArrayList<Autor> autori = new ArrayList<Autor>();
-
+    private Observer observer;
     public Manazer(String m, long id, double plat) {
 
         super(m, id, plat);
 
+        this.observer = observer;
+
         //pridavanie akcii ktore moze spravit trieda
-        inlineAkcie.put("dajNapisat", (args, kh, vy) -> {return dajNapisatKnihu();});
+        inlineAkcie.put("dajNapisat", (args, kh, vy) -> {dajNapisatKnihu(); return "";});
         inlineAkcie.put("vydajKnihy", (args, kh, vy) -> {return vy.vydajKnihy();});
         inlineAkcie.put("pridajA", (args,kh,vy) -> {
             try {
@@ -54,6 +57,10 @@ public class Manazer extends Zamestnanec {
         }));
     }
 
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
     public void pridajAutora(ArrayList<Autor> autori){
         this.autori = (ArrayList<Autor>) autori.clone();
     }
@@ -75,15 +82,11 @@ public class Manazer extends Zamestnanec {
         return autori.contains(autor);
     }
 
-    public String dajNapisatKnihu(){
-        String res = "";
-        res +="Manazer rozposiela ziadosti o knihu\n";
+    public void dajNapisatKnihu(){
+        observer.notify(this,"Manazer rozposiela ziadosti o knihu\n");
         for (Autor autor: autori) {
-            if(autor.prijmiPoziadvku()) {
-               res+="\t" + autor.getMeno() + " " + autor.getPrievzisko() +" prijal poziadavku\n";
-            }
+            autor.notify(this,"");
         }
-        return res;
     }
 
 

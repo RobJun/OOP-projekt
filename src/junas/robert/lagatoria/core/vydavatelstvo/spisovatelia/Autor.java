@@ -3,26 +3,26 @@ package junas.robert.lagatoria.core.vydavatelstvo.spisovatelia;
 
 import javafx.application.Platform;
 import junas.robert.lagatoria.core.items.Text;
-import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.NormalnePisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.Pisanie;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie.RychlePisanie;
-import junas.robert.lagatoria.gui.Controller;
 
 import java.util.Random;
 
-public abstract class Autor {
+public abstract class Autor implements Observer {
     private String meno;
     private String prievzisko;
     private Boolean piseKnihu;
-    private Vydavatelstvo vydavatelstvo;
+    private Observer observer;
+
 
     protected Pisanie pisanie;
 
-    public Autor(String meno, String prievzisko, Vydavatelstvo vydavatelstvo){
+    public Autor(String meno, String prievzisko, Observer observer){
         this.meno = meno;
         this.prievzisko = prievzisko;
-        this.vydavatelstvo = vydavatelstvo;
+        this.observer = observer;
         piseKnihu = false;
         pisanie = new NormalnePisanie();
     }
@@ -31,8 +31,13 @@ public abstract class Autor {
      * Metoda spusti novy thread na ktorom autor vymysli a pise knihu a odosle ju do vydavatelstva
      * @return ci autor prijal pozidavku
      */
-    public Boolean prijmiPoziadvku(){
-        if(piseKnihu) return false;
+    public void notify(Object o, Object s){
+        if(piseKnihu) {
+            observer.notify(this, "Autor neprijal poziadavku");
+            return;
+        }
+        observer.notify(this,"\t" + meno + " " + prievzisko +" prijal poziadavku\n");
+
         piseKnihu = true;
         Autor autor = this;
         if((int)(Math.random()*5) == 0){
@@ -54,7 +59,7 @@ public abstract class Autor {
                 Runnable hotovo = new Runnable() {
                     @Override
                     public void run() {
-                        Controller.updateViews( "Autor ["+getMeno()+" "+getPrievzisko()+"] dokoncil knihu a odoslal ju vydavatelovi");
+                        observer.notify(autor,"Autor ["+getMeno()+" "+getPrievzisko()+"] dokoncil knihu a odoslal ju vydavatelovi");
                     }
                 };
 
@@ -81,11 +86,10 @@ public abstract class Autor {
 
         thread.setDaemon(true);
         thread.start();
-        return true;
     }
 
     public String vymysliKnihu() {
-        Controller.updateViews("Autor ["+getMeno()+" "+getPrievzisko()+"] vymyslel Knihu");
+        observer.notify(this,"Autor ["+getMeno()+" "+getPrievzisko()+"] vymyslel Knihu");
         int targetStringLength = 10;
         Random random = new Random();
 
@@ -104,7 +108,7 @@ public abstract class Autor {
     };
 
     public synchronized void odosliVydavatelovi(Text text){
-        vydavatelstvo.prijmiText(text);
+        observer.notify(this,text);
         piseKnihu = false;
     }
 

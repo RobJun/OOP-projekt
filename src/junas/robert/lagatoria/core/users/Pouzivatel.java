@@ -12,7 +12,6 @@ import java.util.HashMap;
 public abstract class Pouzivatel implements InputProcess {
     protected long id;
     protected String meno;
-    private boolean close = false;
     protected HashMap<String, InlineCommand> inlineAkcie;
 
     public Pouzivatel(String m, long id) {
@@ -37,6 +36,10 @@ public abstract class Pouzivatel implements InputProcess {
     }
 
 
+    /**
+     * @deprecated Sluzi pre konzolovy vypis uzivatelovych funkcii
+     * @return prazdny string
+     */
     public String help(){
         System.out.println("---Vseobecne prikazy---");
         System.out.println("info-me - informacie o mne");
@@ -66,21 +69,6 @@ public abstract class Pouzivatel implements InputProcess {
                 index = k + 1;
             }
             return res;
-    }
-
-
-
-    public Kniha najdiReferenciuNaKnihu(Miestnost s, int i){
-        return  (s.getKatalog().isEmpty() || i >= s.getKatalog().size() ) ? null : s.getKatalog().get(i);
-    }
-
-    public Kniha najdiReferenciuNaKnihu(Miestnost s, String id){
-        for(Kniha kp : s.getKatalog()){
-            if(kp.getISBN().toLowerCase().equals(id.toLowerCase()) || kp.getBasicInfo()[0].toLowerCase().equals(id.toLowerCase())){
-                return kp;
-            }
-        }
-        return null;
     }
 
 }

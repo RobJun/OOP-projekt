@@ -25,7 +25,8 @@ public class Main extends Application {
     public void start(Stage stage) {
         Model model = new Model();
         Controller controller = new Controller(model);
-        View view = new View(controller,model);
+        model.setController(controller);
+        View view = new View(controller);
         controller.setView(view);
 
         enabled = true;
@@ -36,6 +37,7 @@ public class Main extends Application {
 
         stage.setScene(view.getMainScene());
         stage.sizeToScene();
+        stage.setResizable(false);
         stage.show();
     }
 }

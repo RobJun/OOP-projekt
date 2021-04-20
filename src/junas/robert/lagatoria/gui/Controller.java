@@ -1,47 +1,54 @@
 package junas.robert.lagatoria.gui;
 
-import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import junas.robert.lagatoria.core.users.Pouzivatel;
+import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.gui.substages.AutorCreation;
-import junas.robert.lagatoria.gui.substages.AutorRemove;
-import junas.robert.lagatoria.gui.substages.OdoberatelCreation;
-import junas.robert.lagatoria.gui.substages.OdoberatelRemove;
+import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
+import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
+import junas.robert.lagatoria.gui.substages.*;
 
 import java.util.HashMap;
 
-public class Controller {
+public class Controller implements Observer {
 
     private final Model model;
     private View view;
 
-    Controller(Model model){
 
+    Controller(Model model){
         this.model = model;
     }
 
-    private HashMap<String,Node> updatableViews = new HashMap<>();
-    private static Node desiredOutput = null;
+    public void notify(Object object, Object out){
+        String output = (String)out;
+        if(object instanceof Autor || object instanceof Zamestnanec)
+            this.updateViews(output,"out");
+        else if(object instanceof Vydavatelstvo)
+            this.updateViews("Queue<:>"+output,"table");
 
-    static public void updateViews(String s){
-        if(desiredOutput == null){
-            System.out.println(s);
-        }else if(desiredOutput instanceof TextArea){
-            TextArea t = (TextArea) desiredOutput;
-            t.appendText(s + "\n");
-        }else if(desiredOutput instanceof Button){
-            ((Button) desiredOutput).setText(s);
-        }
     }
 
-    public void addUpdatableView(String key, Node view){
+    private HashMap<String,Observer> updatableViews = new HashMap<>();
+
+     public void updateViews(Object o, String out){
+         if(out == null){
+             System.out.println((String)o);
+             return;
+         }
+         updatableViews.get(out).notify(this,o);
+    }
+
+    public void addUpdatableView(String key, Observer view){
         updatableViews.put(key, view);
     }
 
@@ -51,47 +58,40 @@ public class Controller {
 
     public void updateView(LoggedIn p){
         model.changeUser(p);
-        view.updateTools(model.getPouzivatel());
-        view.setPrihlaseny(model.getPouzivatel().getClass().getSimpleName());
+        updatableViews.get("pane").notify(this,model.getPouzivatel());
+        updatableViews.get("prih").notify(this,model.getPouzivatel().getClass().getSimpleName());
     }
 
 
     public void objednaj(TextField input, String outKey){
-        Controller.desiredOutput = updatableViews.get(outKey);
         if(input.getText().isEmpty()){
-            Controller.updateViews("zadajte cestu k suboru");
+            this.updateViews("zadajte cestu k suboru",outKey);
         }else{
-            Controller.updateViews(model.objednaj(input.getText()));
+            this.updateViews(model.objednaj(input.getText()),outKey);
         }
     }
 
     public void prines(TextField input, String outKey){
-        Controller.desiredOutput = updatableViews.get(outKey);
-        Controller.updateViews(model.prines(input.getText()));
+        this.updateViews(model.prines(input.getText()), outKey);
     }
 
     public void spracuj(String command, String outKey){
-        Controller.desiredOutput = updatableViews.get(outKey);
-        Controller.updateViews(model.spracuj(command));
+        this.updateViews(model.spracuj(command),outKey);
     }
     
     public void serialize(){
-        Controller.desiredOutput = null;
-        Controller.updateViews(model.serialize());
+        this.updateViews(model.serialize(),null);
     }
 
     public void Zakaznik_vstup(String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.zakaznikVstup());
+        this.updateViews(model.zakaznikVstup(),null);
     }
 
     public void otvorZatvor(String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.otvorZatvor());
+        this.updateViews(model.otvorZatvor(),key);
     }
 
     public void changeStrategy(Button strategia, Button vydaj,String key){
-        Controller.desiredOutput = updatableViews.get(key);
         String[] t = model.changeStrategy();
         strategia.setText(t[0]);
         vydaj.setText(t[1]);
@@ -99,48 +99,42 @@ public class Controller {
     }
 
     public void odstranOdoberatela(TextField text, Stage stage, String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.odstranOdoberatela(text.getText()));
+        this.updateViews(model.odstranOdoberatela(text.getText()),key);
         stage.close();
     }
 
     public void createOdoberatel(TextField text, Stage stage, String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.pridajOdoberatela(text.getText()));
+        this.updateViews(model.pridajOdoberatela(text.getText()),key);
         stage.close();
     }
 
     public void createOdoberatelKateg(TextField nazovStanku, TextField dalsie, Stage subStage, String out) {
-        Controller.desiredOutput = updatableViews.get(out);
-        Controller.updateViews(model.pridajOdoberatelaKategorizovaneho(nazovStanku.getText(),dalsie.getText()));
+        this.updateViews(model.pridajOdoberatelaKategorizovaneho(nazovStanku.getText(),dalsie.getText()),out);
         subStage.close();
     }
 
     public void createOdoberatelMin(TextField nazovStanku, TextField dalsie, Stage subStage, String out) {
-        Controller.desiredOutput = updatableViews.get(out);
-        Controller.updateViews(model.pridajOdoberatelaMinimum(nazovStanku.getText(),dalsie.getText()));
+        this.updateViews(model.pridajOdoberatelaMinimum(nazovStanku.getText(),dalsie.getText()),out);
         subStage.close();
     }
 
     public void removeAutor(TextField text, Stage stage, String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.removeAutor(text.getText()));
+        this.updateViews(model.removeAutor(text.getText()),key);
         stage.close();
     }
 
     public void createAutor(TextField meno, TextField prievzisko, String typ, Stage stage, String key){
-        Controller.desiredOutput = updatableViews.get(key);
-        Controller.updateViews(model.createAutor(meno.getText(), prievzisko.getText(),typ));
+        this.updateViews(model.createAutor(meno.getText(), prievzisko.getText(),typ),key);
         stage.close();
     }
 
 
     public EventHandler<MouseEvent> getInfoHandler() {
+         Controller th = this;
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Controller.desiredOutput = updatableViews.get("out");
-                Controller.updateViews(model.spracuj("info-me | plat | zarobene | odrobene"));
+                th.updateViews(model.spracuj("info-me | plat | zarobene | odrobene"), "out");
             }
         };
     }
@@ -169,4 +163,10 @@ public class Controller {
         new OdoberatelRemove(this);
     }
 
+    public void openTextyNaVydanie() {
+         new TabulkaView("Texty na vydanie",model.getTexty());
+    }
+    public void openOdoberatelovNaVydanie(){ new OdoberatelView("Odoberatelia", model.getData()); }
+
+    public void openKatalog(){ new KatalogView("Katalog", model.getKatalogData()); }
 }

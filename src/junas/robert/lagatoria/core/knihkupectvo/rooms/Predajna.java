@@ -5,6 +5,7 @@ import junas.robert.lagatoria.core.knihkupectvo.storage.OrganizovanaSekcia;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.Kategoria;
 import junas.robert.lagatoria.core.items.Kniha;
 
@@ -18,8 +19,8 @@ public class Predajna extends Miestnost {
     private transient Zakaznik zakaznik;
 
 
-    public Predajna(){
-        super();
+    public Predajna(Observer observer){
+        super(observer);
         init(defaultSize);
     }
 

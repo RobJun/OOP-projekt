@@ -4,12 +4,12 @@ import junas.robert.lagatoria.core.users.info.UdajeOZamestnancovi;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 public abstract class Zamestnanec extends Pouzivatel{
-    private UdajeOZamestnancovi udajeOZamestnancovi;
+    private UdajeOZamestnancovi udaje;
 
 
     public Zamestnanec(String m, long id, double plat) {
         super(m, id);
-        udajeOZamestnancovi = new UdajeOZamestnancovi(plat);
+        udaje = new UdajeOZamestnancovi(plat);
 
 
         //pridavanie akcii ktore moze spravit trieda
@@ -19,17 +19,21 @@ public abstract class Zamestnanec extends Pouzivatel{
     }
 
     public double getPlat(){
-        return udajeOZamestnancovi.getPlat();
+        return udaje.getPlat();
     }
     public double getOdrobene(){
-        return udajeOZamestnancovi.getOdrobene();
+        return udaje.getOdrobene();
     }
 
     public double vypocitajPlat(){
-        return udajeOZamestnancovi.Vypocitaj_zarobok();
+        return udaje.Vypocitaj_zarobok();
     }
-    public void pridajHodinu(){ udajeOZamestnancovi.odrobHodinu(); }
+    public void pridajHodinu(){ udaje.odrobHodinu(); }
 
+    /**
+     * @deprecated sluzi na vypis do konzole
+     * @return prazdny string
+     */
     @Override
     public String help() {
         super.help();

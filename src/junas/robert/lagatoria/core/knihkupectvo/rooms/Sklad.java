@@ -3,6 +3,7 @@ package junas.robert.lagatoria.core.knihkupectvo.rooms;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
 import junas.robert.lagatoria.core.items.Kniha;
+import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.exceptions.InvalidFormatException;
 
 import java.io.FileNotFoundException;
@@ -13,12 +14,12 @@ public class Sklad  extends Miestnost {
         private Sekcia[] sekcie;
         private NoveKnihy novyTovar;
 
-        public Sklad(){
-            super();
+        public Sklad(Observer observer){
+            super(observer);
             init(defaultSize);
         }
-        public Sklad(int velkost){
-            super();
+        public Sklad(int velkost, Observer observer){
+            super(observer);
             init(velkost);
         }
 
@@ -41,6 +42,7 @@ public class Sklad  extends Miestnost {
                     katalog.add(K);
                 }
                 res+= novyTovar.printContent();
+                printKatalog();
                 return res;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -57,6 +59,7 @@ public class Sklad  extends Miestnost {
             katalog.add(K);
         }
         res += novyTovar.printContent();
+        printKatalog();
         return res;
     }
 

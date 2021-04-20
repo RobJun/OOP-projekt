@@ -1,19 +1,20 @@
 package junas.robert.lagatoria.core.users.knihkupectvo;
 
+import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
 import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
 import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Inventar;
 
-public class Skladnik extends Zamestnanec {
+public class Skladnik extends Zamestnanec implements Premiestnovanie {
 
     private Inventar inventar = new Inventar();
 
     public Skladnik(String meno, long id){
         super(meno, id, 4.5);
-
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("sklad", ((args, kh, vy) -> kh.getSklad().printSklad()));
@@ -22,7 +23,7 @@ public class Skladnik extends Zamestnanec {
             if( (kh.getSklad()).getNovyTovar() != null) {
                return  (kh.getSklad()).getNovyTovar().printContent();
             }
-            return "problem so skladom";
+            return "nebol nacita novy tovar";
         }
             );
         inlineAkcie.put("objednaj", ((args, kh, vy)-> {
@@ -30,7 +31,7 @@ public class Skladnik extends Zamestnanec {
             kh.getPredajna().setKatalog(kh.getSklad().getKatalog());
             return res;
         }));
-        inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh.getSklad())));
+        inlineAkcie.put("premiestni", ((args, kh, vy)-> premiestni(args,kh)));
         inlineAkcie.put("max-miesto", ((args, kh, vy) -> {
             int[] miesto = kh.getSklad().najdiNajvacsieMiesto();
             return "Sekcia:" + miesto[0] + " Polička: " +miesto[1];
@@ -53,13 +54,13 @@ public class Skladnik extends Zamestnanec {
              NoveKnihy r = s.getNovyTovar();
              if(r != null && r.existujeKniha(k)) {
                  int p = r.odoberKnihy(k, pocet);
-                 pridajKnihy(k, p);
+                 inventar.set(k,p);
              }
          }else{
              Regal r = s.getSekcie(pozicia[0]).getRegal(pozicia[1]);
              if(r.existujeKniha(k)){
                  int p = r.odoberKnihy(k,pocet);
-                 pridajKnihy(k,p);
+                 inventar.set(k,p);
              }
          }
     }
@@ -81,14 +82,9 @@ public class Skladnik extends Zamestnanec {
         return "knihy boli umiestnene a zostali ti knihy v inventari";
     }
 
-    private void pridajKnihy(Kniha k,int pocet){
-        inventar.set(k,pocet);
-    }
-
-
-    public int getPocetNosenych() {
-        return inventar.getPocet();
-    }
+    /**
+     * @return vrati knihu ktoru ma skladnik v inventari
+     */
     public Kniha getKniha(){
         return inventar.getKniha();
     }
@@ -120,7 +116,9 @@ public class Skladnik extends Zamestnanec {
         return "";
     }
 
-    private String premiestni(String[] com, Sklad sklad){
+    @Override
+    public String premiestni(String[] com, Knihkupectvo kh){
+        Sklad sklad = kh.getSklad();
         int[] zober = new int[] {-1,-1};
         int[] umiestni = new int[] {-1,-1};
         int p = -1;
@@ -171,4 +169,5 @@ public class Skladnik extends Zamestnanec {
         f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
         return this.objednajtovar(sklad, f);
     }
+
 }

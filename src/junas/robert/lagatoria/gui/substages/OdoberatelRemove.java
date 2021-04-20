@@ -17,6 +17,7 @@ public class OdoberatelRemove {
     public OdoberatelRemove(Controller controller){
         Stage subStage = new Stage();
         subStage.setTitle("Odstranenie Odoberatela");
+        subStage.setResizable(false);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);

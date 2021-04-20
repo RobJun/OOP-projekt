@@ -17,6 +17,7 @@ public class AutorRemove {
     public AutorRemove(Controller controller){
         Stage subStage = new Stage();
         subStage.setTitle("nepisuci autor");
+        subStage.setResizable(false);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
