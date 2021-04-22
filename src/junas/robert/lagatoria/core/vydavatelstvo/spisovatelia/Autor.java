@@ -30,8 +30,10 @@ public abstract class Autor implements Observer {
     /**
      * Metoda spusti novy thread na ktorom autor vymysli a pise knihu a odosle ju do vydavatelstva
      * @return ci autor prijal pozidavku
+     * @param caller
+     * @param msg
      */
-    public void notify(Object o, Object s){
+    public void notify(Object caller, Object msg){
         if(piseKnihu) {
             observer.notify(this, "Autor neprijal poziadavku");
             return;

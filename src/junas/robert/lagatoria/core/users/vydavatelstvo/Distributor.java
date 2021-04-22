@@ -34,6 +34,8 @@ public class Distributor extends Zamestnanec {
 
     private String knihyPripravenePreKnihkupetvo() {
         String res = "";
+        if(knihyPripraveneNaOdoslanie.isEmpty())
+            return "nie su nachystane ziadne knihy";
         for(BalikKnih k : knihyPripraveneNaOdoslanie.getKnihy()){
             res += k.getInfo() + "\n";
         }

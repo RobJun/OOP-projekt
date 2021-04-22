@@ -9,13 +9,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.controllers.Controller;
+import junas.robert.lagatoria.gui.controllers.MainController;
 
-public class OdoberatelRemove {
+public class OdoberatelRemove implements SubStage {
     private TextField index = new TextField();
+    private Stage subStage = new Stage();
 
     public OdoberatelRemove(Controller controller){
-        Stage subStage = new Stage();
         subStage.setTitle("Odstranenie Odoberatela");
         subStage.setResizable(false);
 
@@ -24,7 +25,10 @@ public class OdoberatelRemove {
         Scene scene = new Scene(root, 250, 200);
 
         Button submit = new Button("Submit");
-        submit.setOnMouseClicked(e->{ controller.odstranOdoberatela(index, subStage,"out"); });
+        submit.setOnMouseClicked(e->{
+            //controller.odstranOdoberatela(index, subStage,"out");
+            controller.notify(this, "out")
+            ;});
         index.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -39,5 +43,14 @@ public class OdoberatelRemove {
         root.getChildren().add(submit);
         subStage.setScene(scene);
         subStage.show();
+    }
+
+    @Override
+    public Stage getSubStage() {
+        return subStage;
+    }
+
+    public String getIndex(){
+        return index.getText();
     }
 }

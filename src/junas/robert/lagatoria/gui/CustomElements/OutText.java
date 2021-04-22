@@ -1,8 +1,6 @@
 package junas.robert.lagatoria.gui.CustomElements;
 
-import javafx.beans.InvalidationListener;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import junas.robert.lagatoria.core.utils.Observer;
 
 public class OutText extends TextArea implements Observer {
@@ -15,7 +13,7 @@ public class OutText extends TextArea implements Observer {
 
 
     @Override
-    public void notify(Object o, Object s) {
-        appendText((String)s + "\n");
+    public void notify(Object caller, Object msg) {
+        appendText((String) msg + "\n");
     }
 }

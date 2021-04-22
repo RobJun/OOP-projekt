@@ -9,13 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.controllers.Controller;
+import junas.robert.lagatoria.gui.controllers.MainController;
 
-public class AutorRemove {
+public class AutorRemove implements SubStage{
+    private Stage subStage = new Stage();
     private TextField index = new TextField();
-
     public AutorRemove(Controller controller){
-        Stage subStage = new Stage();
         subStage.setTitle("nepisuci autor");
         subStage.setResizable(false);
 
@@ -25,7 +25,8 @@ public class AutorRemove {
 
         Button submit = new Button("Submit");
         submit.setOnMouseClicked(e->{
-            controller.removeAutor(index, subStage,"out");
+            //controller.removeAutor(index, subStage,"out");
+            controller.notify(this,"out");
         });
 
         index.textProperty().addListener(new ChangeListener<String>() {
@@ -40,5 +41,14 @@ public class AutorRemove {
         root.getChildren().add(submit);
         subStage.setScene(scene);
         subStage.show();
+    }
+
+    @Override
+    public Stage getSubStage() {
+        return subStage;
+    }
+
+    public String getIndex(){
+        return index.getText();
     }
 }

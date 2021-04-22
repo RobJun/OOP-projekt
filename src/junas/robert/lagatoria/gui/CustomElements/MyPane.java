@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import junas.robert.lagatoria.core.stanky.StanokPreKategoriu;
 import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
 import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
 import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
@@ -39,17 +38,17 @@ public class MyPane extends StackPane implements Observer {
     }
 
     @Override
-    public void notify(Object o, Object s) {
+    public void notify(Object caller, Object msg) {
         getChildren().remove(0);
-        if(s instanceof Zakaznik)
+        if(msg instanceof Zakaznik)
             getChildren().add(changable.get(0));
-        else if(s instanceof Skladnik)
+        else if(msg instanceof Skladnik)
             getChildren().add(changable.get(1));
-        else if(s instanceof Predajca)
+        else if(msg instanceof Predajca)
             getChildren().add(changable.get(2));
-        else if(s instanceof Manazer)
+        else if(msg instanceof Manazer)
             getChildren().add(changable.get(3));
-        else if(s instanceof Distributor)
+        else if(msg instanceof Distributor)
             getChildren().add(changable.get(4));
     }
 }

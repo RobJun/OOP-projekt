@@ -107,7 +107,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
     }
 
     @Override
-    public void notify(Object o, Object s) {
-        observer.notify(o,s);
+    public void notify(Object caller, Object msg) {
+        observer.notify(caller, msg);
     }
 }

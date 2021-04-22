@@ -21,12 +21,12 @@ import java.util.*;
 
 public class Vydavatelstvo implements Observer {
 
-    public void notify(Object object, Object s) {
-        if(s instanceof Text){
-            prijmiText((Text)s);
+    public void notify(Object object, Object msg) {
+        if(msg instanceof Text){
+            prijmiText((Text) msg);
             return;
         }
-        model.notify(object,s);
+        model.notify(object, msg);
     }
 
     interface VydavanieStrategy{

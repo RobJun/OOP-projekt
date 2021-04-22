@@ -7,14 +7,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import junas.robert.lagatoria.gui.Controller;
+import junas.robert.lagatoria.gui.controllers.Controller;
+import junas.robert.lagatoria.gui.controllers.MainController;
 
-public class OdoberatelCreation {
+public class OdoberatelCreation implements SubStage {
     private TextField nazovStanku = new TextField();
     private TextField dalsie = new TextField();
 
-    public OdoberatelCreation(int k, Controller controller){
-        Stage subStage = new Stage();
+    private Stage subStage = new Stage();
+
+    private int which;
+
+    public OdoberatelCreation(int which, Controller controller, String text){
+        this.which = which;
         subStage.setTitle("Pridanie Odoberatela");
         subStage.setResizable(false);
 
@@ -23,22 +28,34 @@ public class OdoberatelCreation {
         Scene scene = new Scene(root, 250, 200);
 
         Button submit = new Button("Submit");
-        if(k == 1)
-            submit.setOnMouseClicked(e->controller.createOdoberatelKateg(nazovStanku,dalsie,subStage, "out"));
-        else if(k==2)
-            submit.setOnMouseClicked(e->controller.createOdoberatelMin(nazovStanku,dalsie,subStage, "out"));
-        else
-            submit.setOnMouseClicked(e->{ controller.createOdoberatel(nazovStanku, subStage,"out"); });
+        submit.setOnMouseClicked(e->{
+                //controller.createOdoberatelKateg(nazovStanku,dalsie,subStage, "out")
+            controller.notify(this,"out");});
+
         root.getChildren().addAll(new Text("Nazov Stanku"), nazovStanku);
-        if(k > 0) {
-            if(k == 1){
-                root.getChildren().add(new Text("kategoria"));
-            }else
-                root.getChildren().add(new Text("index"));
+        if(text != null) {
+            root.getChildren().add(new Text(text));
             root.getChildren().add(dalsie);
         }
         root.getChildren().add(submit);
         subStage.setScene(scene);
         subStage.show();
+    }
+
+    @Override
+    public Stage getSubStage() {
+        return subStage;
+    }
+
+    public String getNazov(){
+        return nazovStanku.getText();
+    }
+
+    public String getDalsie(){
+        return dalsie.getText();
+    }
+
+    public int getWhich(){
+        return which;
     }
 }

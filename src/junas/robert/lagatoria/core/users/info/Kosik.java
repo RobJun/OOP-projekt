@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Kosik {
-    private ArrayList<Kniha> knihy;
-    private HashMap<String,Integer> pocetKnih;
-
+    private ArrayList<Kniha> knihy = new ArrayList<>();
+    private HashMap<String,Integer> pocetKnih = new HashMap<>();
 
     public void add(Kniha k, int pocet){
         if(knihy.contains(k)){

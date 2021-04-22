@@ -10,7 +10,7 @@ public class InfoPrihlaseny extends Text implements Observer {
     }
 
     @Override
-    public void notify(Object o, Object s) {
-        setText("("+(String)s+")");
+    public void notify(Object caller, Object msg) {
+        setText("("+(String) msg +")");
     }
 }

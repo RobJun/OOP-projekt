@@ -1,18 +1,8 @@
 package junas.robert.lagatoria.gui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
-import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
+import junas.robert.lagatoria.gui.controllers.MainController;
 
 public class Main extends Application {
 
@@ -24,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         Model model = new Model();
-        Controller controller = new Controller(model);
+        MainController controller = new MainController(model);
         model.setController(controller);
         View view = new View(controller);
         controller.setView(view);
@@ -32,7 +22,7 @@ public class Main extends Application {
         enabled = true;
 
         stage.setOnCloseRequest(e -> {
-            controller.serialize();
+            controller.notify(null,"serialize");
         });
 
         stage.setScene(view.getMainScene());

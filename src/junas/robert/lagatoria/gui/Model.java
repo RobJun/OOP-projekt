@@ -20,6 +20,7 @@ import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
 import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
 import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
 import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
+import junas.robert.lagatoria.gui.controllers.MainController;
 
 public class Model implements Observer {
 
@@ -39,7 +40,7 @@ public class Model implements Observer {
     private String strategyText = "Vydavanie po jednom";
     private String strategyVText = "Vydaj text";
 
-    private Controller controller;
+    private MainController controller;
 
     Model(){
         deserialize();
@@ -221,7 +222,7 @@ public class Model implements Observer {
         Knihkupectvo.getInstance().setObserver(this);
     }
 
-    public void setController(Controller controller) {
+    public void setController(MainController controller) {
         this.controller = controller;
     }
 

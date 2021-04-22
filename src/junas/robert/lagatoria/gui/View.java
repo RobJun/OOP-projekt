@@ -1,37 +1,26 @@
 package junas.robert.lagatoria.gui;
 
-import javafx.beans.InvalidationListener;
+import java.lang.String;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.users.Pouzivatel;
-import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
-import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
-import junas.robert.lagatoria.core.users.knihkupectvo.Zakaznik;
-import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
-import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.gui.CustomElements.InfoPrihlaseny;
 import junas.robert.lagatoria.gui.CustomElements.MyPane;
-import junas.robert.lagatoria.gui.CustomElements.OtvorButton;
+import junas.robert.lagatoria.gui.CustomElements.CustomButton;
 import junas.robert.lagatoria.gui.CustomElements.OutText;
+import junas.robert.lagatoria.gui.controllers.MainController;
+import junas.robert.lagatoria.gui.controllers.ViewController;
 
 public class View {
 
 
-    private Controller controller;
+    private MainController controller;
     private Model model;
 
 
@@ -59,7 +48,7 @@ public class View {
 
     private Scene mainScene;
 
-    View(Controller controller){
+    View(MainController controller){
         this.controller = controller;
 
         controller.addUpdatableView("out",out);
@@ -77,13 +66,13 @@ public class View {
     public Scene getMainScene() {
         return mainScene;
     }
-    
+
     void createMainScene(){
-        Button zakaznikButton = new Button("Zákazník");
-        Button skladnikButton = new Button("Skladník");
-        Button predajcaButton = new Button("Predajca");
-        Button manazerButton = new Button("Manažer");
-        Button distriButton = new Button("Distributor");
+        CustomButton zakaznikButton = new CustomButton ("Zákazník","zakaznik");
+        CustomButton  skladnikButton =  new CustomButton("Skladník", "skladnik");
+        CustomButton  predajcaButton =  new CustomButton("Predajca", "predajca");
+        CustomButton  manazerButton =   new CustomButton("Manažer", "manazer");
+        CustomButton  distriButton =    new CustomButton("Distributor", "distributor");
 
         BorderPane root = new BorderPane();
 
@@ -127,15 +116,15 @@ public class View {
 
         menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,distriButton,prihlaseny);
 
-        zakaznikButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.ZAKAZNIK); });
+        zakaznikButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.ZAKAZNIK); });
 
-        skladnikButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.SKLADNIK); });
+        skladnikButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.SKLADNIK); });
 
-        predajcaButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.PREDAJCA); });
+        predajcaButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.PREDAJCA); });
 
-        manazerButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.MANAZER); });
+        manazerButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.MANAZER); });
 
-        distriButton.setOnMouseClicked(e -> { controller.updateView(LoggedIn.DISTRI); });
+        distriButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.DISTRI); });
 
 
         menu.setPrefWidth(150);
@@ -146,24 +135,21 @@ public class View {
     }
 
     private void createPredajcaButtons(){
-        OtvorButton otvor = new OtvorButton();
+        CustomButton otvor = new CustomButton("Otvor", "otvorBtn");
+        CustomButton vypis =    new CustomButton("Vypis","vypisPS");
+        CustomButton predaj =   new CustomButton("Predaj","predaj");
+        CustomButton plat =     new CustomButton("info-me", "info");
+        CustomButton katalog =  new CustomButton("Katalog", "katalog");
+        CustomButton prines =   new CustomButton("Prines", "prines");
         controller.addUpdatableView("otvorBtn",otvor);
-        otvor.setOnMouseClicked(e ->{ controller.otvorZatvor("otvorBtn"); });
 
-        Button vypis = new Button("Vypis");
-        vypis.setOnMouseClicked(e -> { controller.spracuj("predajna | sklad","out"); });
 
-        Button predaj = new Button("Predaj");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("predaj","out"); });
-
-        Button plat = new Button("info-me");
+        otvor.setOnMouseClicked(e ->{ controller.notify(otvor, "otvorBtn");});
+        vypis.setOnMouseClicked(e -> { controller.notify(vypis,"out"); });
+        predaj.setOnMouseClicked(e -> { controller.notify(predaj,"out"); });
         plat.setOnMouseClicked(controller.getInfoHandler());
-
-        Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.openKatalog();});
-
-        Button prines = new Button("Prines");
-        prines.setOnMouseClicked(e->{ controller.prines(inputText,"out");});
+        katalog.setOnMouseClicked(e -> { controller.open(katalog, ViewController.WindowKeys.TAB_KAT);});
+        prines.setOnMouseClicked(e->{ controller.notify(prines,new Object[]{inputText, "out"}); });
 
 
         predajcaOkno.setSpacing(20);
@@ -177,27 +163,19 @@ public class View {
     }
 
     private void createZakaznikButtons(){
-        Button vstup = new Button("Vstup");
-        vstup.setOnMouseClicked(e ->{ controller.Zakaznik_vstup("out"); });
+        CustomButton vstup =    new CustomButton("Vstup","vstup");
+        CustomButton plat =     new CustomButton("info-me", "info");
+        CustomButton katalog =  new CustomButton("Katalog", "katalog");
+        CustomButton predaj =   new CustomButton("Predajna", "vypisP");
+        CustomButton prines =   new CustomButton("Pridaj", "prines");
+        CustomButton kosik =    new CustomButton("Kosik", "kosik");
 
-        Button plat = new Button("info-me");
+        vstup.setOnMouseClicked(e ->{ controller.notify(vstup,"out"); });
         plat.setOnMouseClicked(controller.getInfoHandler());
-
-        Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.openKatalog(); });
-
-        Button predaj = new Button("Predajna");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("predajna","out"); });
-
-        Button prines = new Button("Pridaj");
-        prines.setOnMouseClicked(e->{
-                controller.prines(inputText,"out");
-        });
-
-        Button kosik = new Button("Kosik");
-        kosik.setOnMouseClicked(e -> {
-            controller.spracuj("kosik","out");
-        });
+        katalog.setOnMouseClicked(e -> { controller.open(katalog, ViewController.WindowKeys.TAB_KAT);});
+        predaj.setOnMouseClicked(e -> { controller.notify(predaj,"out"); });
+        prines.setOnMouseClicked(e->{ controller.notify(prines,new Object[]{inputText, "out"}); });
+        kosik.setOnMouseClicked(e -> { controller.notify(kosik,"out"); });
 
         zakaznikOkno.setSpacing(20);
         zakaznikOkno.getChildren().add(vstup);
@@ -210,88 +188,38 @@ public class View {
 
     }
 
-    private void createManazerButtons(){
-        Menu menu = new Menu("Pridaj");
-        MenuItem fantasyAutor = new MenuItem("fantazy autor");
-        MenuItem historyAutor = new MenuItem("history autor");
-        MenuItem poetryAutor = new MenuItem("autor poezie");
-        MenuItem addAutors = new MenuItem("Pridaj autorov do zoznamu cakajucich na pisane");
-        MenuItem removeAutors = new MenuItem("Odober autora zo zoznamu autorov cakajucich na pisanie");
-
-
-
-        EventHandler<ActionEvent> vytvor = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controller.autorCreateStage(((MenuItem)event.getSource()).getText());
-            }
-        };
-
-        fantasyAutor.setOnAction(vytvor);
-        historyAutor.setOnAction(vytvor);
-        poetryAutor.setOnAction(vytvor);
-
-        addAutors.setOnAction(e -> {
-            controller.spracuj("Pzoznam","out");
-        });
-
-        removeAutors.setOnAction(e->{
-            controller.autorRemoveStage();
-        });
-
-        menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors, removeAutors);
-
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(menu);
-
-
-        Button vypisAutorov = new Button("Autori");
-        Button pisat = new Button("Daj Napisat Knihu");
-        Button text = new Button("Texty na vydanie");
-        Button vydaj = new Button("Vydaj text");
-        Button strategia = new Button("Vydavanie po jednom");
-
-
-        vypisAutorov.setOnMouseClicked(e->{ controller.spracuj("vypisAutor","out"); });
-
-        pisat.setOnMouseClicked(e->{ controller.spracuj("dajNapisat","out"); });
-
-        text.setOnMouseClicked(e->{ controller.openTextyNaVydanie(); });
-
-        vydaj.setOnMouseClicked(e->{ controller.spracuj("vydajKnihy","out"); });
-
-        strategia.setOnMouseClicked(e->{ controller.changeStrategy(strategia,vydaj, "out"); });
-
-        Button plat = new Button("info-me");
-        plat.setOnMouseClicked(controller.getInfoHandler());
-
-        manazerOkno.setSpacing(5);
-        manazerOkno.getChildren().add(menuBar);
-        manazerOkno.getChildren().add(vypisAutorov);
-        manazerOkno.getChildren().add(pisat);
-        manazerOkno.getChildren().add(text);
-        manazerOkno.getChildren().add(vydaj);
-        manazerOkno.getChildren().add(strategia);
-        manazerOkno.getChildren().add(plat);
-    }
-
     private void createSkladnikButtons(){
-        Button katalog = new Button("Katalog");
-        katalog.setOnMouseClicked(e -> { controller.openKatalog(); });
+        CustomButton katalog =        new CustomButton("Katalog","katalog");
+        CustomButton predaj =         new CustomButton("Sklad", "vypisS");
+        CustomButton prines =         new CustomButton("Premiestni", "prines");
+        CustomButton objednaj =       new CustomButton("Objednaj", "objednaj");
+        CustomButton miesto =         new CustomButton("najdiMiesto", "miesto");
+        CustomButton plat =           new CustomButton("info-me", "info");
+        katalog.setOnMouseClicked(e -> {
+            controller.open(katalog, ViewController.WindowKeys.TAB_KAT);
+        });
 
-        Button predaj = new Button("Sklad");
-        predaj.setOnMouseClicked(e -> { controller.spracuj("sklad | info-n","out"); });
 
-        Button prines = new Button("Premiestni");
-        prines.setOnMouseClicked(e->{ controller.prines(inputText,"out"); });
+        predaj.setOnMouseClicked(e -> {
+            controller.notify(predaj, "out");
+        });
 
-        Button objednaj = new Button("Objednaj");
-        objednaj.setOnMouseClicked(e->{ controller.objednaj(inputText,"out");});
 
-        Button miesto = new Button("najdiMiesto");
-        miesto.setOnMouseClicked(e->{ controller.spracuj("max-miesto","out"); });
+        prines.setOnMouseClicked(e->{
+            controller.notify(prines,new Object[]{inputText,"out"});
+        });
 
-        Button plat = new Button("info-me");
+
+        objednaj.setOnMouseClicked(e->{
+            controller.notify(objednaj, new Object[]{inputText,"out"});
+        });
+
+
+        miesto.setOnMouseClicked(e->{
+            controller.notify(miesto,"out");
+        });
+
+
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         skladnikOkno.setSpacing(20);
@@ -304,35 +232,93 @@ public class View {
 
     }
 
+    private void createManazerButtons(){
+        CustomButton vypisAutorov = new CustomButton("Autori","autori");
+        CustomButton pisat =        new CustomButton("Daj Napisat Knihu","pisat");
+        CustomButton text =         new CustomButton("Texty na vydanie", "vydVyp");
+        CustomButton plat =         new CustomButton("info-me", "info");
+        CustomButton vydaj =        new CustomButton("Vydaj text", "vydaj");
+        CustomButton strategia =    new CustomButton("Vydavanie po jednom", "strategia");
+
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Pridaj");
+        MenuItem fantasyAutor = new MenuItem("fantazy autor");
+        fantasyAutor.setId("fantasyAut");
+        MenuItem historyAutor = new MenuItem("history autor");
+        fantasyAutor.setId("historyAut");
+        MenuItem poetryAutor = new MenuItem("autor poezie");
+        fantasyAutor.setId("poetryAut");
+        MenuItem addAutors = new MenuItem("Pridaj autorov do zoznamu cakajucich na pisane");
+        addAutors.setId("addAutor");
+
+        MenuItem removeAutors = new MenuItem("Odober autora zo zoznamu autorov cakajucich na pisanie");
+
+
+        fantasyAutor.setOnAction(controller.autorCreator());
+        historyAutor.setOnAction(controller.autorCreator());
+        poetryAutor.setOnAction(controller.autorCreator());
+
+        addAutors.setOnAction(e -> { controller.notify(addAutors,"out"); });
+        removeAutors.setOnAction(e->{ controller.open(removeAutors, ViewController.WindowKeys.AUTOR_R); });
+
+        controller.addUpdatableView("vydaj",vydaj);
+        controller.addUpdatableView("strategia",strategia);
+
+
+        vypisAutorov.setOnMouseClicked(e->{
+            controller.notify(vypisAutorov,"out");
+        });
+
+        pisat.setOnMouseClicked(e->{
+            controller.notify(pisat, "out");
+        });
+
+        text.setOnMouseClicked(e->{
+            controller.open(text, ViewController.WindowKeys.TAB_TEXT);
+        });
+
+        vydaj.setOnMouseClicked(e->{
+            controller.notify(vydaj,"out");
+                });
+
+        strategia.setOnMouseClicked(e->{ controller.notify(strategia,new String[]{"strategia","vydaj"}); });
+        plat.setOnMouseClicked(controller.getInfoHandler());
+        menu.getItems().addAll(fantasyAutor,historyAutor,poetryAutor,addAutors, removeAutors);
+        menuBar.getMenus().addAll(menu);
+
+        manazerOkno.setSpacing(5);
+        manazerOkno.getChildren().add(menuBar);
+        manazerOkno.getChildren().add(vypisAutorov);
+        manazerOkno.getChildren().add(pisat);
+        manazerOkno.getChildren().add(text);
+        manazerOkno.getChildren().add(vydaj);
+        manazerOkno.getChildren().add(strategia);
+        manazerOkno.getChildren().add(plat);
+    }
+
 
     private void createDistributorButtons(){
+        CustomButton knihy =   new CustomButton("Knihy pre Knihkupetvo", "knihyPreK");
+        CustomButton plat =    new CustomButton("info-me", "info");
+
+        MenuBar menuBar = new MenuBar();
         Menu menu2 = new Menu("Odoberatelia");
         MenuItem pridajOdoberatela = new MenuItem("pridaj odoberatela");
         MenuItem pridajOdoberatelaK = new MenuItem("pridaj odoberatela so specifikovanou kategoriu");
         MenuItem pridajOdoberatelaM = new MenuItem("pridaj odoberatela so specifikovanym minimom");
-
-        MenuItem vypisOdoberatlov = new MenuItem("vypisOdoberatelov");
+        MenuItem vypisOdoberatlov = new MenuItem("vypis odoberatelov");
         MenuItem odoberOdoberatela = new MenuItem("odober odoberatela");
-        Button knihy = new Button("Knihy pre Knihkupetvo");
-        knihy.setOnMouseClicked(e->{ controller.spracuj("knihyPreKnihkupectvo","out"); });
 
-        pridajOdoberatela.setOnAction(e->{ controller.odoberatelCreateStage(0); });
-        pridajOdoberatelaK.setOnAction(e-> controller.odoberatelCreateStage(1));
-        pridajOdoberatelaM.setOnAction(e-> controller.odoberatelCreateStage(2));
-
-        vypisOdoberatlov.setOnAction(e->{ controller.openOdoberatelovNaVydanie(); });
-
-        odoberOdoberatela.setOnAction(e->{
-           controller.odoberaltelRemoveStage();
-        });
+        knihy.setOnMouseClicked(e->{ controller.notify(knihy,"out"); });
+        pridajOdoberatela.setOnAction(e->{ controller.open(pridajOdoberatela, ViewController.WindowKeys.ODOBER_C); });
+        pridajOdoberatelaK.setOnAction(e-> controller.open(pridajOdoberatelaK, ViewController.WindowKeys.ODOBERK_C));
+        pridajOdoberatelaM.setOnAction(e-> controller.open(pridajOdoberatelaM, ViewController.WindowKeys.ODOBERM_C));
+        vypisOdoberatlov.setOnAction(e->{ controller.open(vypisOdoberatlov, ViewController.WindowKeys.TAB_ODOB); });
+        odoberOdoberatela.setOnAction(e->{ controller.open(odoberOdoberatela, ViewController.WindowKeys.ODOBER_R); });
 
         menu2.getItems().addAll(pridajOdoberatela,pridajOdoberatelaK,pridajOdoberatelaM,odoberOdoberatela,vypisOdoberatlov);
-
-
-        MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu2);
 
-        Button plat = new Button("info-me");
         plat.setOnMouseClicked(controller.getInfoHandler());
 
         distibutorOkno.getChildren().add(menuBar);
