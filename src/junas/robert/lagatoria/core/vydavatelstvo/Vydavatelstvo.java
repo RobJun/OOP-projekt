@@ -21,14 +21,6 @@ import java.util.*;
 
 public class Vydavatelstvo implements Observer {
 
-    public void notify(Object object, Object msg) {
-        if(msg instanceof Text){
-            prijmiText((Text) msg);
-            return;
-        }
-        model.notify(object, msg);
-    }
-
     interface VydavanieStrategy{
         String vydajKnihy();
     }
@@ -42,15 +34,28 @@ public class Vydavatelstvo implements Observer {
             super(m, id, plat);
         }
 
+        /**
+         * @param text opravovany text
+         * @return retazec informujuci o opravenych chybach v texte
+         */
         public String najdiChybyVTexte(Text text){
             pridajHodinu();
             return "Najedenych a opravenych " + text.oprav() + efektivnost + " chyb" + "\n";
         }
 
+        /**
+         * @param text skracovany text
+         * @return text s novym poctom stran
+         */
         private Text skratText(Text text) {
             text.setDlzka(text.getDlzka() - ((int) (text.getDlzka() * 0.1)+efektivnost));
             return text;
         }
+
+        /**
+         * @param text text ktory ma koreketor precitat
+         * @return precitany Text
+         */
         public Text precitajText(Text text) {
             pridajHodinu();
             return skratText(text);
@@ -116,6 +121,7 @@ public class Vydavatelstvo implements Observer {
      * @param manazer manazer vydavatelstva je pridavany z vonku
      * @param distributor distributor, ktory pracuje vo vydavatelstve
      * @param pocetStankov incializacn pocet Odoberatlov typu Stanok
+     * @param parent sledovatel Vydavatelstva
      */
     public Vydavatelstvo(Manazer manazer, Distributor distributor, int pocetStankov, Model parent){
         nazov = "Dalakan";
@@ -163,7 +169,9 @@ public class Vydavatelstvo implements Observer {
                     res += "ziadna kniha na vydanie";
                     return res;
                 }
+                //pokial je este nevydany text
                 while(!prijateTexty.isEmpty()) {
+                    //vyberie sa text
                     Text vydavana = prijateTexty.remove();
 
                     res += "Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]\n";
@@ -171,16 +179,19 @@ public class Vydavatelstvo implements Observer {
                     Obalka obalka = dizajner.navrhniObalku();
                     vydavana = korektor.precitajText(vydavana);
 
+                    //manazer dostane recenziu textu
                     double feedback = manazer.ziskajFeedback(vydavana);
 
                     res += "recenzia textu: " + String.format("%.2f",feedback) + "%\n";
 
+                    //z coho distributor urci pocet
                     int pocet = distributor.urciPocet(feedback);
 
                     pocetVytlackov.add(pocet);
 
                     res +="Naplanovany pocet vytlackov: " + pocet + "\n";
 
+                    //vytvori sa ISBN kod
                     int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
                     int i = 0;
                     if(pouziteKody.containsKey(titleCode)){
@@ -190,16 +201,20 @@ public class Vydavatelstvo implements Observer {
                         pouziteKody.put(titleCode, 0);
                     }
                     String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
+
+                    //manazer navrhne cenu
                     double cena = manazer.navrhniCenu(feedback);
 
                     res += ("cena knihy: " + cena + "\n");
 
-
+                    //vytlaci sa kniha
                     Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
                     kniha.getInfo();
+                    //kniha sa prida na zoznam knih pripravenych na odoslanie
                     vytlaceneKnihy.add(kniha);
                 }
-                res += distributor.DajOdoberatlom(odoberatelia,vytlaceneKnihy,pocetVytlackov);
+                //odosiela sa medzi odoberatelov
+                res += distributor.dajOdoberatelom(odoberatelia,vytlaceneKnihy,pocetVytlackov);
                 return res;
             };
         }else{
@@ -220,6 +235,7 @@ public class Vydavatelstvo implements Observer {
     /**
      * Snazi sa pridat vsetkych autorov vo vydavatelstve manazerovi
      * Osetruje sa vynimka ked autor uz daneho autora ma
+     * @return retazec informucjuci o uspechu akcie
      */
     public String dajAutorovManazerovi(){
         String res = "";
@@ -246,51 +262,58 @@ public class Vydavatelstvo implements Observer {
      * @return vracia output string
      */
     private String vydanie(){
+        //ak nie su ziadne texty ktore by sa dali vydat
         if(prijateTexty.isEmpty()){
-
             return "ziadna kniha na vydanie";
         }
+        //vyberie sa text
         Text vydavana = prijateTexty.remove();
 
         String res = "Vydava sa kniha: " + vydavana.getNazov() +" ["+ vydavana.getAutor() + "]\n";
 
-        Obalka obalka = dizajner.navrhniObalku();
-        res+= korektor.najdiChybyVTexte(vydavana);
-        vydavana = korektor.precitajText(vydavana);
+        Obalka obalka = dizajner.navrhniObalku(); // navrhne sa obalka
+        res+= korektor.najdiChybyVTexte(vydavana); // korektor opravi text
+        vydavana = korektor.precitajText(vydavana); // a skrati ho
 
+        //manazer dostane recenziu textu
         double feedback = manazer.ziskajFeedback(vydavana);
 
         res += "\trecenzia textu: " + String.format("%.2f",feedback) + "%\n";
 
+        //z coho distributor urci pocet
         int pocet = distributor.urciPocet(feedback);
 
         res += "Naplanovany pocet vytlackov: " + pocet + "\n";
 
-        int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
+        //vytvori sa ISBN kod
+        int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode() % 10000);
         int i = 0;
-        if(pouziteKody.containsKey(titleCode)){
-            i = pouziteKody.get(titleCode)+1;
-            pouziteKody.replace(titleCode,i);
-        }else{
+        if (pouziteKody.containsKey(titleCode)) {
+            i = pouziteKody.get(titleCode) + 1;
+            pouziteKody.replace(titleCode, i);
+        } else {
             pouziteKody.put(titleCode, 0);
         }
-        String isbn = "ISBN-977-"+code+"-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
+        String isbn = "ISBN-977-" + code + "-" + group + "-" + String.format("%04d", titleCode) + "-" + i;
+
+        //manazer navrhne cenu
         double cena = manazer.navrhniCenu(feedback);
 
         res +="cena knihy: " + cena + '\n';
 
-
+        //vytlaci sa kniha
         Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
 
         kniha.getInfo();
 
-        res += distributor.DajOdoberatlom(odoberatelia, kniha, pocet);
+        //posiela sa odoberatelom
+        res += distributor.dajOdoberatelom(odoberatelia, kniha, pocet);
         return res;
     }
 
     /**
      * Vyda text ktory sa nachadza na vrchu radu, do ktoreho sa text dostane cez funkciu prijmiText(Text text)
-     * @return
+     * @return vysledok vydavania, resp. kolko aky stanok prijal a aká kniha bola vydaná a v akom mnozstve + zarobok
      */
     public String vydajKnihy(){
         String result = strategia.vydajKnihy();
@@ -307,6 +330,7 @@ public class Vydavatelstvo implements Observer {
      * Vypise vsetkych autorov
      * ✓ = je na zozname autorov schopnych pisat
      * x = autor nie je schopny pisat / nie je nahlaseny u manazera
+     * @return retazec obsahujuci informacie o autoroch
      */
     public String vypisAutorov() {
         int i = 0;
@@ -328,12 +352,12 @@ public class Vydavatelstvo implements Observer {
 
     /**
      * Vypise este nevydane texty cakajuce na vydanie
+     * @return retazec obsahujuci informacie o textoch
      */
     public String vypisTexty(){
         if(prijateTexty.isEmpty()){
             return "Ziadne texty na vydanie\n";
         }
-
         int i = 1;
         Iterator<Text> it = prijateTexty.iterator();
         String res = "";
@@ -361,6 +385,7 @@ public class Vydavatelstvo implements Observer {
     /**
      * Odstrani odoberatela zo zoznamu odoberatelov knih (ak sa na indexe nachadza knihkupectvo tak to sa nevymaze)
      * @param index index na ktorom sa nachaza odstranovany odoberatel
+     * @return retazec informucjuci o uspechu akcie
      */
     public String odoberOdoberatela(int index) {
         if(odoberatelia.get(index) instanceof Knihkupectvo){
@@ -374,6 +399,9 @@ public class Vydavatelstvo implements Observer {
         return "Podarilo sa odstranit odoberatela";
     }
 
+    /**
+     * @return vrati retazec obsahujuci informacie o odoberateloch
+     */
     public String vypisOdoberatelov() {
         int index = 0;
         String res = "";
@@ -383,6 +411,20 @@ public class Vydavatelstvo implements Observer {
         }
         model.notify(this,"002::"+res);
         return res;
+    }
+
+    /**
+     * @param object instancia, ktora vyvolala upovedomovanie
+     * @param msg    sprava ktoru rozposiela
+     */
+    public void notify(Object object, Object msg) {
+        //ak prisiel text tak ho prijme
+        if(msg instanceof Text){
+            prijmiText((Text) msg);
+            return;
+        }
+        //prebublava spravu na povrch
+        model.notify(object, msg);
     }
 
 }

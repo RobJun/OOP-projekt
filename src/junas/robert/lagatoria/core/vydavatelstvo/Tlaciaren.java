@@ -6,6 +6,9 @@ import junas.robert.lagatoria.core.items.Text;
 
 import java.util.Calendar;
 
+/**
+ * Ma nastarosti skladanie knih z textov a obalok a udajov potrebnych na vytvorenie spravneho vytlacku
+ */
 public class Tlaciaren {
     private Vydavatelstvo vydavatelstvo;
 

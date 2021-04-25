@@ -9,9 +9,16 @@ import junas.robert.lagatoria.core.users.info.Kosik;
 
 import java.util.ArrayList;
 
+/**
+ * Rozsiruje triedu Pouzivatel o kosik do ktoreho si vklada knihy co si chce kupit
+ */
 public class Zakaznik extends Pouzivatel implements Premiestnovanie {
     private Kosik kosik;
 
+    /**
+     * Rozsiruje funkcie pouzivatela o funkcie zakaznika.
+     * Meno zakaznika je Guest a id je 0
+     */
     public Zakaznik(){
         super("Guest", 0);
         kosik = new Kosik();
@@ -31,45 +38,75 @@ public class Zakaznik extends Pouzivatel implements Premiestnovanie {
         return "";
     }
 
+    /**
+     * @return retazec obbsahujuci knihy v kosiku
+     */
     public String vypisKosik(){
             return kosik.vypisKosik();
     }
 
+    /**
+     * @return vrati knihy ulozene v kosiku
+     */
     public ArrayList<Kniha> getKosik() { return kosik.getKnihy(); }
+
+    /**
+     * @param isbn identifikacny kod knihy
+     * @return pocet kusov urcitej knihy urceniej podla isbn
+     */
     public int getPocetKnih(String isbn) {return kosik.getPocet(isbn);}
 
-    public void odoberKnihy(Kniha k, int pocet) {
-        kosik.remove(k,pocet);
+    /**
+     * Odstranuje knihy z kosika
+     * @param kniha kniha ktoru chceme odstranit z inventara
+     * @param pocet pocet knih odstranenych z kosika
+     */
+    public void odoberKnihy(Kniha kniha, int pocet) {
+        kosik.remove(kniha,pocet);
     }
 
-    private void pridajKnihy(Kniha k, int pocet){
-        kosik.add(k,pocet);
+    /**
+     * Pridava knihy do kosika
+     * @param kniha kniha ktoru chcem epridat
+     * @param pocet pocet kusov ktory chceme pridat
+     */
+    private void pridajKnihy(Kniha kniha, int pocet){
+        kosik.add(kniha,pocet);
     }
 
+    /**
+     * odoberie knihy z regalu v predajni a vlozi ich do kosika
+     * @param args argumenty na premiestnenie
+     * @param kh   instancia knihkupectva v ktorej premiestnujeme knihy
+     * @return retazec informujuci o uspechu premiestnovania
+     */
  @Override
     public String premiestni(String[] args, Knihkupectvo kh){
-        Predajna pr = kh.getPredajna();
+        Predajna predajna = kh.getPredajna();
         Kniha k = null;
         int p = -1;
         for(String f : args){
-            if(f.contains("i/")){
-                k = najdiReferenciuNaKnihu(pr, Integer.parseInt(f.substring(2)));
-            }else if(f.contains("s/")){
-                k = najdiReferenciuNaKnihu(pr, f.replaceAll("_", " ").substring(2));
-            }else if(f.contains("/")){
+            if(f.contains("i/")){//katalogove cislo
+                k = najdiReferenciuNaKnihu(predajna, Integer.parseInt(f.substring(2)));
+            }else if(f.contains("s/") && !(f.contains("i/"))){ //ISBN alebo nazov knihy
+                k = najdiReferenciuNaKnihu(predajna, f.replaceAll("_", " ").substring(2));
+            }else if(f.contains("/")){ //pocet
                 p = Integer.parseInt(f.substring(1));
             }
         }
 
+        //ak bol zadany neplatny pocet/ neexistujuca kniha
         if(k == null || p < 1){
             return"Kniha neexistuje alebo si zadal zly pocet";
         }
 
-        int z = pr.odoberKnihy(k,p);
-        if(z == -1){
+        //odoberie knihy a vrati pocet odobranych knih
+        int z = predajna.odoberKnihy(k,p);
+        if(z == -1){ // ak sa zadana kniha nenachadza v predajni
             return "Kniha nie je na predajni";
         }
 
+        //prida knihy do kosika
         pridajKnihy(k,z);
         return "Kniha bola uspesne zobrata";
     }

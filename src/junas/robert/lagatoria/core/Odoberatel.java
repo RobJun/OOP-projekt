@@ -2,6 +2,9 @@ package junas.robert.lagatoria.core;
 
 import junas.robert.lagatoria.core.items.Kniha;
 
+/**
+ * rozhranie tried ktore prijamju knihy od vydavatela
+ */
 public interface Odoberatel {
     /**
      * @param kniha kniha ktoru sme prijali

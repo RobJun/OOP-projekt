@@ -9,13 +9,23 @@ import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 import java.util.HashMap;
 
+/**
+ * Trieda Pouyivatel
+ * obsahuje id, meno pouzivatela
+ * a mapu funkcii ktore mozu pouzivat
+ */
 public abstract class Pouzivatel implements InputProcess {
     protected long id;
     protected String meno;
     protected HashMap<String, InlineCommand> inlineAkcie;
 
-    public Pouzivatel(String m, long id) {
-        meno = m;
+    /**
+     * Vyplni sa pole funkcii zakladnymi funkciami pouzivatela
+     * @param meno meno pouzivatela
+     * @param id dentifikacne cislo pouzivatela
+     */
+    public Pouzivatel(String meno, long id) {
+        this.meno = meno;
         this.id =id;
 
         inlineAkcie = new HashMap<>();
@@ -50,7 +60,15 @@ public abstract class Pouzivatel implements InputProcess {
         return "";
     }
 
-    @Override //Pouzivatel.java
+    /**
+     * Funkcia spusta funkcie z mapy funkcii
+     * funhuje aj retazenie funkcii pomocou odelovaca |
+     * napr. info-me | katalog vypise informacie o pouzivatelovi a katalog knihkupectva
+     * @param args          argumenty, ktore sa daju vykonat
+     * @param vydavatelstvo referencia na vydavatelstvo nad ktorym sa robia metody
+     * @return retazec vystupu z mapy funkcii
+     */
+    @Override
     public String spracuj(String[] args, Vydavatelstvo vydavatelstvo){
         String res = "";
         int index = 0;

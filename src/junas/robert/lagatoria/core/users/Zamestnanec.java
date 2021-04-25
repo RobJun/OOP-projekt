@@ -3,14 +3,23 @@ package junas.robert.lagatoria.core.users;
 import junas.robert.lagatoria.core.users.info.UdajeOZamestnancovi;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
+/**
+ * Zakladna trieda zamestnanca
+ * obsahuje udajeOZamestnancovi
+ */
 public abstract class Zamestnanec extends Pouzivatel{
     private UdajeOZamestnancovi udaje;
 
 
-    public Zamestnanec(String m, long id, double plat) {
-        super(m, id);
+    /**
+     * Prida zakladne funkcie zamestnanca ku zakladnym funkciam pouzivatela
+     * @param meno meno zamestnanca
+     * @param id identifikacne cislo
+     * @param plat plat zamestnanca
+     */
+    public Zamestnanec(String meno, long id, double plat) {
+        super(meno, id);
         udaje = new UdajeOZamestnancovi(plat);
-
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("plat", ((args, kh, vy) -> { return "Tvoj plat je: " + getPlat();}));
@@ -18,16 +27,30 @@ public abstract class Zamestnanec extends Pouzivatel{
         inlineAkcie.put("odrobene", ((args, kh, vy) -> {return "odrobil si: " + getOdrobene();}));
     }
 
+    /**
+     * @return vrati plat zamestnanca
+     */
     public double getPlat(){
         return udaje.getPlat();
     }
+
+    /**
+     * @return vrati pocet odrobenych hodin
+     */
     public double getOdrobene(){
         return udaje.getOdrobene();
     }
 
+    /**
+     * @return vrati zarobok aky zamestnanec za beh aplikacie zarobil
+     */
     public double vypocitajPlat(){
-        return udaje.Vypocitaj_zarobok();
+        return udaje.vypocitajZarobok();
     }
+
+    /**
+     * prida hodinu zamestnancovi
+     */
     public void pridajHodinu(){ udaje.odrobHodinu(); }
 
     /**
@@ -44,7 +67,13 @@ public abstract class Zamestnanec extends Pouzivatel{
         return "";
     }
 
-    @Override //Zamestnanec.java
+    /**
+     * Nadstavba spracovania funkcii pouzivatela s pridavanim odrobenych hodin
+     * @param args          argumenty, ktore sa daju vykonat
+     * @param vydavatelstvo referencia na vydavatelstvo nad ktorym sa robia metody
+     * @return retazec vystupu z mapy funkcii
+     */
+    @Override
     public String spracuj(String[] args, Vydavatelstvo vydavatelstvo){
         String res = super.spracuj(args, vydavatelstvo);
         pridajHodinu();

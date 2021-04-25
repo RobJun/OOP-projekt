@@ -12,6 +12,10 @@ import junas.robert.lagatoria.core.utils.enums.Kategoria;
 public class StanokPreKategoriu extends Stanok {
     private Kategoria kategoria;
 
+    /**
+     * @param nazov nazov stanku
+     * @param kategoria kategoriu ktoru bude stanok prijmat
+     */
     public StanokPreKategoriu(String nazov, Kategoria kategoria) {
         super(nazov);
         this.kategoria = kategoria;
@@ -20,7 +24,7 @@ public class StanokPreKategoriu extends Stanok {
     /**
      * @param kniha kniha, ktoru prijmame
      * @param pocet knih na prijatie
-     * @return ak kategoria knihy je rôzna od kategorie, tak knihy neprijme
+     * @return ak kategoria knihy je rôzna od kategorie, tak knihy neprijme (0) inak vracia 1
      */
     @Override
     public int odober(Kniha kniha, int pocet) {

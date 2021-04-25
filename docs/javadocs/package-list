@@ -3,7 +3,9 @@ junas.robert.lagatoria.core.items
 junas.robert.lagatoria.core.knihkupectvo
 junas.robert.lagatoria.core.knihkupectvo.rooms
 junas.robert.lagatoria.core.knihkupectvo.storage
+junas.robert.lagatoria.core.stanky
 junas.robert.lagatoria.core.users
+junas.robert.lagatoria.core.users.info
 junas.robert.lagatoria.core.users.knihkupectvo
 junas.robert.lagatoria.core.users.vydavatelstvo
 junas.robert.lagatoria.core.utils
@@ -13,3 +15,8 @@ junas.robert.lagatoria.core.vydavatelstvo
 junas.robert.lagatoria.core.vydavatelstvo.spisovatelia
 junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.pisanie
 junas.robert.lagatoria.gui
+junas.robert.lagatoria.gui.CustomElements
+junas.robert.lagatoria.gui.TableViews
+junas.robert.lagatoria.gui.TableViews.data
+junas.robert.lagatoria.gui.controllers
+junas.robert.lagatoria.gui.substages

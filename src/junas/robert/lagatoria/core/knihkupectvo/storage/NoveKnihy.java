@@ -10,9 +10,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Nacitanie novych knih do knihkupectva
+ * nacitavnie zo suboru ako aj prijmanie od vydavatela
+ */
 public class NoveKnihy extends Regal{
+    /**
+     * ci boli vsetky knihy odobrne z palety
+     */
     private boolean minute;
 
+    /**
+     * Nacita nove knihy zo suboru
+     * @param path cesta k suboru z ktoreho chceme nacitat knihy
+     * @throws FileNotFoundException ak sa subor nenanasiel
+     * @throws InvalidFormatException ak knihy v subore boli zadane v zlom formate
+     */
     public NoveKnihy(String path) throws FileNotFoundException, InvalidFormatException{
         super();
         try {
@@ -31,25 +44,45 @@ public class NoveKnihy extends Regal{
         }
     }
 
+    /**
+     * Dostane knihy od vydavatela/distributora
+     * @param knihy rad knih ktore chceme pridat do knihkupectva
+     */
     public NoveKnihy(RadKnih knihy){
         super();
         minute = knihy.isEmpty();
         for (BalikKnih k : knihy.getKnihy()){
-            this.pridajKnihyP(k.getKniha(),k.getPocet());
+            this.pridajKnihyP((Kniha)k.getKniha(),k.getPocet());
         }
     }
 
+    /**
+     * @return ci boli vsetky knihy z palety premiestnene do regalov
+     */
     public boolean isMinute() {
         return minute;
     }
+
+    /**
+     * nastavi premenu minute podla toho ci na zozname knih zostali knihy
+     */
     private void skontrolujMinutie(){
         minute = (zoznamKnih.size() == 0);
     }
+
+    /**
+     * @deprecated
+     * Paleta je derivat regalu a neda sa nan ukladat
+     * @return vzdy vracia -1
+     */
     @Override
     public int getMiesto() {
         return -1;
     }
 
+    /**
+     * @return retazec o uspechu vyhodenia palety
+     */
     public String vyhodPaletu(){
         if(isMinute()){
             try {
@@ -64,7 +97,14 @@ public class NoveKnihy extends Regal{
     }
 
 
-    public boolean nacitajKnihy(String path) throws InvalidFormatException, FileNotFoundException {
+    /**
+     * Nacita knihy zo suboru - vyuzite v konstruktore
+     * @param path cesta k suboru
+     * @return vzdy vracia true
+     * @throws InvalidFormatException ak knihy v subore boli zadane v zlom formate
+     * @throws FileNotFoundException ak sa subor nenanasiel
+     */
+    private boolean nacitajKnihy(String path) throws InvalidFormatException, FileNotFoundException {
             File zoznam = new File(path);
             Scanner reader = new Scanner(zoznam);
             int row = 1;
@@ -102,6 +142,9 @@ public class NoveKnihy extends Regal{
             return true;
     }
 
+    /**
+     * @return vrati retazec obsahujuci zoznam knih potrebnych na ulozenie
+     */
     public String printContent(){
         String s = "";
         for(int i = 0; i < zoznamKnih.size(); i++){
@@ -111,16 +154,28 @@ public class NoveKnihy extends Regal{
         return s;
     }
 
+    /**
+     * Odoberie knihu a pocet kusov z noveho tovaru
+     * @param kniha odoberna kniha
+     * @param pocet odoberany pocet
+     * @return pocet, ktory bol realne odobrany
+     */
     @Override
-    public int odoberKnihy(Kniha k, int p){
-        int v = odoberKnihyP(k,p);
+    public int odoberKnihy(Kniha kniha, int pocet){
+        int v = odoberKnihyP(kniha,pocet);
         skontrolujMinutie();
         return v;
 
     }
 
+    /**
+     * @deprecated
+     * @param kniha pridavana kniha
+     * @param pocet odoberana kniha
+     * @return pocet pridanych knih vzdy -1
+     */
     @Override
-    public int pridajKnihy(Kniha k, int p){
+    public int pridajKnihy(Kniha kniha, int pocet){
         return -1;
     }
 

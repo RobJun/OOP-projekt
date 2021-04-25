@@ -13,9 +13,11 @@ import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
 import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
 import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
 
-public class OdoberatelView {
+public class OdoberatelView implements SubStage {
+    private Stage stage;
+
     public OdoberatelView(String title, ObservableList<?> list) {
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setTitle(title);
 
         stage.setResizable(false);
@@ -34,5 +36,10 @@ public class OdoberatelView {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    @Override
+    public Stage getSubStage() {
+        return stage;
     }
 }

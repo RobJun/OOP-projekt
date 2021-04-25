@@ -1,5 +1,8 @@
 package junas.robert.lagatoria.core.items;
 
+/**
+ * Rozsiruje abstraktnu triedu Obalka o obrazok
+ */
 public class BrozovanaVazba extends Obalka{
     private String obrazok;
 

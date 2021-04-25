@@ -5,10 +5,18 @@ import junas.robert.lagatoria.core.items.Kniha;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Trieda pre ukladanie kníh pre Zakaznika
+ */
 public class Kosik {
     private ArrayList<Kniha> knihy = new ArrayList<>();
     private HashMap<String,Integer> pocetKnih = new HashMap<>();
 
+    /**
+     * Vlozenie knih do kosika a poctu, pripadne iba poctu
+     * @param k kniha ktorá sa má pridať do kosika; ak sa kniha v zozname nachadza tak sa iba pripocita pocet k povodnemu poctu
+     * @param pocet kusov knihy ktoru vkladame
+     */
     public void add(Kniha k, int pocet){
         if(knihy.contains(k)){
             int z = pocetKnih.get(k.getISBN());
@@ -21,6 +29,12 @@ public class Kosik {
     }
 
 
+    /**
+     * Odstranenie knih z kosika, ak je pocet vacsi alebo rovny poctu kusov knihy v kosiku,
+     * tak sa odstrani cela kniha aj s poctom inak sa iba odcita pocet od poctu kusov
+     * @param k kniha ktoru chceme odobrat
+     * @param pocet aky pocet chceme odstranit z kosika
+     */
     public void remove(Kniha k, int pocet){
         int p = pocetKnih.get(k.getISBN());
         if(pocet >= p) {
@@ -32,6 +46,9 @@ public class Kosik {
     }
 
 
+    /**
+     * @return String, v ktorom su inofrmacie o knihach v kosiku a pocte vlozenych
+     */
     public String vypisKosik(){
         String res = "";
         if(knihy.isEmpty()) {
@@ -47,10 +64,17 @@ public class Kosik {
     }
 
 
+    /**
+     * @return informacie o knihach v kosiku
+     */
     public ArrayList<Kniha> getKnihy(){
         return knihy;
     }
 
+    /**
+     * @param isbn knihy ktoru hladame v kosiku
+     * @return pocet knih ulozenych v kosiku
+     */
     public int getPocet(String isbn){
         return pocetKnih.get(isbn);
     }

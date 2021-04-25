@@ -19,33 +19,18 @@ import junas.robert.lagatoria.gui.controllers.ViewController;
 
 public class View {
 
-
     private MainController controller;
-    private Model model;
-
-
 
     private HBox manazerOkno = new HBox();
     private HBox zakaznikOkno = new HBox();
     private HBox predajcaOkno = new HBox();
     private HBox skladnikOkno = new HBox();
     private HBox distibutorOkno = new HBox();
-
     private MyPane pane = new MyPane(zakaznikOkno,skladnikOkno,predajcaOkno,manazerOkno,distibutorOkno);
-
-
     private OutText out = new OutText();
     private TextField inputText = new TextField();
-
-    private TableView tableView = new TableView();
-
-    private StringProperty textRecu = new SimpleStringProperty();
-
     private InfoPrihlaseny prihlaseny = new InfoPrihlaseny();
-
     private FlowPane center = new FlowPane();
-
-
     private Scene mainScene;
 
     View(MainController controller){
@@ -115,15 +100,10 @@ public class View {
 
 
         menu.getChildren().addAll(text,zakaznikButton,skladnikButton,predajcaButton,manazerButton,distriButton,prihlaseny);
-
         zakaznikButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.ZAKAZNIK); });
-
         skladnikButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.SKLADNIK); });
-
         predajcaButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.PREDAJCA); });
-
         manazerButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.MANAZER); });
-
         distriButton.setOnMouseClicked(e -> { controller.changePrihlaseny(LoggedIn.DISTRI); });
 
 
@@ -195,29 +175,12 @@ public class View {
         CustomButton objednaj =       new CustomButton("Objednaj", "objednaj");
         CustomButton miesto =         new CustomButton("najdiMiesto", "miesto");
         CustomButton plat =           new CustomButton("info-me", "info");
-        katalog.setOnMouseClicked(e -> {
-            controller.open(katalog, ViewController.WindowKeys.TAB_KAT);
-        });
 
-
-        predaj.setOnMouseClicked(e -> {
-            controller.notify(predaj, "out");
-        });
-
-
-        prines.setOnMouseClicked(e->{
-            controller.notify(prines,new Object[]{inputText,"out"});
-        });
-
-
-        objednaj.setOnMouseClicked(e->{
-            controller.notify(objednaj, new Object[]{inputText,"out"});
-        });
-
-
-        miesto.setOnMouseClicked(e->{
-            controller.notify(miesto,"out");
-        });
+        katalog.setOnMouseClicked(e -> { controller.open(katalog, ViewController.WindowKeys.TAB_KAT); });
+        predaj.setOnMouseClicked(e -> { controller.notify(predaj, "out"); });
+        prines.setOnMouseClicked(e->{ controller.notify(prines,new Object[]{inputText,"out"}); });
+        objednaj.setOnMouseClicked(e->{ controller.notify(objednaj, new Object[]{inputText,"out"}); });
+        miesto.setOnMouseClicked(e->{ controller.notify(miesto,"out"); });
 
 
         plat.setOnMouseClicked(controller.getInfoHandler());
@@ -264,22 +227,10 @@ public class View {
         controller.addUpdatableView("vydaj",vydaj);
         controller.addUpdatableView("strategia",strategia);
 
-
-        vypisAutorov.setOnMouseClicked(e->{
-            controller.notify(vypisAutorov,"out");
-        });
-
-        pisat.setOnMouseClicked(e->{
-            controller.notify(pisat, "out");
-        });
-
-        text.setOnMouseClicked(e->{
-            controller.open(text, ViewController.WindowKeys.TAB_TEXT);
-        });
-
-        vydaj.setOnMouseClicked(e->{
-            controller.notify(vydaj,"out");
-                });
+        vypisAutorov.setOnMouseClicked(e->{ controller.notify(vypisAutorov,"out"); });
+        pisat.setOnMouseClicked(e->{ controller.notify(pisat, "out"); });
+        text.setOnMouseClicked(e->{ controller.open(text, ViewController.WindowKeys.TAB_TEXT); });
+        vydaj.setOnMouseClicked(e->{ controller.notify(vydaj,"out"); });
 
         strategia.setOnMouseClicked(e->{ controller.notify(strategia,new String[]{"strategia","vydaj"}); });
         plat.setOnMouseClicked(controller.getInfoHandler());

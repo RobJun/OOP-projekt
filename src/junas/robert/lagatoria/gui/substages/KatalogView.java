@@ -13,10 +13,12 @@ import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
 import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
 import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
 
-public class KatalogView {
+public class KatalogView implements SubStage {
+
+    private Stage stage;
 
     public KatalogView(String title, ObservableList<?> list) {
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setTitle(title);
 
         stage.setResizable(false);
@@ -35,5 +37,10 @@ public class KatalogView {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    @Override
+    public Stage getSubStage() {
+        return stage;
     }
 }

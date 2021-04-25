@@ -1,6 +1,5 @@
 package junas.robert.lagatoria.gui.controllers;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
@@ -116,7 +115,7 @@ public class ViewController extends Controller {
     }
 
     public void openTextyNaVydanie() {
-        new TabulkaView("Texty na vydanie",model.getTexty());
+        new TextyView("Texty na vydanie",model.getTexty());
     }
     public void openOdoberatelovNaVydanie(){ new OdoberatelView("Odoberatelia", model.getData()); }
 

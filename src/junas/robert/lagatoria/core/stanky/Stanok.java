@@ -15,11 +15,21 @@ public class Stanok implements Odoberatel {
         this.nazov = nazov;
         zoznamKnih = new Inventar();
     }
+
+    /**
+     * Prijme Knihu a pocet kusov jednej knihy a vlozi ich do inventara ako balik
+     * @param kniha ktoru sme prebrali
+     * @param pocet kusov ktore sme prebrali
+     * @return  vzdy vracia 1
+     */
     public int odober(Kniha kniha, int pocet) {
         zoznamKnih.add(new BalikKnih(kniha, pocet));
         return 1;
     }
 
+    /**
+     * @return nazov stanku
+     */
     public String getNazov() {
         return nazov;
     }

@@ -14,8 +14,8 @@ import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
 import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
 
 
-public class TabulkaView {
-    public TabulkaView(String title, ObservableList<?> list) {
+public class TextyView {
+    public TextyView(String title, ObservableList<?> list) {
         Stage stage = new Stage();
         stage.setTitle(title);
 

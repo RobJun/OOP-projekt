@@ -16,17 +16,28 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
     private Sklad    sklad;
     private Predajna predajna;
     transient Observer observer;
+    private double kapital = 100000; //kolko penazi ma knihkupectvo k dispozicii
 
+    /**
+     * konstruktor pre vytvorenie singleton instancie
+     */
     private Knihkupectvo(){
         sklad = new Sklad(this);
         predajna = new Predajna(this);
     }
 
+    /**
+     * nuti sklad o odoslanie upozprnenia o zmene katalogu
+     */
     public void printKatalog(){
         sklad.printKatalog();
     }
 
 
+    /**
+     * Nastavenie sledovatela knihkupectva a nastavenie knihkupectva ako sledovatela skladu a predajne
+     * @param observer sledovatel knihkupectva
+     */
     public void setObserver(Observer observer) {
         this.observer = observer;
         sklad.setObserver(this);
@@ -43,14 +54,21 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
         return instancia;
     }
 
+    /**
+     * @return vrati sklad
+     */
     public Sklad getSklad() { return sklad; }
+
+    /**
+     * @return vrati predajnu
+     */
     public Predajna getPredajna() {return predajna;}
 
 
     /**
      * Uklada sa instancia knihkupectva, knihy v nom a ich ulozenie
      * @param path cesta k suboru, kde sa ulozia informacie o knihkupectve
-     * @return
+     * @return retazec o uspechu serializacie
      */
     public static String serialize(String path){
         try{
@@ -68,6 +86,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
     /**
      * metoda nacita informacie o knihkupectve do programu
      * @param path cesta k suboru odkial sa maju data o knihkupectve nacitat
+     * @return retazec informucjuci o uspechu akcie
      */
     public static String deserialize(String path){
         try {
@@ -103,11 +122,26 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
      */
     @Override
     public double zaplatVydavatelovi(Kniha kniha, int pocet) {
+        kapital -= kniha.getCena()*0.50*pocet;
         return kniha.getCena()*0.50*pocet;
     }
 
+    /**
+     * Odosle data o iniciatorovy a sprave svojmu sledovatelovi
+     * @param caller iniciator upozornenia
+     * @param msg sprava ktoru iniciator posiela
+     */
     @Override
     public void notify(Object caller, Object msg) {
         observer.notify(caller, msg);
+    }
+
+
+    /**
+     * Prida do kapitalu hodnotu z parametrov
+     * @param kapital pocet penazi ktore sme zarobili
+     */
+    public void pridajPeniaze(double kapital){
+        this.kapital += kapital;
     }
 }

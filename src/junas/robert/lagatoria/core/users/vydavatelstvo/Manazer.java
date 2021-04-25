@@ -12,15 +12,29 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * Trieda manazera pracuje s vydavatelstvom, posiela poziadavky o napisanie textov autorov
+ * vytvara novych autorovov a zapina vydavanie knih
+ */
 public class Manazer extends Zamestnanec {
+    /**
+     * autori cakajuci na pisanie
+     */
     private ArrayList<Autor> autori = new ArrayList<Autor>();
+    /**
+     * sledovatel manazera
+     */
     private Observer observer;
-    public Manazer(String m, long id, double plat) {
 
-        super(m, id, plat);
 
-        this.observer = observer;
-
+    /**
+     * Rozsirenie funkcii zamestnanca o funkcie zamestnanca
+     * @param meno meno zamestnanca
+     * @param id identifikacne cislo
+     * @param plat plat zamestnanca
+     */
+    public Manazer(String meno, long id, double plat) {
+        super(meno, id, plat);
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("dajNapisat", (args, kh, vy) -> {dajNapisatKnihu(); return "";});
         inlineAkcie.put("vydajKnihy", (args, kh, vy) -> {return vy.vydajKnihy();});
@@ -57,14 +71,27 @@ public class Manazer extends Zamestnanec {
         }));
     }
 
+    /**
+     * nastavenie sledovatela manazera
+     * @param observer sledovatel manazera
+     */
     public void setObserver(Observer observer) {
         this.observer = observer;
     }
 
+    /**
+     * volanie funckie prepise povodny zozname autorov
+     * @param autori zoznam autorov ktorych chceme nastavit na cakanie
+     */
     public void pridajAutora(ArrayList<Autor> autori){
         this.autori = (ArrayList<Autor>) autori.clone();
     }
 
+    /**
+     * Prida autora do zoznamu cakajucich na pisanie
+     * @param autor pridavany autor
+     * @throws AutorExistujeException ak uz autor bol pridany do zoznamu, aby nevznikol duplikat
+     */
     public void pridajAutora(Autor autor) throws AutorExistujeException {
         if(autori.contains(autor))
             throw new AutorExistujeException(autor.getMeno());
@@ -72,16 +99,28 @@ public class Manazer extends Zamestnanec {
             this.autori.add(autor);
     }
 
+    /**
+     * Odoberie autora z aktivnej sluzby
+     * @param autor odoberany autor
+     * @throws AutorNieJeNaZozname ak odstranovany autor sa nenachadza na zozname
+     */
     public void odoberAutora(Autor autor) throws AutorNieJeNaZozname {
         if (!autori.contains(autor)) throw new AutorNieJeNaZozname(autor.getMeno());
 
         autori.remove(autor);
     }
 
+    /**
+     * @param autor kontrolovany autor
+     * @return true ak autor caka na pisanie knihy; false ak nie
+     */
     public boolean existujeAutor(Autor autor){
         return autori.contains(autor);
     }
 
+    /**
+     * Upozorni autorov o tom ze treba napisat knihu
+     */
     public void dajNapisatKnihu(){
         observer.notify(this,"Manazer rozposiela ziadosti o knihu\n");
         for (Autor autor: autori) {

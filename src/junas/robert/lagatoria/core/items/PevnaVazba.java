@@ -1,9 +1,10 @@
 package junas.robert.lagatoria.core.items;
 
-
+/**
+ * Rozsiruje abstraktnu triedu Obalka o material
+ */
 public class PevnaVazba extends Obalka{
     private String material;
-
 
     /**
      * @param dizajn dizajn obalky
@@ -16,6 +17,9 @@ public class PevnaVazba extends Obalka{
         this.material = material;
     }
 
+    /**
+     * @return vrati retazec v tvare "\t\ttyp vazby: #typObalky [#material]\n"
+     */
     @Override
     public String getInfo() {
         String res = super.getInfo();
