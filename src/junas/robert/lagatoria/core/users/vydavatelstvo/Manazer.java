@@ -67,7 +67,7 @@ public class Manazer extends Zamestnanec {
                 autorNieJeNaZozname.printStackTrace();
                 return autorNieJeNaZozname.getMessage();
             }
-            return "";
+            return "Odobranie autora prebehlo uspesne";
         }));
     }
 

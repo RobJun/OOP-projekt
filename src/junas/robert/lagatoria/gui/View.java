@@ -1,8 +1,7 @@
 package junas.robert.lagatoria.gui;
 
 import java.lang.String;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.gui.CustomElements.InfoPrihlaseny;
-import junas.robert.lagatoria.gui.CustomElements.MyPane;
-import junas.robert.lagatoria.gui.CustomElements.CustomButton;
-import junas.robert.lagatoria.gui.CustomElements.OutText;
+import junas.robert.lagatoria.gui.customElements.InfoPrihlaseny;
+import junas.robert.lagatoria.gui.customElements.MyPane;
+import junas.robert.lagatoria.gui.customElements.CustomButton;
+import junas.robert.lagatoria.gui.customElements.OutText;
 import junas.robert.lagatoria.gui.controllers.MainController;
 import junas.robert.lagatoria.gui.controllers.ViewController;
 

@@ -2,9 +2,7 @@ package junas.robert.lagatoria.core.users;
 
 import junas.robert.lagatoria.core.utils.InlineCommand;
 import junas.robert.lagatoria.core.utils.InputProcess;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 
 import java.util.HashMap;
@@ -17,6 +15,9 @@ import java.util.HashMap;
 public abstract class Pouzivatel implements InputProcess {
     protected long id;
     protected String meno;
+    /**
+     * funkcie ktore spustame pomocou funkcie spracuj(String[] args, Vydavatelstvo vydavatelstvo)
+     */
     protected HashMap<String, InlineCommand> inlineAkcie;
 
     /**

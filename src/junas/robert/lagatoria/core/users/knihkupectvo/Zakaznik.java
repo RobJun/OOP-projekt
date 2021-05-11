@@ -1,18 +1,19 @@
 package junas.robert.lagatoria.core.users.knihkupectvo;
 
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Pouzivatel;
 import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Kosik;
-
-import java.util.ArrayList;
 
 /**
  * Rozsiruje triedu Pouzivatel o kosik do ktoreho si vklada knihy co si chce kupit
  */
 public class Zakaznik extends Pouzivatel implements Premiestnovanie {
+    /**
+     * Kosik obsahuje vsetky knihy a pocty ake si chce zakaznik kupit
+     */
     private Kosik kosik;
 
     /**
@@ -37,6 +38,12 @@ public class Zakaznik extends Pouzivatel implements Premiestnovanie {
         System.out.println("predajna - vypise predajnu");
         return "";
     }
+    /**
+     * @return vrati kosik zakaznika
+     */
+    public Kosik getKosik(){
+        return kosik;
+    }
 
     /**
      * @return retazec obbsahujuci knihy v kosiku
@@ -48,7 +55,7 @@ public class Zakaznik extends Pouzivatel implements Premiestnovanie {
     /**
      * @return vrati knihy ulozene v kosiku
      */
-    public ArrayList<Kniha> getKosik() { return kosik.getKnihy(); }
+    //public ArrayList<Kniha> getKosik() { return kosik.getKnihy(); }
 
     /**
      * @param isbn identifikacny kod knihy

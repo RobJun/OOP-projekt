@@ -3,10 +3,8 @@ package junas.robert.lagatoria.gui.controllers;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.gui.CustomElements.CustomButton;
 import junas.robert.lagatoria.gui.Model;
 import junas.robert.lagatoria.gui.substages.*;
 import java.lang.String;
@@ -18,19 +16,24 @@ public class ModelController extends Controller {
     ModelController(Observer parent, Model model) {
         super(parent, model);
         buttons = new ButtonController(this,model);
+        model.setController(this);
     }
 
     @Override
     public void notify(Object caller, Object msg) {
         if(caller instanceof ButtonController){
             parent.notify(caller, msg);
+            return;
         }
         if(caller instanceof MenuItem) {
-            buttons.spracuj("Pzoznam",(String)msg);
+            if(msg instanceof String) {
+                buttons.spracuj("Pzoznam", (String) msg);
+            }
             return;
         }
         if(caller instanceof Button){
             buttons.notify(caller, msg);
+            return;
         }
         if(caller instanceof SubStage){
             decideSubStage((SubStage) caller, (String)msg);
@@ -38,7 +41,9 @@ public class ModelController extends Controller {
         }
         if(caller instanceof MainController && msg instanceof LoggedIn){
             model.changeUser((LoggedIn)msg);
+            return;
         }
+        parent.notify(caller,msg);
     }
 
 

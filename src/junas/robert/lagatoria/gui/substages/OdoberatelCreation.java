@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import junas.robert.lagatoria.gui.controllers.Controller;
@@ -23,21 +24,26 @@ public class OdoberatelCreation implements SubStage {
         subStage.setTitle("Pridanie Odoberatela");
         subStage.setResizable(false);
 
-        FlowPane root = new FlowPane();
+        GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 250, 200);
 
         Button submit = new Button("Submit");
         submit.setOnMouseClicked(e->{
                 //controller.createOdoberatelKateg(nazovStanku,dalsie,subStage, "out")
-            controller.notify(this,"out");});
+            controller.notify(this,"out");
+        });
 
-        root.getChildren().addAll(new Text("Nazov Stanku"), nazovStanku);
-        if(text != null) {
-            root.getChildren().add(new Text(text));
-            root.getChildren().add(dalsie);
+        root.add(new Text("Nazov Stanku"),0,0);
+        root.add(nazovStanku,1,0);
+        Text text2 = new Text(text);
+        root.add(text2,0,1);
+        root.add(dalsie,1,1);
+        if(text == null) {
+            dalsie.setVisible(false);
+            text2.setVisible(false);
         }
-        root.getChildren().add(submit);
+        root.add(submit,0,2);
         subStage.setScene(scene);
         subStage.show();
     }

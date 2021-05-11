@@ -1,12 +1,12 @@
 package junas.robert.lagatoria.core.users.vydavatelstvo;
 
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.Odoberatel;
-import junas.robert.lagatoria.core.stanky.Stanok;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.Odoberatel;
+import junas.robert.lagatoria.core.odoberatelia.stanky.Stanok;
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
-import junas.robert.lagatoria.core.stanky.StanokPreKategoriu;
-import junas.robert.lagatoria.core.stanky.StanokSMinimom;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.storage.NoveKnihy;
+import junas.robert.lagatoria.core.odoberatelia.stanky.StanokPreKategoriu;
+import junas.robert.lagatoria.core.odoberatelia.stanky.StanokSMinimom;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.items.BalikKnih;
 import junas.robert.lagatoria.core.users.info.RadKnih;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class Distributor extends Zamestnanec {
 
     /**
-     * Knihy ktore sa rozposielaju knihkupectvu
+     * Knihy, ktore cakaju na poslanie knihkupectvu
      */
     private RadKnih knihyPripraveneNaOdoslanie;
 

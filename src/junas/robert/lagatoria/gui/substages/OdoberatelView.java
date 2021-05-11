@@ -6,12 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import junas.robert.lagatoria.gui.TableViews.KatalogTableView;
-import junas.robert.lagatoria.gui.TableViews.OdoberatelTableView;
-import junas.robert.lagatoria.gui.TableViews.TextTableView;
-import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
-import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
-import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
+import junas.robert.lagatoria.gui.tableViews.OdoberatelTableView;
+import junas.robert.lagatoria.gui.tableViews.data.OdoberatelData;
 
 public class OdoberatelView implements SubStage {
     private Stage stage;

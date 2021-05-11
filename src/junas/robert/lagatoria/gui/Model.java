@@ -2,8 +2,8 @@ package junas.robert.lagatoria.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Miestnost;
 import junas.robert.lagatoria.core.users.Pouzivatel;
 import junas.robert.lagatoria.core.users.knihkupectvo.Predajca;
 import junas.robert.lagatoria.core.users.knihkupectvo.Skladnik;
@@ -17,13 +17,19 @@ import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
-import junas.robert.lagatoria.gui.TableViews.data.KatalogData;
-import junas.robert.lagatoria.gui.TableViews.data.OdoberatelData;
-import junas.robert.lagatoria.gui.TableViews.data.TextyNaVydanieData;
-import junas.robert.lagatoria.gui.controllers.MainController;
+import junas.robert.lagatoria.gui.tableViews.data.KatalogData;
+import junas.robert.lagatoria.gui.tableViews.data.OdoberatelData;
+import junas.robert.lagatoria.gui.tableViews.data.TextyNaVydanieData;
+import junas.robert.lagatoria.gui.controllers.ModelController;
 
+/**
+ *  trieda modelu aplikacie
+ */
 public class Model implements Observer {
 
+    /**
+     * list textov pripravenych na vydanie
+     */
     private ObservableList<TextyNaVydanieData> texty = FXCollections.observableArrayList();
     private ObservableList<OdoberatelData> data = FXCollections.observableArrayList();
     private ObservableList<KatalogData> katalogData = FXCollections.observableArrayList();
@@ -40,13 +46,18 @@ public class Model implements Observer {
     private String strategyText = "Vydavanie po jednom";
     private String strategyVText = "Vydaj text";
 
-    private MainController controller;
+    private ModelController controller;
 
     Model(){
         deserialize();
     }
 
     public String serialize(){ return Knihkupectvo.serialize("./res/knihkupectvo_oop.ser"); }
+
+    public void deserialize() {
+        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
+        Knihkupectvo.getInstance().setObserver(this);
+    }
 
 
     public Pouzivatel getPouzivatel() {
@@ -101,6 +112,10 @@ public class Model implements Observer {
     }
 
 
+    /**
+     * zmeni pouzivatela
+     * @param pouzivatel prhlaseny pouzivatel
+     */
     public void changeUser(LoggedIn pouzivatel){
         switch (pouzivatel) {
             case SKLADNIK:
@@ -197,8 +212,8 @@ public class Model implements Observer {
         if(text == null || text.length() == 0 || !text.matches("[0-9]+") ){
             return "Nepodarilo sa vymazat autora";
         }
-        spracuj("odoberA " + text);
-        return "Odstranenie autora prebehlo uspesne";
+        return spracuj("odoberA " + text);
+        //return "Odstranenie autora prebehlo uspesne";
     }
 
     public String createAutor(String meno, String prievzisko, String typ) {
@@ -217,12 +232,7 @@ public class Model implements Observer {
         return "Podarilo sa vytvorit autora";
     }
 
-    public void deserialize() {
-        Knihkupectvo.deserialize("./res/knihkupectvo_oop.ser");
-        Knihkupectvo.getInstance().setObserver(this);
-    }
-
-    public void setController(MainController controller) {
+    public void setController(ModelController controller) {
         this.controller = controller;
     }
 

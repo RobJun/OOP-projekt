@@ -3,22 +3,14 @@ package junas.robert.lagatoria.gui.controllers;
 import java.lang.String;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
 import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
-import junas.robert.lagatoria.gui.CustomElements.CustomButton;
 import junas.robert.lagatoria.gui.Model;
 import junas.robert.lagatoria.gui.View;
-import junas.robert.lagatoria.gui.substages.SubStage;
-
-import java.util.HashMap;
 
 public class MainController extends Controller implements Observer {
 
@@ -37,7 +29,8 @@ public class MainController extends Controller implements Observer {
                 || caller instanceof ButtonController
                 || caller instanceof Model
                 || caller instanceof Autor
-                || caller instanceof Manazer){
+                || caller instanceof Manazer
+                || caller instanceof Sklad){
             updatable.get("viewC").notify(caller,out);
             return;
         }

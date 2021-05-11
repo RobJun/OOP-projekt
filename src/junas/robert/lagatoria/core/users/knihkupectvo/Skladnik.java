@@ -1,10 +1,10 @@
 package junas.robert.lagatoria.core.users.knihkupectvo;
 
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.storage.NoveKnihy;
-import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.storage.NoveKnihy;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.storage.Regal;
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Sklad;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Sklad;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Inventar;
@@ -14,6 +14,9 @@ import junas.robert.lagatoria.core.users.info.Inventar;
  */
 public class Skladnik extends Zamestnanec implements Premiestnovanie {
 
+    /**
+     * inventar, kde moze zamestanec mat jednu knihu, ale neobmedzeny pocet kusov danej knihy
+     */
     private Inventar inventar = new Inventar();
 
     /**

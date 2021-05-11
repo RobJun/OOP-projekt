@@ -15,7 +15,6 @@ public class Main extends Application {
     public void start(Stage stage) {
         Model model = new Model();
         MainController controller = new MainController(model);
-        model.setController(controller);
         View view = new View(controller);
         controller.setView(view);
 

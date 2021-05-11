@@ -1,11 +1,12 @@
 package junas.robert.lagatoria.core.users.knihkupectvo;
 
-import junas.robert.lagatoria.core.knihkupectvo.storage.Regal;
-import junas.robert.lagatoria.core.knihkupectvo.storage.Sekcia;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.storage.Regal;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.storage.Sekcia;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Predajna;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Predajna;
 import junas.robert.lagatoria.core.users.Zamestnanec;
+import junas.robert.lagatoria.core.users.info.Kosik;
 import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Inventar;
 
@@ -14,6 +15,10 @@ import junas.robert.lagatoria.core.users.info.Inventar;
  * Trieda predajcu pracuje s predajnou a skladom Knihkupectva; a zakaznikom
  */
 public class Predajca extends Zamestnanec implements Premiestnovanie {
+
+    /**
+     * inventar, kde moze zamestanec mat jednu knihu, ale neobmedzeny pocet kusov danej knihy
+     */
     private Inventar inventar = new Inventar();
 
     /**
@@ -61,12 +66,14 @@ public class Predajca extends Zamestnanec implements Premiestnovanie {
         if(zakaznik == null) {
             return "Ziadny zakaznik nie je v predajni";
         }
-        if(zakaznik.getKosik().isEmpty()){
+        Kosik kosik = zakaznik.getKosik();
+
+        if(kosik.getKnihy().isEmpty()){
             return "Zakaznik nema nic v kosiku";
         }
         String res = "";
-        while(!zakaznik.getKosik().isEmpty()){
-            Kniha k = zakaznik.getKosik().get(0);
+        while(!kosik.getKnihy().isEmpty()){
+            Kniha k = kosik.getKnihy().get(0);
             int p = zakaznik.getPocetKnih(k.getISBN());
             k.predaj(p);
             zakaznik.odoberKnihy(k,p);

@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import junas.robert.lagatoria.gui.controllers.Controller;
@@ -20,7 +21,7 @@ public class AutorCreation implements SubStage {
         subStage.setTitle(autor);
         subStage.setResizable(false);
 
-        FlowPane root = new FlowPane();
+        GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 250, 200);
 
@@ -29,9 +30,11 @@ public class AutorCreation implements SubStage {
             controller.notify(this,"out");
             //controller.createAutor(menoAutora,prievzisko,autor, subStage,"out");
         });
-        root.getChildren().addAll(new Text("Prve meno"), menoAutora);
-        root.getChildren().addAll(new Text("Prievzisko"), prievzisko);
-        root.getChildren().add(submit);
+        root.add(new Text("Prve meno"), 0,0);
+        root.add(menoAutora,1,0);
+        root.add(new Text("Prievzisko"), 0,1);
+        root.add(prievzisko,1,1);
+        root.add(submit,0,2);
         subStage.setScene(scene);
         subStage.show();
     }

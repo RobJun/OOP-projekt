@@ -1,8 +1,8 @@
 package junas.robert.lagatoria.core.users.info;
 
 import junas.robert.lagatoria.core.items.Kniha;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.knihkupectvo.rooms.Miestnost;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.rooms.Miestnost;
 
 /**
  * Vyhladavanie referencii na knihy v katalogoch a

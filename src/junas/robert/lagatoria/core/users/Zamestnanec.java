@@ -8,9 +8,11 @@ import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
  * obsahuje udajeOZamestnancovi
  */
 public abstract class Zamestnanec extends Pouzivatel{
-    private UdajeOZamestnancovi udaje;
 
-
+    /**
+     * udaje zamestnanca ako su plat a odrobeny cas
+     */
+    protected UdajeOZamestnancovi udaje;
     /**
      * Prida zakladne funkcie zamestnanca ku zakladnym funkciam pouzivatela
      * @param meno meno zamestnanca

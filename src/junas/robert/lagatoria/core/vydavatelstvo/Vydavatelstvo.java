@@ -1,10 +1,10 @@
 package junas.robert.lagatoria.core.vydavatelstvo;
 
-import junas.robert.lagatoria.core.stanky.StanokPreKategoriu;
+import junas.robert.lagatoria.core.odoberatelia.stanky.StanokPreKategoriu;
 import junas.robert.lagatoria.core.items.*;
-import junas.robert.lagatoria.core.knihkupectvo.Knihkupectvo;
-import junas.robert.lagatoria.core.Odoberatel;
-import junas.robert.lagatoria.core.stanky.Stanok;
+import junas.robert.lagatoria.core.odoberatelia.knihkupectvo.Knihkupectvo;
+import junas.robert.lagatoria.core.odoberatelia.Odoberatel;
+import junas.robert.lagatoria.core.odoberatelia.stanky.Stanok;
 import junas.robert.lagatoria.core.users.Zamestnanec;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Distributor;
 import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
@@ -105,11 +105,10 @@ public class Vydavatelstvo implements Observer {
     private ArrayList<Odoberatel> odoberatelia = new ArrayList<>();
 
     private Queue<Text> prijateTexty = new LinkedList<>();
-    private HashMap<Integer, Integer> pouziteKody = new HashMap<Integer, Integer>();
 
     private String nazov;
     private String group;
-    private int code = 81;
+    private String code;
 
 
     private VydavanieStrategy strategia;
@@ -126,6 +125,7 @@ public class Vydavatelstvo implements Observer {
     public Vydavatelstvo(Manazer manazer, Distributor distributor, int pocetStankov, Model parent){
         nazov = "Dalakan";
         group = "80";
+        code = "499";
         this.manazer = manazer;
         manazer.setObserver(this);
         korektor = new Korektor("Jozo",332,10.9);
@@ -145,7 +145,6 @@ public class Vydavatelstvo implements Observer {
         }
 
         pridajOdoberatela(new StanokPreKategoriu("StanokSHistorickymiKnihami", Kategoria.HISTORIA));
-
 
         pridajOdoberatela(Knihkupectvo.getInstance());
         manazer.pridajAutora(autori);
@@ -191,21 +190,13 @@ public class Vydavatelstvo implements Observer {
 
                     res +="Naplanovany pocet vytlackov: " + pocet + "\n";
 
-                    //vytvori sa ISBN kod
-                    int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode()%10000) ;
-                    int i = 0;
-                    if(pouziteKody.containsKey(titleCode)){
-                        i = pouziteKody.get(titleCode)+1;
-                        pouziteKody.replace(titleCode,i);
-                    }else{
-                        pouziteKody.put(titleCode, 0);
-                    }
-                    String isbn = "ISBN-977-"+group+"-"+ String.format("%04d",titleCode) + "-" + i;
-
                     //manazer navrhne cenu
                     double cena = manazer.navrhniCenu(feedback);
 
                     res += ("cena knihy: " + cena + "\n");
+
+                    //vytvori sa ISBN kod
+                    String isbn = tlaciaren.vytvorISBN(vydavana,code,group);
 
                     //vytlaci sa kniha
                     Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
@@ -285,21 +276,12 @@ public class Vydavatelstvo implements Observer {
 
         res += "Naplanovany pocet vytlackov: " + pocet + "\n";
 
-        //vytvori sa ISBN kod
-        int titleCode = ((vydavana.getNazov() + vydavana.getAutor()).hashCode() % 10000);
-        int i = 0;
-        if (pouziteKody.containsKey(titleCode)) {
-            i = pouziteKody.get(titleCode) + 1;
-            pouziteKody.replace(titleCode, i);
-        } else {
-            pouziteKody.put(titleCode, 0);
-        }
-        String isbn = "ISBN-977-" + code + "-" + group + "-" + String.format("%04d", titleCode) + "-" + i;
-
         //manazer navrhne cenu
         double cena = manazer.navrhniCenu(feedback);
 
         res +="cena knihy: " + cena + '\n';
+
+        String isbn = tlaciaren.vytvorISBN(vydavana, code,group);
 
         //vytlaci sa kniha
         Kniha kniha = tlaciaren.vytlacKnihy(vydavana,obalka,pocet, isbn, cena);
