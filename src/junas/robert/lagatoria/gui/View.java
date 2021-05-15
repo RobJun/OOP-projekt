@@ -70,7 +70,7 @@ public class View {
         input.getChildren().addAll(textInput, inputText);
         HBox.setMargin(textInput, new Insets(0,10,0,20));
 
-        inputText.setPrefWidth(800);
+        inputText.setPrefWidth(750);
         this.center.setPadding(new Insets(5,0,5,0));
         this.center.prefWidth(850);
         this.center.prefHeight(500);

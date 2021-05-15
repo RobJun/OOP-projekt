@@ -2,6 +2,7 @@ package junas.robert.lagatoria.gui.customElements;
 
 import javafx.scene.control.TextArea;
 import junas.robert.lagatoria.core.utils.Observer;
+import junas.robert.lagatoria.gui.controllers.ViewController;
 
 public class OutText extends TextArea implements Observer {
 
@@ -14,6 +15,10 @@ public class OutText extends TextArea implements Observer {
 
     @Override
     public void notify(Object caller, Object msg) {
-        appendText((String) msg + "\n");
+        if(caller instanceof ViewController){
+            clear();
+            return;
+        }
+            appendText((String) msg + "\n");
     }
 }

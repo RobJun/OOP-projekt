@@ -15,7 +15,7 @@ import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.FantasyAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.HistoryAutor;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.PoetryAutor;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 
 import java.util.*;
 

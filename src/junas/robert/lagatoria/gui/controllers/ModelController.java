@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 import junas.robert.lagatoria.gui.substages.*;
 import java.lang.String;
 

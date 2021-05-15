@@ -7,7 +7,7 @@ import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.Vydavatelstvo;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 import junas.robert.lagatoria.gui.View;
 import junas.robert.lagatoria.gui.substages.*;
 
@@ -51,6 +51,7 @@ public class ViewController extends Controller {
             this.view = (View)msg;
         }else if(msg instanceof LoggedIn){
             updatable.get("pane").notify(this,model.getPouzivatel());
+            updatable.get("out").notify(this,null);
             updatable.get("prih").notify(this,model.getPouzivatel().getClass().getSimpleName());
         }if(msg instanceof WindowKeys){
             String msg2 = "";

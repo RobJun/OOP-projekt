@@ -2,6 +2,7 @@ package junas.robert.lagatoria.gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import junas.robert.lagatoria.core.Model;
 import junas.robert.lagatoria.gui.controllers.MainController;
 
 public class Main extends Application {

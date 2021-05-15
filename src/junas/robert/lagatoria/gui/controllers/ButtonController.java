@@ -3,7 +3,7 @@ package junas.robert.lagatoria.gui.controllers;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import junas.robert.lagatoria.core.utils.Observer;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 
 public class ButtonController extends Controller{
 

@@ -57,7 +57,16 @@ public class Sklad  extends Miestnost {
                 novyTovar = new NoveKnihy(path);
                 res +="Novy tovar obsahuje: \n";
                 for(Kniha K : novyTovar.getZoznamKnih()){
-                    katalog.add(K);
+                    boolean jeVkatalogu = false;
+                    for(Kniha kat : katalog){
+                        if(kat.getISBN().compareTo(K.getISBN()) == 0) {
+                            jeVkatalogu = true;
+                            break;
+                        }
+                    }
+                    if(!jeVkatalogu) {
+                        katalog.add(K);
+                    }
                 }
                 res+= novyTovar.printContent();
                 printKatalog();

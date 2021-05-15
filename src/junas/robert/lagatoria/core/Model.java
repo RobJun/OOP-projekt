@@ -1,4 +1,4 @@
-package junas.robert.lagatoria.gui;
+package junas.robert.lagatoria.core;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,7 +48,7 @@ public class Model implements Observer {
 
     private ModelController controller;
 
-    Model(){
+    public Model(){
         deserialize();
     }
 

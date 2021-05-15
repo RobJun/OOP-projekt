@@ -1,7 +1,7 @@
 package junas.robert.lagatoria.gui.controllers;
 
 import junas.robert.lagatoria.core.utils.Observer;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 
 import java.util.HashMap;
 

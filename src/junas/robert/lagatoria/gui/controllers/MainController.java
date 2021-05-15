@@ -9,7 +9,7 @@ import junas.robert.lagatoria.core.users.vydavatelstvo.Manazer;
 import junas.robert.lagatoria.core.utils.Observer;
 import junas.robert.lagatoria.core.utils.enums.LoggedIn;
 import junas.robert.lagatoria.core.vydavatelstvo.spisovatelia.Autor;
-import junas.robert.lagatoria.gui.Model;
+import junas.robert.lagatoria.core.Model;
 import junas.robert.lagatoria.gui.View;
 
 public class MainController extends Controller implements Observer {
