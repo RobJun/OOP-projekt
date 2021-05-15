@@ -146,7 +146,7 @@ public class NoveKnihy extends Regal{
      * @return vrati retazec obsahujuci zoznam knih potrebnych na ulozenie
      */
     public String printContent(){
-        String s = "";
+        String s = "Tovar na palete:\n";
         for(int i = 0; i < zoznamKnih.size(); i++){
             s +=" [" + pocetKnih.get(zoznamKnih.get(i).getISBN()) + "]\n" +
              zoznamKnih.get(i).getInfo();

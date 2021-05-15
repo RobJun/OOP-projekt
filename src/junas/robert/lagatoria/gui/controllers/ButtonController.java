@@ -63,10 +63,6 @@ public class ButtonController extends Controller{
             prines((TextField)(((Object[])msg)[0]),(String)(((Object[])msg)[1]));
             return;
         }
-        if(call.getId().compareTo("predaj") == 0){
-            spracuj("predaj",(String)msg);
-            return;
-        }
         if(call.getId().compareTo("vstup") == 0){
             zakaznik_vstup((String)msg);
             return;

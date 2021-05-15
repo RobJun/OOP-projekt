@@ -94,7 +94,7 @@ public class Manazer extends Zamestnanec {
      */
     public void pridajAutora(Autor autor) throws AutorExistujeException {
         if(autori.contains(autor))
-            throw new AutorExistujeException(autor.getMeno());
+            throw new AutorExistujeException(autor.getPrievzisko());
         else
             this.autori.add(autor);
     }

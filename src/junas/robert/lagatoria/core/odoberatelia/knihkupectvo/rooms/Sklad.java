@@ -72,7 +72,6 @@ public class Sklad  extends Miestnost {
                 printKatalog();
                 return res;
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
                 return "nepodarilo sa nacitat subor";
             } catch (InvalidFormatException e) {
                 return  e.getMessage() + "\npodarilo sa nacitat " + e.getLoadedRows() + " riadkov";
@@ -193,7 +192,7 @@ public class Sklad  extends Miestnost {
         public Sekcia getSekcie(int i) {return sekcie[i];}
 
     /**
-     * @return rati retazec so sekciami + regalmi a knihami ulozenymi v nich
+     * @return vrati retazec so sekciami + regalmi a knihami ulozenymi v nich
      */
         public String printSklad(){
             String res = "";
@@ -203,8 +202,6 @@ public class Sklad  extends Miestnost {
                 res+=sekcie[i].printSekcia();
                 res += ("\n");
             }
-            if(novyTovar != null)
-                res += novyTovar.printContent();
             return res;
         }
 }

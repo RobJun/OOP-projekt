@@ -10,7 +10,8 @@ import junas.robert.lagatoria.core.users.info.Premiestnovanie;
 import junas.robert.lagatoria.core.users.info.Inventar;
 
 /**
- * Trieda skladnika pracuje so skladom Knihkupectva
+ * Trieda skladnika pracuje so skladom Knihkupectva,
+ * napr. objednavanie noveho tovaru
  */
 public class Skladnik extends Zamestnanec implements Premiestnovanie {
 
@@ -203,8 +204,12 @@ public class Skladnik extends Zamestnanec implements Premiestnovanie {
      */
     private String objednaj(String[] args, Sklad sklad){
         String f = args[1];
-        f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
-        return sklad.objednatKnihy(f);
+        if(f.matches("\\\"(.*)\\\"")){
+            f = f.substring(f.indexOf("\"")+1, f.lastIndexOf("\""));
+            return sklad.objednatKnihy(f);
+        }
+
+        return  "vstup v zlom formate\n";
     }
 
 }
