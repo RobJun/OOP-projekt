@@ -57,7 +57,7 @@ public class OrganizovanaSekcia extends Sekcia{
         String res = "";
         res += "Typ: " + nazov +"\n";
         for(int i = 0; i < regale.length;i++){
-            res += "regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto +
+            res += "regal: " + i + " : " + regale[i].getMiesto() + "/" + Regal.miesto + "\n" +
             regale[i].printContent() + "\n";
         }
         res += '\n';

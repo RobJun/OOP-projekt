@@ -56,8 +56,8 @@ public class Kosik {
             return res;
         }
         for(int i = 0; i < knihy.size(); i++){
+        	res += "\t[" + pocetKnih.get(knihy.get(i).getISBN()) + "]\n";
             res += knihy.get(i).getInfo() + '\n';
-            res += " [" + pocetKnih.get(knihy.get(i).getISBN()) + "]\n";
         }
 
         return res;

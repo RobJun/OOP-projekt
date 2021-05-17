@@ -233,7 +233,7 @@ public class Vydavatelstvo implements Observer {
         for (Autor autor: autori) {
             try {
                 manazer.pridajAutora(autor);
-                res += "Autor " + autor.getPrievzisko() + " bol pridany na list";
+                res += "Autor " + autor.getPrievzisko() + " bol pridany na list\n";
             } catch (AutorExistujeException e) {
                 res +=e.getMessage() + "\n";
             }

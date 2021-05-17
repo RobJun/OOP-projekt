@@ -26,8 +26,17 @@ public class Zakaznik extends Pouzivatel implements Premiestnovanie {
 
         //pridavanie akcii ktore moze spravit trieda
         inlineAkcie.put("kosik",(args, kh, vy)-> vypisKosik());
-        inlineAkcie.put("predajna", (args, kh, vy) -> kh.getPredajna().vypisPredajnu() );
-        inlineAkcie.put("zober", (args, kh, vy) -> premiestni(args,kh));
+        inlineAkcie.put("predajna", (args, kh, vy) -> {if(kh.getPredajna().isOtvorene()){
+            return kh.getPredajna().vypisPredajnu();
+        }
+            return "Predajna je zavreta";
+        } );
+        inlineAkcie.put("zober", (args, kh, vy) -> {
+            if (kh.getPredajna().isOtvorene()) {
+                return premiestni(args, kh);
+            }
+            return "Predajna je zavreta";
+    });
     }
 
     @Override
