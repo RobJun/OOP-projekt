@@ -101,6 +101,7 @@ public class Knihkupectvo implements java.io.Serializable, Odoberatel, Observer 
             FileInputStream fileIn = new FileInputStream(path);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             instancia = (Knihkupectvo) in.readObject();
+            instancia.getPredajna().setOtvorene(false);
             in.close();
             fileIn.close();
             return "podarilo sa nacitat knihkupetvo";
