@@ -122,7 +122,7 @@ public class Manazer extends Zamestnanec {
      * Upozorni autorov o tom ze treba napisat knihu
      */
     public void dajNapisatKnihu(){
-        observer.notify(this,"Manazer rozposiela ziadosti o knihu\n");
+        observer.notify(this,"Manazer rozposiela ziadosti o knihu:");
         for (Autor autor: autori) {
             autor.notify(this,"");
         }

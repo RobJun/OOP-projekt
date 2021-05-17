@@ -47,7 +47,7 @@ public abstract class Autor implements Observer {
         }
 
         //upozorni vydavatelstvo ze prijal poziadavku
-        observer.notify(this,"\t" + meno + " " + prievzisko +" prijal poziadavku\n");
+        observer.notify(this,"\t" + meno + " " + prievzisko +" prijal poziadavku");
         piseKnihu = true;
         Autor autor = this;
         final Pisanie pisanie;
